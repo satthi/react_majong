@@ -5,103 +5,12 @@
     background-color: green;
 }
 
+/* ownplayer */
 .ownPaiBaseField {
     position: absolute;
     top: 940px;
     left: 200px;
     width: 462px;
-}
-
-.ownBasePai {
-    float: left;
-}
-
-
-.ownPaiNakiField0 {
-    position: absolute;
-    top: 940px;
-    left: 750px;
-    width: 170px;
-}
-
-.ownPaiNakiField1 {
-    position: absolute;
-    top: 880px;
-    left: 750px;
-    width: 170px;
-}
-
-.ownPaiNakiField2 {
-    position: absolute;
-    top: 820px;
-    left: 750px;
-    width: 170px;
-}
-
-.ownPaiNakiField3 {
-    position: absolute;
-    top: 760px;
-    left: 750px;
-    width: 170px;
-}
-
-.ownNakiPai {
-    float: left;
-}
-
-.ownPaiNakiType_left > .ownPaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 0;
-}
-
-.ownPaiNakiType_left > .own_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 44px;
-}
-
-.ownPaiNakiType_left > .own_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 77px;
-}
-
-.ownPaiNakiType_center > .ownPaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 33px;
-}
-
-.ownPaiNakiType_center > .own_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.ownPaiNakiType_center > .own_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 77px;
-}
-
-
-.ownPaiNakiType_right > .ownPaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 66px;
-}
-
-.ownPaiNakiType_right > .own_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.ownPaiNakiType_right > .own_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 33px;
 }
 
 .ownSutehaiField {
@@ -111,10 +20,14 @@
     width: 210px;
 }
 
-.ownSutehai {
-    float: left;
+.ownNakiField {
+    position: relative;
+    width: 170px;
+    top: 1000px;
+    left: 750px;
 }
 
+/* player1 */
 .player1PaiBaseField {
     position: absolute;
     top: 500px;
@@ -122,103 +35,6 @@
     width: 462px;
     transform:rotate(90deg);
 }
-
-.player1BasePai {
-    float: left;
-}
-
-
-.player1PaiNakiField0 {
-    position: absolute;
-    top: 130px;
-    left: 885px;
-    width: 170px;
-    transform:rotate(-90deg);
-}
-
-.player1PaiNakiField1 {
-    position: absolute;
-    top: 130px;
-    left: 825px;
-    width: 170px;
-    transform:rotate(-90deg);
-}
-
-.player1PaiNakiField2 {
-    position: absolute;
-    top: 130px;
-    left: 765px;
-    width: 170px;
-    transform:rotate(-90deg);
-}
-
-.player1PaiNakiField3 {
-    position: absolute;
-    top: 130px;
-    left: 705px;
-    width: 170px;
-    transform:rotate(-90deg);
-}
-
-.player1NakiPai {
-    float: left;
-}
-
-.player1PaiNakiType_left > .player1PaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 0;
-}
-
-.player1PaiNakiType_left > .player1_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 44px;
-}
-
-.player1PaiNakiType_left > .player1_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 77px;
-}
-
-.player1PaiNakiType_center > .player1PaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 33px;
-}
-
-.player1PaiNakiType_center > .player1_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.player1PaiNakiType_center > .player1_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 77px;
-}
-
-
-.player1PaiNakiType_right > .player1PaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 66px;
-}
-
-.player1PaiNakiType_right > .player1_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.player1PaiNakiType_right > .player1_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 33px;
-}
-
 
 .player1SutehaiField {
     position: absolute;
@@ -228,115 +44,21 @@
     transform:rotate(-90deg);
 }
 
-.player1Sutehai {
-    float: left;
+.player1NakiField {
+    position: relative;
+    width: 170px;
+    top: 160px;
+    left: 915px;
+    transform:rotate(-90deg);
 }
 
-
-
-
-
+/* player2 */
 .player2PaiBaseField {
     position: absolute;
     top: 0;
     left: 300px;
     width: 462px;
     transform:rotate(180deg);
-}
-
-.player2BasePai {
-    float: left;
-}
-
- .player2PaiNakiField0 {
-    position: absolute;
-    top: 0;
-    left: 100px;
-    width: 170px;
-    transform:rotate(180deg);
-}
-
-.player2PaiNakiField1 {
-    position: absolute;
-    top: 60px;
-    left: 100px;
-    width: 170px;
-    transform:rotate(180deg);
-}
-
-.player2PaiNakiField2 {
-    position: absolute;
-    top: 120px;
-    left: 100px;
-    width: 170px;
-    transform:rotate(180deg);
-}
-
-.player2PaiNakiField3 {
-    position: absolute;
-    top: 180px;
-    left: 100px;
-    width: 170px;
-    transform:rotate(180deg);
-}
-
-.player2NakiPai {
-    float: left;
-}
-
-.player2PaiNakiType_left > .player2PaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 0;
-}
-
-.player2PaiNakiType_left > .player2_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 44px;
-}
-
-.player2PaiNakiType_left > .player2_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 77px;
-}
-
-.player2PaiNakiType_center > .player2PaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 33px;
-}
-
-.player2PaiNakiType_center > .player2_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.player2PaiNakiType_center > .player2_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 77px;
-}
-
-
-.player2PaiNakiType_right > .player2PaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 66px;
-}
-
-.player2PaiNakiType_right > .player2_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.player2PaiNakiType_right > .player2_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 33px;
 }
 
 .player2SutehaiField {
@@ -347,115 +69,21 @@
     transform:rotate(180deg);
 }
 
-.player2Sutehai {
-    float: left;
+.player2NakiField {
+    position: relative;
+    width: 170px;
+    top: 0px;
+    left: 90px;
+    transform:rotate(180deg);
 }
 
-
-
-
-
+/* player3 */
 .player3PaiBaseField {
     position: absolute;
     top: 430px;
     left: -200px;
     width: 462px;
     transform:rotate(90deg);
-}
-
-.player3BasePai {
-    float: left;
-}
-
-.player3PaiNakiField0 {
-    position: absolute;
-    top: 790px;
-    left: -55px;
-    width: 170px;
-    transform:rotate(90deg);
-}
-
-.player3PaiNakiField1 {
-    position: absolute;
-    top: 790px;
-    left: 5px;
-    width: 170px;
-    transform:rotate(90deg);
-}
-
-.player3PaiNakiField2 {
-    position: absolute;
-    top: 790px;
-    left: 65px;
-    width: 170px;
-    transform:rotate(90deg);
-}
-
-.player3PaiNakiField3 {
-    position: absolute;
-    top: 790px;
-    left: 125px;
-    width: 170px;
-    transform:rotate(90deg);
-}
-
-.player3NakiPai {
-    float: left;
-}
-
-.player3PaiNakiType_left > .player3PaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 0;
-}
-
-.player3PaiNakiType_left > .player3_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 44px;
-}
-
-.player3PaiNakiType_left > .player3_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 77px;
-}
-
-.player3PaiNakiType_center > .player3PaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 33px;
-}
-
-.player3PaiNakiType_center > .player3_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.player3PaiNakiType_center > .player3_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 77px;
-}
-
-
-.player3PaiNakiType_right > .player3PaiNakiKey {
-    position: absolute;
-    top: 10px;
-    left: 66px;
-}
-
-.player3PaiNakiType_right > .player3_naki_position_1 {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.player3PaiNakiType_right > .player3_naki_position_2 {
-    position: absolute;
-    top: 0;
-    left: 33px;
 }
 
 .player3SutehaiField {
@@ -466,6 +94,10 @@
     transform:rotate(90deg);
 }
 
-.player3Sutehai {
-    float: left;
+.player3NakiField {
+    position: relative;
+    width: 170px;
+    top: 830px;
+    left: -80px;
+    transform:rotate(90deg);
 }

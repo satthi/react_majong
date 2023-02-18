@@ -1,0 +1,31 @@
+.ownPaiNakiField0 {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 170px;
+}
+
+.ownPaiNakiField1 {
+    position: absolute;
+    left: 0;
+    bottom: 60px;
+    width: 170px;
+}
+
+.ownPaiNakiField2 {
+    position: absolute;
+    left: 0;
+    bottom: 120px;
+    width: 170px;
+}
+
+.ownPaiNakiField3 {
+    position: absolute;
+    left: 0;
+    bottom: 180px;
+    width: 170px;
+}
+
+.nakiHai {
+    float: left;
+}

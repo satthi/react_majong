@@ -18,7 +18,7 @@ type nakiPositionProp = {
     hai: HaiPositionProp[];
 };
 
-type SutehaiProp = {
+export type SutehaiProp = {
     hai: string;
     type: string;
 };
