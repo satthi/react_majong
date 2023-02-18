@@ -1,9 +1,8 @@
-import { HaiPositionProp } from "../type";
 import style from './base_hai.module.css';
 import bk_5 from '../hai/p_bk_5.gif';
 
 type OwnBaseHaiProp = {
-    base: HaiPositionProp[];
+    base: string[];
 };
 
 export const PlaterBaseHai = ({base}: OwnBaseHaiProp) => {

@@ -618,3 +618,19 @@ const haiSrc: any = {
 export const getHaiSrc = (hai: string, direction: number) => {
     return haiSrc[hai]['direction_' + direction];
 }
+
+export const getInitialYama = () => {
+    const haiList = Object.keys(haiSrc);
+    const yama = haiList.concat(haiList).concat(haiList).concat(haiList);
+
+    // ランダムにして山にする
+    return shuffle(yama);
+}
+
+const shuffle = ([...array]) => {
+    for (let i = array.length - 1; i >= 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }

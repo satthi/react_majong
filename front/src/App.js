@@ -1,5 +1,6 @@
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { Sample } from './sample'
+import { SingleGame } from './sample/single_game'
 
 function App() {
     return (
@@ -7,6 +8,7 @@ function App() {
         <BrowserRouter>
         <Routes>
           <Route path="/sample" element={<Sample />} />
+          <Route path="/sample/single_game" element={<SingleGame />} />
         </Routes>
         </BrowserRouter>
       </div>

@@ -1,12 +1,14 @@
-export type PaiProp = {
-    base: HaiPositionProp[];
-    naki: nakiPositionProp[];
-    sutehai: SutehaiProp[];
+export type AllPaiProp = {
+    own: PaiProp;
+    player1: PaiProp;
+    player2: PaiProp;
+    player3: PaiProp;
 };
 
-type HaiPositionProp = {
-    position: number;
-    hai: string;
+export type PaiProp = {
+    base: string[];
+    naki: nakiPositionProp[];
+    sutehai: SutehaiProp[];
 };
 
 type nakiPositionProp = {
@@ -15,7 +17,7 @@ type nakiPositionProp = {
         hai: string;
         type: string;
     };
-    hai: HaiPositionProp[];
+    hai: string[];
 };
 
 export type SutehaiProp = {

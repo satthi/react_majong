@@ -15,24 +15,24 @@ export const Naki = ({naki} : NakiProp) => {
                     <>
                         <div className={style.nakiHai}><img src={getHaiSrc(nakiHai.key.hai, 3)} /></div>
                         {nakiHai.hai.map((nakiOther) => {
-                            return <div className={style.nakiHai}><img src={getHaiSrc(nakiOther.hai, 1)} /></div>
+                            return <div className={style.nakiHai}><img src={getHaiSrc(nakiOther, 1)} /></div>
                         })}
                     </>
                 }
                 {nakiHai.key.type === 'right' && 
                     <>
                         {nakiHai.hai.map((nakiOther) => {
-                            return <div className={style.nakiHai}><img src={getHaiSrc(nakiOther.hai, 1)} /></div>
+                            return <div className={style.nakiHai}><img src={getHaiSrc(nakiOther, 1)} /></div>
                         })}
                         <div className={style.nakiHai}><img src={getHaiSrc(nakiHai.key.hai, 3)} /></div>
                     </>
                 }
                 {nakiHai.key.type === 'center' && 
                     <>
-                        {nakiHai.hai.map((nakiOther) => {
+                        {nakiHai.hai.map((nakiOther, nakiCount) => {
                             return <>
-                                {nakiOther.position === 2 && <div className={style.nakiHai}><img src={getHaiSrc(nakiHai.key.hai, 3)} /></div>}
-                                <div className={style.nakiHai}><img src={getHaiSrc(nakiOther.hai, 1)} /></div>
+                                {nakiCount === 1 && <div className={style.nakiHai}><img src={getHaiSrc(nakiHai.key.hai, 3)} /></div>}
+                                <div className={style.nakiHai}><img src={getHaiSrc(nakiOther, 1)} /></div>
                             </>
                         })}
                         
@@ -41,10 +41,10 @@ export const Naki = ({naki} : NakiProp) => {
                 {nakiHai.key.type === 'ankan' && 
                     <>
                         <div className={style.nakiHai}><img src={bk_1} /></div>
-                        {nakiHai.hai.map((nakiOther) => {
+                        {nakiHai.hai.map((nakiOther, nakiCount) => {
                             return <>
                                 <div className={style.nakiHai}>
-                                    {nakiOther.position === 3 ? <img src={bk_1} /> : <img src={getHaiSrc(nakiOther.hai, 1)} /> }
+                                    {nakiCount === 2 ? <img src={bk_1} /> : <img src={getHaiSrc(nakiOther, 1)} /> }
                                 </div>
                             </>
                         })}
