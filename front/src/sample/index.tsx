@@ -5,7 +5,7 @@ export const Sample = () => {
         base : [
             {
                 position: 1,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'ps1', // この辺は後で対応を検討する
             },
             {
                 position: 2,
@@ -138,11 +138,11 @@ export const Sample = () => {
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'ms2',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'ms3',
                     },
                     {
                         position: 3,
@@ -220,11 +220,11 @@ export const Sample = () => {
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'ms2',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'ss1',
                 type: 'normal',
             },
             {

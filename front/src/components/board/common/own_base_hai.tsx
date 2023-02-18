@@ -1,6 +1,7 @@
 import { HaiPositionProp } from "../type";
 import style from './base_hai.module.css';
 import ms1_0 from '../hai/p_ms1_0.gif';
+import { getHaiSrc } from "../hai/hai_info";
 
 type OwnBaseHaiProp = {
     base: HaiPositionProp[];
@@ -8,8 +9,8 @@ type OwnBaseHaiProp = {
 
 export const OwnBaseHai = ({base}: OwnBaseHaiProp) => {
     return <>
-        {base.map(() => {
-            return <div className={style.basePai}><img src={ms1_0} /></div>
+        {base.map((basePai) => {
+            return <div className={style.basePai}><img src={getHaiSrc(basePai.hai, 0)} /></div>
         })}
     </>
 }
