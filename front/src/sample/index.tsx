@@ -5,270 +5,270 @@ export const Sample = () => {
         base : [
             {
                 position: 1,
-                hai: 'ps1', // この辺は後で対応を検討する
+                hai: 'hai_2_1', // この辺は後で対応を検討する
             },
             {
                 position: 2,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 3,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 4,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 5,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 6,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 7,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 8,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 9,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 10,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 11,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 12,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 13,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 14,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
         ],
         naki: [
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'left', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'right', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'center', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'ti',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'left', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'left', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms2',
+                        hai: 'hai_1_2',
                     },
                     {
                         position: 2,
-                        hai: 'ms3',
+                        hai: 'hai_1_3',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'center', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'right', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'ankan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'ankan', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
         ],
         sutehai: [
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms2',
+                hai: 'hai_1_2',
                 type: 'normal',
             },
             {
-                hai: 'ss1',
+                hai: 'hai_3_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'reach',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
 
@@ -279,270 +279,270 @@ export const Sample = () => {
         base : [
             {
                 position: 1,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 2,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 3,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 4,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 5,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 6,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 7,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 8,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 9,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 10,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 11,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 12,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 13,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 14,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
         ],
         naki: [
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'left', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'right', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'center', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'ti',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'left', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'left', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'center', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'right', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'ankan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'ankan', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
         ],
         sutehai: [
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'reach',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
 
@@ -554,270 +554,270 @@ export const Sample = () => {
         base : [
             {
                 position: 1,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 2,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 3,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 4,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 5,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 6,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 7,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 8,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 9,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 10,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 11,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 12,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 13,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 14,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
         ],
         naki: [
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'left', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'right', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'center', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'ti',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'left', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'left', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'center', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'right', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'ankan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'ankan', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
         ],
         sutehai: [
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'reach',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
 
@@ -829,270 +829,270 @@ export const Sample = () => {
         base : [
             {
                 position: 1,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 2,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 3,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 4,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 5,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 6,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 7,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 8,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 9,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 10,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 11,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 12,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 13,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
             {
                 position: 14,
-                hai: 'ms1', // この辺は後で対応を検討する
+                hai: 'hai_1_1', // この辺は後で対応を検討する
             },
         ],
         naki: [
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'left', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'right', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'pon',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'center', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             // {
             //     type: 'ti',
             //     key: {
-            //         hai: 'ms1', // 後調整
+            //         hai: 'hai_1_1', // 後調整
             //         type: 'left', 
             //     },
             //     hai: [
             //         {
             //             position: 1,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         },
             //         {
             //             position: 2,
-            //             hai: 'ms1',
+            //             hai: 'hai_1_1',
             //         }
             //     ]
             // },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'left', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'center', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'minkan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'right', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
             {
                 type: 'ankan',
                 key: {
-                    hai: 'ms1', // 後調整
+                    hai: 'hai_1_1', // 後調整
                     type: 'ankan', 
                 },
                 hai: [
                     {
                         position: 1,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 2,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     },
                     {
                         position: 3,
-                        hai: 'ms1',
+                        hai: 'hai_1_1',
                     }
                 ]
             },
         ],
         sutehai: [
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'reach',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
             {
-                hai: 'ms1',
+                hai: 'hai_1_1',
                 type: 'normal',
             },
 
