@@ -34,14 +34,56 @@ export const initialSet = (allPai: any, setAllPai: React.Dispatch<React.SetState
 export const turn = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string,  setBoardStatus: React.Dispatch<React.SetStateAction<string>>) => {
     const turn_user = boardStatus.replace('turn_', '');
 
+    // 2回実行されることがあるので牌の数が足りてるときは何もしないようにする
+    if (allPai[turn_user].base.length + allPai[turn_user].naki.length * 3 >= 14) {
+        return;
+    }
+
     // 牌をツモる
     const catYama = yama.splice(0, 1);
     setYama(yama);
 
     // 1枚もらう
     allPai[turn_user].base = allPai[turn_user].base.concat(catYama);
+    setAllPai(allPai);
+
+    console.log('turn_user')
+    console.log(turn_user)
 
     setBoardStatus('think_' + turn_user);
+}
+
+export const cpuThink = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string,  setBoardStatus: React.Dispatch<React.SetStateAction<string>>) => {
+    const turn_user = boardStatus.replace('think_', '');
+    // 自分自身の場合はオートで実行しない
+    if (turn_user === 'own') {
+        return;
+    }
+
+    // @todo: ここのロジックを色々頑張りたいところ
+
+    // ひとまず自摸切りしておく
+    execSuteru(allPai, setAllPai, turn_user, setBoardStatus, allPai[turn_user].base.length - 1);
+}
+
+export const execSuteru = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user : string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number) => {
+    const suteruHai = allPai[user].base.splice(suteruKey, 1);
+
+    allPai[user].base = allPai[user].base.sort(); // 最後ソートして配置
+    // @todo: リーチを考慮
+    allPai[user].sutehai = allPai[user].sutehai.concat({hai: suteruHai, type: 'normal'}); // type は後で調整が必要
+    setAllPai(allPai);
+
+    const userKey = Object.keys(allPai).findIndex((e) => e === user);
+    let nextKey = userKey + 1;
+    if (typeof Object.keys(allPai)[nextKey] === 'undefined') {
+        nextKey = 0;
+    }
+
+    // @todo: ポンやチーなど
+
+    // 次の人にターンを回す
+    setBoardStatus('turn_' + Object.keys(allPai)[nextKey]);
 }
 
 export const Game = ({oya}: {oya: string}) => {
@@ -84,16 +126,27 @@ export const Game = ({oya}: {oya: string}) => {
 
     const [boardStatus, setBoardStatus] = useState('initial');
 
-    // initial時の処理
-    if (boardStatus === 'initial') {
-        initialSet(allPai, setAllPai, yama, setYama, setBoardStatus);
-    }
+    const [checkBoardStatus, setCheckBoardStatus] = useState('');
 
-    // ターン
-    if (boardStatus.match(/^turn_/)) {
-        turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus);
+    // initial時の処理
+    // 下記の自動イベントはステータスが変更されたときだけ
+
+    if (checkBoardStatus !== boardStatus) {
+        setCheckBoardStatus(boardStatus);
+        if (boardStatus === 'initial') {
+            initialSet(allPai, setAllPai, yama, setYama, setBoardStatus);
+        }
+
+        // ターン
+        if (boardStatus.match(/^turn_/)) {
+            turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus);
+        }
+
+        // 思考ターン(CPM)
+        if (boardStatus.match(/^think_/)) {
+            cpuThink(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus);
+        }
     }
-    console.log(boardStatus)
  
-    return <Board allPai={allPai} boardStatus={boardStatus} />
+    return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} />
 }

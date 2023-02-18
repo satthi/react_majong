@@ -9,14 +9,16 @@ import { BaseHaiOpen } from './common/base_hai_open';
 
 type BoardProp = {
     allPai: AllPaiProp;
+    setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>;
     boardStatus: string;
+    setBoardStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const execHaiOpen = (haiOpen:boolean, setHaiOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
     setHaiOpen(!haiOpen)
 }
 
-export const Board = ({allPai, boardStatus}: BoardProp) => {
+export const Board = ({allPai, setAllPai, boardStatus, setBoardStatus}: BoardProp) => {
     const ownPai = allPai.own;
     const player1Pai = allPai.player1;
     const player2Pai = allPai.player2;
@@ -27,13 +29,9 @@ export const Board = ({allPai, boardStatus}: BoardProp) => {
             <div className={style.board}>
             <>
                 {/* 自陣 */}
-                {!haiOpen ? 
                 <div className={style.ownPaiBaseField}>
-                    <OwnBaseHai base={ownPai.base}/>
-                </div> :
-                <div className={style.ownPaiBaseField}>
-                    <BaseHaiOpen base={ownPai.base}/>
-                </div>}
+                    <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} />
+                </div>
 
                 {/* 鳴き */}
                 <div className={style.ownNakiField}>
