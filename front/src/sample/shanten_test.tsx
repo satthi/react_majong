@@ -1,3 +1,4 @@
+import React from 'react'
 import { shantenBase } from '../components/game/shanten_base'
 
 export const ShantenTest = (): JSX.Element => {
