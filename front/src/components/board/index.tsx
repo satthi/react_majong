@@ -70,7 +70,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <PlaterBaseHai base={player2Pai.base} />
           </div>
           : <div className={style.player2PaiBaseField}>
-            <BaseHaiOpen base={player2Pai.base} shanten={player1Pai.shanten}/>
+            <BaseHaiOpen base={player2Pai.base} shanten={player2Pai.shanten}/>
           </div>
         }
 
@@ -90,7 +90,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <PlaterBaseHai base={player3Pai.base} />
           </div>
           : <div className={style.player3PaiBaseField}>
-            <BaseHaiOpen base={player3Pai.base} shanten={player1Pai.shanten}/>
+            <BaseHaiOpen base={player3Pai.base} shanten={player3Pai.shanten}/>
           </div>
         }
 
