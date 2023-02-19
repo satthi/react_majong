@@ -1,8 +1,8 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
-    "jest/globals": true,
+    es2021: true,
+    // "jest/globals": true,
   },
   extends: [
     'plugin:react/recommended',
@@ -12,11 +12,14 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
+    project: './tsconfig.json'
   },
   plugins: ["react"],
   rules: {
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off"
   }
 }
