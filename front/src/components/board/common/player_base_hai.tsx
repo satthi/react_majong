@@ -1,15 +1,14 @@
-import style from './base_hai.module.css';
-import bk_5 from '../hai/p_bk_5.gif';
+import style from './base_hai.module.css'
+import bk_5 from '../hai/p_bk_5.gif'
 
-type OwnBaseHaiProp = {
-    base: string[];
+interface OwnBaseHaiProp {
+  base: string[]
 };
 
-export const PlaterBaseHai = ({base}: OwnBaseHaiProp) => {
-    return <>
-        {base.map(() => {
-            return <div className={style.basePai}><img src={bk_5} /></div>
-        })}
-
-    </>
+export const PlaterBaseHai = ({ base }: OwnBaseHaiProp): JSX.Element => {
+  return <>
+    {base.map((basePai) => {
+      return <div className={style.basePai} key={basePai} ><img src={bk_5} /></div>
+    })}
+  </>
 }

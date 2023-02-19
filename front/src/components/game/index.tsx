@@ -4,6 +4,7 @@ import { getInitialYama } from '../board/hai/hai_info'
 import type { AllPaiProp } from '../board/type'
 import { initialSet } from './initial_set'
 import { turn } from './turn'
+import { shantenCheck } from './shanten_check'
 
 export const Game = ({ oya }: { oya: string }): JSX.Element => {
   const userList = ['own', 'player1', 'player2', 'player3']
@@ -20,7 +21,8 @@ export const Game = ({ oya }: { oya: string }): JSX.Element => {
       initialSortPai[user] = {
         base: [],
         naki: [],
-        sutehai: []
+        sutehai: [],
+        shanten: 99
       }
     }
   })
@@ -33,7 +35,8 @@ export const Game = ({ oya }: { oya: string }): JSX.Element => {
       initialSortPai[user] = {
         base: [],
         naki: [],
-        sutehai: []
+        sutehai: [],
+        shanten: 99
       }
     }
   })
@@ -62,6 +65,9 @@ export const Game = ({ oya }: { oya: string }): JSX.Element => {
     if (boardStatus.match(/^turn_/) !== null) {
       turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser)
     }
+
+    // シャンテン判定(ひとまず全員分)
+    shantenCheck(allPai, setAllPai)
   }
 
   return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} />

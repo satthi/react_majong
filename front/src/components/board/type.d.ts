@@ -9,6 +9,7 @@ export type PaiProp = {
     base: string[];
     naki: nakiPositionProp[];
     sutehai: SutehaiProp[];
+    shanten: number;
 };
 
 type nakiPositionProp = {

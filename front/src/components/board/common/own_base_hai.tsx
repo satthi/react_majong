@@ -10,6 +10,7 @@ interface OwnBaseHaiProp {
   boardStatus: string
   setBoardStatus: React.Dispatch<React.SetStateAction<string>>
   yama: string[]
+  shanten: number
 }
 
 const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, haiKey: number, yama: string[]): void => {
@@ -26,7 +27,7 @@ const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
   }
 }
 
-export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatus, yama }: OwnBaseHaiProp): JSX.Element => {
+export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatus, yama, shanten }: OwnBaseHaiProp): JSX.Element => {
   return <>
     {base.map((basePai, haiKey) => {
       return <div key={haiKey} className={style.basePai}>
@@ -34,5 +35,10 @@ export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatu
         <img src={getHaiSrc(basePai, 0)} onClick={() => execOwnSuteru(allPai, setAllPai, boardStatus, setBoardStatus, haiKey, yama)}/>
       </div>
     })}
+    <div className={style.shanten}>
+      {shanten === -1 && <>上がり</>}
+      {shanten === 0 && <>テンパイ</>}
+      {shanten > 0 && shanten !== 99 && <>{shanten}シャンテン</>}
+    </div>
   </>
 }

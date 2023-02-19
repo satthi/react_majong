@@ -31,7 +31,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
       <>
         {/* 自陣 */}
         <div className={style.ownPaiBaseField}>
-          <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} />
+          <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} shanten={ownPai.shanten} />
         </div>
 
         {/* 鳴き */}
@@ -50,7 +50,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <PlaterBaseHai base={player1Pai.base} />
           </div>
           : <div className={style.player1PaiBaseField}>
-            <BaseHaiOpen base={player1Pai.base}/>
+            <BaseHaiOpen base={player1Pai.base} shanten={player1Pai.shanten} />
           </div>
         }
 
@@ -70,7 +70,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <PlaterBaseHai base={player2Pai.base} />
           </div>
           : <div className={style.player2PaiBaseField}>
-            <BaseHaiOpen base={player2Pai.base}/>
+            <BaseHaiOpen base={player2Pai.base} shanten={player1Pai.shanten}/>
           </div>
         }
 
@@ -90,7 +90,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <PlaterBaseHai base={player3Pai.base} />
           </div>
           : <div className={style.player3PaiBaseField}>
-            <BaseHaiOpen base={player3Pai.base}/>
+            <BaseHaiOpen base={player3Pai.base} shanten={player1Pai.shanten}/>
           </div>
         }
 
