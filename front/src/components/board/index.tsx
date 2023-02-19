@@ -106,6 +106,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, turnCoun
         </div>
       </>
     </div>
+    {/* eslint-disable-next-line */}
     <button onClick={() => execHaiOpen(haiOpen, setHaiOpen)}>open</button>
   </>
 }

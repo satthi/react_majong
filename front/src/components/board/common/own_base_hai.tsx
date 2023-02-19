@@ -36,6 +36,7 @@ export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatu
   return <>
     {base.map((basePai, haiKey) => {
       return <div key={haiKey} className={style.basePai}>
+        {/* eslint-disable-next-line */}
         <img src={getHaiSrc(basePai, 0)} onClick={() => execOwnSuteru(allPai, setAllPai, boardStatus, setBoardStatus, haiKey, turnCount, setTurnCount)}/>
       </div>
     })}
