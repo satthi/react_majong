@@ -3,7 +3,7 @@ import { Board } from '../board'
 import { getInitialYama } from '../board/hai/hai_info'
 import type { AllPaiProp } from '../board/type'
 
-export const initialSet = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, turnCount: number, setTurnCount: React.Dispatch<React.SetStateAction<number>>): void => {
+export const initialSet = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, setBoardStatus: React.Dispatch<React.SetStateAction<string>>): void => {
   // とりあえず4枚ずつ配布
 
   for (let i = 1; i <= 3; i += 1) {
@@ -28,21 +28,14 @@ export const initialSet = (allPai: any, setAllPai: React.Dispatch<React.SetState
   })
 
   setTimeout(() => {
-    // ターン数をセット
-    const newTurnCount = turnCount + 1
-    setTurnCount(newTurnCount)
-    setBoardStatus('turn_' + Object.keys(allPai)[0] + '_' + String(newTurnCount))
+    setBoardStatus('turn_' + Object.keys(allPai)[0])
   }, 500)
 }
 
-export const turn = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, turnCount: number, setTurnCount: React.Dispatch<React.SetStateAction<number>>): void => {
-  const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)_([0-9]+)$/)
+export const turn = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>): void => {
+  const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (turnUserMatch === null) {
-    return
-  }
-  // ターン数がマッチしているときだけ処理する
-  if (Number(turnUserMatch[2]) !== turnCount) {
     return
   }
   const turnUser = turnUserMatch[1]
@@ -60,21 +53,14 @@ export const turn = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction
   setAllPai(allPai)
 
   setTimeout(() => {
-    // ターン数をセット
-    const newTurnCount = turnCount + 1
-    setTurnCount(newTurnCount)
-    setBoardStatus('think_' + turnUser + '_' + String(newTurnCount))
+    setBoardStatus('think_' + turnUser)
   }, 500)
 }
 
-export const cpuThink = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, turnCount: number, setTurnCount: React.Dispatch<React.SetStateAction<number>>): void => {
-  const turnUserMatch = boardStatus.match(/^think_(own|player1|player2|player3)_([0-9]+)$/)
+export const cpuThink = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>): void => {
+  const turnUserMatch = boardStatus.match(/^think_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (turnUserMatch === null) {
-    return
-  }
-  // ターン数がマッチしているときだけ処理する
-  if (Number(turnUserMatch[2]) !== turnCount) {
     return
   }
 
@@ -87,10 +73,10 @@ export const cpuThink = (allPai: any, setAllPai: React.Dispatch<React.SetStateAc
   // @todo: ここのロジックを色々頑張りたいところ
 
   // ひとまず自摸切りしておく
-  execSuteru(allPai, setAllPai, turnUser, setBoardStatus, allPai[turnUser].base.length - 1, turnCount, setTurnCount)
+  execSuteru(allPai, setAllPai, turnUser, setBoardStatus, allPai[turnUser].base.length - 1)
 }
 
-export const execSuteru = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number, turnCount: number, setTurnCount: React.Dispatch<React.SetStateAction<number>>): void => {
+export const execSuteru = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number): void => {
   const suteruHai = allPai[user].base.splice(suteruKey, 1)
 
   allPai[user].base = allPai[user].base.sort() // 最後ソートして配置
@@ -108,9 +94,7 @@ export const execSuteru = (allPai: any, setAllPai: React.Dispatch<React.SetState
 
   // 次の人にターンを回す
   setTimeout(() => {
-    const newTurnCount = turnCount + 1
-    setTurnCount(newTurnCount)
-    setBoardStatus('turn_' + Object.keys(allPai)[nextKey] + '_' + String(newTurnCount))
+    setBoardStatus('turn_' + Object.keys(allPai)[nextKey])
   }, 500)
 }
 
@@ -156,27 +140,25 @@ export const Game = ({ oya }: { oya: string }): JSX.Element => {
 
   const [checkBoardStatus, setCheckBoardStatus] = useState('')
 
-  const [turnCount, setTurnCount] = useState(0)
-
   // initial時の処理
   // 下記の自動イベントはステータスが変更されたときだけ
 
   if (checkBoardStatus !== boardStatus) {
     setCheckBoardStatus(boardStatus)
     if (boardStatus === 'initial') {
-      initialSet(allPai, setAllPai, yama, setYama, setBoardStatus, turnCount, setTurnCount)
+      initialSet(allPai, setAllPai, yama, setYama, setBoardStatus)
     }
 
     // ターン
     if (boardStatus.match(/^turn_/) !== null) {
-      turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, turnCount, setTurnCount)
+      turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus)
     }
 
     // 思考ターン(CPM)
     if (boardStatus.match(/^think_/) !== null) {
-      cpuThink(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, turnCount, setTurnCount)
+      cpuThink(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus)
     }
   }
 
-  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} turnCount={turnCount} setTurnCount={setTurnCount} />
+  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} />
 }

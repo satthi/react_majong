@@ -12,15 +12,13 @@ interface BoardProp {
   setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>
   boardStatus: string
   setBoardStatus: React.Dispatch<React.SetStateAction<string>>
-  turnCount: number
-  setTurnCount: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const execHaiOpen = (haiOpen: boolean, setHaiOpen: React.Dispatch<React.SetStateAction<boolean>>): void => {
   setHaiOpen(!haiOpen)
 }
 
-export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, turnCount, setTurnCount }: BoardProp): JSX.Element => {
+export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus }: BoardProp): JSX.Element => {
   const ownPai = allPai.own
   const player1Pai = allPai.player1
   const player2Pai = allPai.player2
@@ -32,7 +30,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, turnCoun
       <>
         {/* 自陣 */}
         <div className={style.ownPaiBaseField}>
-          <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} turnCount={turnCount} setTurnCount={setTurnCount} />
+          <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} />
         </div>
 
         {/* 鳴き */}
