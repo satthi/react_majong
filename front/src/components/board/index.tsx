@@ -12,13 +12,14 @@ interface BoardProp {
   setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>
   boardStatus: string
   setBoardStatus: React.Dispatch<React.SetStateAction<string>>
+  yama: string[]
 }
 
 export const execHaiOpen = (haiOpen: boolean, setHaiOpen: React.Dispatch<React.SetStateAction<boolean>>): void => {
   setHaiOpen(!haiOpen)
 }
 
-export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus }: BoardProp): JSX.Element => {
+export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: BoardProp): JSX.Element => {
   const ownPai = allPai.own
   const player1Pai = allPai.player1
   const player2Pai = allPai.player2
@@ -30,7 +31,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus }: BoardP
       <>
         {/* 自陣 */}
         <div className={style.ownPaiBaseField}>
-          <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} />
+          <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} />
         </div>
 
         {/* 鳴き */}
@@ -101,6 +102,11 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus }: BoardP
         {/* 捨て牌 */}
         <div className={style.player3SutehaiField}>
           <Sutehai sutehai={player3Pai.sutehai}/>
+        </div>
+
+        <div className={style.info}>
+          残り：{yama.length - 14} 枚
+          {boardStatus === 'ryukyoku' && <>流局</>}
         </div>
       </>
     </div>

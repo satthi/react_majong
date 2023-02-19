@@ -9,9 +9,10 @@ interface OwnBaseHaiProp {
   base: string[]
   boardStatus: string
   setBoardStatus: React.Dispatch<React.SetStateAction<string>>
+  yama: string[]
 }
 
-const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, haiKey: number): void => {
+const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, haiKey: number, yama: string[]): void => {
   const turnUserMatch = boardStatus.match(/^think_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (turnUserMatch === null) {
@@ -20,18 +21,17 @@ const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
 
   const turnUser = turnUserMatch[1]
   if (turnUser === 'own') {
-    // 捨てた後に固定実行
-    execSuteru(allPai, setAllPai, 'own', setBoardStatus, haiKey)
-    // setBoardStatus('turn_player1')
+    // 捨てる
+    execSuteru(allPai, setAllPai, 'own', setBoardStatus, haiKey, yama)
   }
 }
 
-export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatus }: OwnBaseHaiProp): JSX.Element => {
+export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatus, yama }: OwnBaseHaiProp): JSX.Element => {
   return <>
     {base.map((basePai, haiKey) => {
       return <div key={haiKey} className={style.basePai}>
         {/* eslint-disable-next-line */}
-        <img src={getHaiSrc(basePai, 0)} onClick={() => execOwnSuteru(allPai, setAllPai, boardStatus, setBoardStatus, haiKey)}/>
+        <img src={getHaiSrc(basePai, 0)} onClick={() => execOwnSuteru(allPai, setAllPai, boardStatus, setBoardStatus, haiKey, yama)}/>
       </div>
     })}
   </>

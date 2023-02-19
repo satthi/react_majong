@@ -101,3 +101,11 @@
     left: -80px;
     transform:rotate(90deg);
 }
+
+.info {
+    position: absolute;
+    width:200px;
+    top: 400px;
+    left: 400px;
+
+}

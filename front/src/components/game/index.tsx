@@ -65,7 +65,7 @@ export const turn = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction
     } else {
       cpuThink(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser)
     }
-  }, 500)
+  }, 250)
 }
 
 export const cpuThink = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
@@ -84,11 +84,11 @@ export const cpuThink = (allPai: any, setAllPai: React.Dispatch<React.SetStateAc
   // @todo: ここのロジックを色々頑張りたいところ
 
   // ひとまず自摸切りしておく
-  execSuteru(allPai, setAllPai, turnUser, setBoardStatus, allPai[turnUser].base.length - 1)
+  execSuteru(allPai, setAllPai, turnUser, setBoardStatus, allPai[turnUser].base.length - 1, yama)
   setExecUser(turnUser)
 }
 
-export const execSuteru = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number): void => {
+export const execSuteru = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number, yama: string[]): void => {
   const suteruHai = allPai[user].base.splice(suteruKey, 1)
 
   allPai[user].base = allPai[user].base.sort() // 最後ソートして配置
@@ -105,8 +105,15 @@ export const execSuteru = (allPai: any, setAllPai: React.Dispatch<React.SetState
   // @todo: ポンやチーなど
 
   // 次の人にターンを回す
+  console.log('AA')
   setTimeout(() => {
-    setBoardStatus('turn_' + Object.keys(allPai)[nextKey])
+    if (yama.length > 14) {
+      console.log('HHH')
+      setBoardStatus('turn_' + Object.keys(allPai)[nextKey])
+    } else {
+      // 14マイに到達したら流局
+      setBoardStatus('ryukyoku')
+    }
   }, 500)
 }
 
@@ -169,5 +176,5 @@ export const Game = ({ oya }: { oya: string }): JSX.Element => {
     }
   }
 
-  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} />
+  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} />
 }
