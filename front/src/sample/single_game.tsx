@@ -1,5 +1,5 @@
-import { Game } from "../components/game"
+import { Game } from '../components/game'
 
-export const SingleGame = () => {
-    return <Game oya='own' />
+export const SingleGame = (): JSX.Element => {
+  return <Game oya='player1' />
 }

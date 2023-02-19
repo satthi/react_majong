@@ -1,7 +1,7 @@
 import style from './base_hai.module.css'
 import { getHaiSrc } from '../hai/hai_info'
 import type { AllPaiProp } from '../type'
-import { execSuteru } from '../../game'
+import { execSuteru } from '../../game/exec_suteru'
 
 interface OwnBaseHaiProp {
   allPai: AllPaiProp
