@@ -63,12 +63,12 @@ export const turn = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction
       setExecUser(turnUser)
       setBoardStatus('think_' + turnUser)
     } else {
-      cpuThink(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus)
+      cpuThink(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser)
     }
   }, 500)
 }
 
-export const cpuThink = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>): void => {
+export const cpuThink = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
   const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (turnUserMatch === null) {
@@ -85,6 +85,7 @@ export const cpuThink = (allPai: any, setAllPai: React.Dispatch<React.SetStateAc
 
   // ひとまず自摸切りしておく
   execSuteru(allPai, setAllPai, turnUser, setBoardStatus, allPai[turnUser].base.length - 1)
+  setExecUser(turnUser)
 }
 
 export const execSuteru = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number): void => {
@@ -166,11 +167,6 @@ export const Game = ({ oya }: { oya: string }): JSX.Element => {
     if (boardStatus.match(/^turn_/) !== null) {
       turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser)
     }
-
-    // 思考ターン(CPM)
-    // if (boardStatus.match(/^think_/) !== null) {
-    //   cpuThink(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus)
-    // }
   }
 
   return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} />
