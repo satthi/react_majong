@@ -1,31 +1,89 @@
 import React from 'react'
-import { shantenBase } from '../components/game/shanten_base'
+import { BaseHaiOpen } from '../components/board/common/base_hai_open'
+import { getHaiSrc } from '../components/board/hai/hai_info'
+import { shantenBase, shantenMentsu } from '../components/game/shanten_base'
 
 export const ShantenTest = (): JSX.Element => {
   const hai = {
     base: [
+      // 'hai_1_1',
+      // 'hai_1_1',
+      // 'hai_1_1',
+      // 'hai_1_2',
+      // 'hai_1_2',
+      // 'hai_1_2',
+      // 'hai_1_3',
+      // 'hai_1_3',
+      // 'hai_2_1',
+      // 'hai_2_2',
+      // 'hai_4_5',
+      // 'hai_4_5',
+      // 'hai_4_5'
       'hai_1_1',
-      'hai_1_1',
-      'hai_1_1',
+      'hai_1_2',
       'hai_1_2',
       'hai_1_3',
       'hai_1_4',
-      'hai_4_4',
-      'hai_4_4',
+      'hai_4_1',
+      'hai_4_1',
+      'hai_4_2',
+      'hai_4_2',
+      'hai_4_2',
       'hai_4_5',
       'hai_4_5',
-      'hai_4_6',
-      'hai_4_6',
-      'hai_4_7'
+      'hai_4_5'
+
     ],
     naki: [],
     sutehai: [],
     shanten: 99
   }
   const a = shantenBase(hai)
-  console.log(a)
+  const shantenMentsuData = shantenMentsu(hai)
 
-  console.log('HH')
+  return <>
+    <div style={{ position: 'absolute', top: '40px' }}>
+      <BaseHaiOpen base={hai.base} shanten={a} />
+    </div>
 
-  return <>{ a }シャンテン</>
+    <div style={{ position: 'absolute', top: '200px' }}>
+      {shantenMentsuData.map((b: any, bi: number) => {
+        return <div style={{ clear: 'both' }} key={bi}>
+          {b.mentsu.map((c: any, i: number) => {
+            return <div style={{ border: ' 3px solid #000', float: 'left' }} key={i} >
+              {c.map((cmentsugroup: any) => {
+                return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroup.hai} />
+              })}
+            </div>
+          })}
+          {b.toitsu.map((c: any, i: number) => {
+            return <div style={{ border: '3px solid #000', float: 'left' }} key={i} >
+              {c.map((cmentsugroup: any) => {
+                return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroup.hai} />
+              })}
+            </div>
+          })}
+          {b.tatsu.map((c: any, i: number) => {
+            return <div style={{ border: '3px solid #000', float: 'left' }} key={i} >
+              {c.map((cmentsugroup: any) => {
+                return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroup.hai} />
+              })}
+            </div>
+          })}
+          {b.kokushi.length > 0 &&
+            <div style={{ border: '3px solid #000', float: 'left' }}>
+              {b.kokushi.map((c: any) => {
+                return <img src={getHaiSrc(c.hai, 1)} key={c.hai} />
+              })}
+            </div>
+          }
+          {b.remainHaiCountInfo.map((c: any) => {
+            return [...Array(c.count)].map((x) => {
+              return <div style={{ border: '3px solid #000', float: 'left' }} key={x} ><img src={getHaiSrc(c.hai, 1)} /></div>
+            })
+          })}
+        </div>
+      })}
+    </div>
+  </>
 }
