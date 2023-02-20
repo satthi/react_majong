@@ -8,8 +8,8 @@ interface BaseHaiOpenProp {
 
 export const BaseHaiOpen = ({ base, shanten }: BaseHaiOpenProp): JSX.Element => {
   return <>
-    {base.map((basePai) => {
-      return <div className={style.basePai} key={basePai}><img src={getHaiSrc(basePai, 1)} /></div>
+    {base.map((basePai, basePaiI) => {
+      return <div className={style.basePai} key={basePaiI}><img src={getHaiSrc(basePai, 1)} /></div>
     })}
     <div className={style.shanten}>
       {shanten === -1 && <>上がり</>}

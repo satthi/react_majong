@@ -7,8 +7,8 @@ interface OwnBaseHaiProp {
 
 export const PlaterBaseHai = ({ base }: OwnBaseHaiProp): JSX.Element => {
   return <>
-    {base.map((basePai) => {
-      return <div className={style.basePai} key={basePai} ><img src={bk_5} /></div>
+    {base.map((basePai, basePaiI) => {
+      return <div className={style.basePai} key={basePaiI} ><img src={bk_5} /></div>
     })}
   </>
 }

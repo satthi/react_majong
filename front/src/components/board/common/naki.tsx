@@ -15,15 +15,15 @@ export const Naki = ({ naki }: NakiProp): JSX.Element => {
         {nakiHai.key.type === 'left' &&
           <>
             <div className={style.nakiHai}><img src={getHaiSrc(nakiHai.key.hai, 3)} /></div>
-            {nakiHai.hai.map((nakiOther) => {
-              return <div className={style.nakiHai} key={nakiOther}><img src={getHaiSrc(nakiOther, 1)} /></div>
+            {nakiHai.hai.map((nakiOther, nakiOtherI) => {
+              return <div className={style.nakiHai} key={nakiOtherI}><img src={getHaiSrc(nakiOther, 1)} /></div>
             })}
           </>
         }
         {nakiHai.key.type === 'right' &&
           <>
-            {nakiHai.hai.map((nakiOther) => {
-              return <div className={style.nakiHai} key={nakiOther}><img src={getHaiSrc(nakiOther, 1)} /></div>
+            {nakiHai.hai.map((nakiOther, nakiOtherI) => {
+              return <div className={style.nakiHai} key={nakiOtherI}><img src={getHaiSrc(nakiOther, 1)} /></div>
             })}
             <div className={style.nakiHai}><img src={getHaiSrc(nakiHai.key.hai, 3)} /></div>
           </>

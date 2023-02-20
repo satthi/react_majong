@@ -49,31 +49,31 @@ export const ShantenTest = (): JSX.Element => {
     <div style={{ position: 'absolute', top: '200px' }}>
       {shantenMentsuData.map((b: any, bi: number) => {
         return <div style={{ clear: 'both' }} key={bi}>
-          {b.mentsu.map((c: any, i: number) => {
-            return <div style={{ border: ' 3px solid #000', float: 'left' }} key={i} >
-              {c.map((cmentsugroup: any) => {
-                return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroup.hai} />
+          {b.mentsu.map((c: any, ci: number) => {
+            return <div style={{ border: ' 3px solid #000', float: 'left' }} key={ci} >
+              {c.map((cmentsugroup: any, cmentsugroupI: number) => {
+                return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroupI} />
               })}
             </div>
           })}
-          {b.toitsu.map((c: any, i: number) => {
-            return <div style={{ border: '3px solid #000', float: 'left' }} key={i} >
-              {c.map((cmentsugroup: any) => {
-                return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroup.hai} />
+          {b.toitsu.map((c: any, ci: number) => {
+            return <div style={{ border: '3px solid #000', float: 'left' }} key={ci} >
+              {c.map((cmentsugroup: any, cmentsugroupI: number) => {
+                return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroupI} />
               })}
             </div>
           })}
-          {b.tatsu.map((c: any, i: number) => {
-            return <div style={{ border: '3px solid #000', float: 'left' }} key={i} >
-              {c.map((cmentsugroup: any) => {
-                return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroup.hai} />
+          {b.tatsu.map((c: any, ci: number) => {
+            return <div style={{ border: '3px solid #000', float: 'left' }} key={ci} >
+              {c.map((cmentsugroup: any, cmentsugroupI: number) => {
+                return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroupI} />
               })}
             </div>
           })}
           {b.kokushi.length > 0 &&
             <div style={{ border: '3px solid #000', float: 'left' }}>
-              {b.kokushi.map((c: any) => {
-                return <img src={getHaiSrc(c.hai, 1)} key={c.hai} />
+              {b.kokushi.map((c: any, ci: number) => {
+                return <img src={getHaiSrc(c.hai, 1)} key={ci} />
               })}
             </div>
           }

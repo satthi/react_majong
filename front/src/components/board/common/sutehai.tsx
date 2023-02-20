@@ -8,8 +8,8 @@ interface SutehaiConstProp {
 
 export const Sutehai = ({ sutehai }: SutehaiConstProp): JSX.Element => {
   return <>
-    {sutehai.map((sutehaiPai) => {
-      return <div className={style.sutehai} key={sutehaiPai.hai} >
+    {sutehai.map((sutehaiPai, sutehaiPaiI) => {
+      return <div className={style.sutehai} key={sutehaiPaiI} >
         {sutehaiPai.type === 'normal' ? <img src={getHaiSrc(sutehaiPai.hai, 1)} /> : <img src={getHaiSrc(sutehaiPai.hai, 3)} /> }
       </div>
     })}
