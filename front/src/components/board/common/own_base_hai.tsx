@@ -11,6 +11,7 @@ interface OwnBaseHaiProp {
   setBoardStatus: React.Dispatch<React.SetStateAction<string>>
   yama: string[]
   shanten: number
+  machi: any[]
 }
 
 const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, haiKey: number, yama: string[]): void => {
@@ -27,7 +28,7 @@ const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
   }
 }
 
-export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatus, yama, shanten }: OwnBaseHaiProp): JSX.Element => {
+export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatus, yama, shanten, machi }: OwnBaseHaiProp): JSX.Element => {
   return <>
     {base.map((basePai, haiKey) => {
       return <div key={haiKey} className={style.basePai}>
@@ -39,6 +40,15 @@ export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatu
       {shanten === -1 && <>上がり</>}
       {shanten === 0 && <>テンパイ</>}
       {shanten > 0 && shanten !== 99 && <>{shanten}シャンテン</>}
+      {machi.length > 0 &&
+        <span className={style.machi}>
+          待ち：
+          {machi.map((m, k) => {
+            return <img src={getHaiSrc(m.hai, 1)} key={k} height='30px' />
+          })}
+        </span>
+      }
+
     </div>
   </>
 }

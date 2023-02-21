@@ -6,6 +6,7 @@ import { PlaterBaseHai } from './common/player_base_hai'
 import { Naki } from './common/naki'
 import { useState } from 'react'
 import { BaseHaiOpen } from './common/base_hai_open'
+import { setTsumo } from './common/set_tsumo'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -19,20 +20,30 @@ export const execHaiOpen = (haiOpen: boolean, setHaiOpen: React.Dispatch<React.S
   setHaiOpen(!haiOpen)
 }
 
+export const execOwnTsumo = (allPai: AllPaiProp, setBoardStatus: React.Dispatch<React.SetStateAction<string>>): void => {
+  setTsumo(allPai, 'own', setBoardStatus)
+}
+
 export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: BoardProp): JSX.Element => {
   const ownPai = allPai.own
   const player1Pai = allPai.player1
   const player2Pai = allPai.player2
   const player3Pai = allPai.player3
+  console.log(ownPai.shanten)
   const [haiOpen, setHaiOpen] = useState(false)
   // 表示
   return <>
     <div className={style.board}>
       <>
         {/* 自陣 */}
-        <div className={style.ownPaiBaseField}>
-          <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} shanten={ownPai.shanten} />
+        {(boardStatus !== 'agari_ron_own' && boardStatus !== 'agari_tsumo_own')
+          ? <div className={style.ownPaiBaseField}>
+            <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama}shanten={ownPai.shanten.shanten} machi={ownPai.shanten.machi} />
+          </div>
+          : <div className={style.ownPaiBaseField}>
+          <BaseHaiOpen base={ownPai.base} shanten={ownPai.shanten.shanten} machi={ownPai.shanten.machi} />
         </div>
+      }
 
         {/* 鳴き */}
         <div className={style.ownNakiField}>
@@ -50,7 +61,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <PlaterBaseHai base={player1Pai.base} />
           </div>
           : <div className={style.player1PaiBaseField}>
-            <BaseHaiOpen base={player1Pai.base} shanten={player1Pai.shanten} />
+            <BaseHaiOpen base={player1Pai.base} shanten={player1Pai.shanten.shanten} machi={player1Pai.shanten.machi} />
           </div>
         }
 
@@ -70,7 +81,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <PlaterBaseHai base={player2Pai.base} />
           </div>
           : <div className={style.player2PaiBaseField}>
-            <BaseHaiOpen base={player2Pai.base} shanten={player2Pai.shanten}/>
+            <BaseHaiOpen base={player2Pai.base} shanten={player2Pai.shanten.shanten} machi={player2Pai.shanten.machi} />
           </div>
         }
 
@@ -90,7 +101,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <PlaterBaseHai base={player3Pai.base} />
           </div>
           : <div className={style.player3PaiBaseField}>
-            <BaseHaiOpen base={player3Pai.base} shanten={player3Pai.shanten}/>
+            <BaseHaiOpen base={player3Pai.base} shanten={player3Pai.shanten.shanten} machi={player3Pai.shanten.machi} />
           </div>
         }
 
@@ -107,10 +118,21 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
         <div className={style.info}>
           残り：{yama.length - 14} 枚
           {boardStatus === 'ryukyoku' && <>流局</>}
+          {boardStatus === 'agari_tsumo_own' && <>own ツモ</>}
+          {boardStatus === 'agari_ron_own' && <>own ロン</>}
+          {boardStatus === 'agari_tsumo_player1' && <>player1 ツモ</>}
+          {boardStatus === 'agari_ron_player1' && <>player1 ロン</>}
+          {boardStatus === 'agari_tsumo_player2' && <>player2 ツモ</>}
+          {boardStatus === 'agari_ron_player2' && <>player2 ロン</>}
+          {boardStatus === 'agari_tsumo_player3' && <>player3 ツモ</>}
+          {boardStatus === 'agari_ron_player3' && <>player3 ロン</>}
         </div>
       </>
     </div>
+
     {/* eslint-disable-next-line */}
     <button onClick={() => execHaiOpen(haiOpen, setHaiOpen)}>open</button>
+    {/* eslint-disable-next-line */}
+    <button disabled={ownPai.shanten !== -1} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</button>
   </>
 }

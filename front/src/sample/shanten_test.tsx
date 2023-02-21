@@ -20,18 +20,18 @@ export const ShantenTest = (): JSX.Element => {
       // 'hai_4_5',
       // 'hai_4_5'
       'hai_1_1',
-      'hai_1_2',
+      'hai_1_1',
+      'hai_1_1',
       'hai_1_2',
       'hai_1_3',
       'hai_1_4',
-      'hai_4_1',
-      'hai_4_1',
-      'hai_4_2',
-      'hai_4_2',
-      'hai_4_2',
-      'hai_4_5',
-      'hai_4_5',
-      'hai_4_5'
+      'hai_1_5',
+      'hai_1_6',
+      'hai_1_7',
+      'hai_1_8',
+      'hai_1_9',
+      'hai_1_9',
+      'hai_1_9'
 
     ],
     naki: [],
@@ -43,7 +43,7 @@ export const ShantenTest = (): JSX.Element => {
 
   return <>
     <div style={{ position: 'absolute', top: '40px' }}>
-      <BaseHaiOpen base={hai.base} shanten={a} />
+      <BaseHaiOpen base={hai.base} shanten={a.shanten} machi={a.machi} />
     </div>
 
     <div style={{ position: 'absolute', top: '200px' }}>

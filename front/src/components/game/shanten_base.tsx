@@ -1,9 +1,39 @@
 import type { PaiProp } from '../board/type'
 
-export const shantenBase = (paiInfo: PaiProp): number => {
+export const shantenBase = (paiInfo: PaiProp): any => {
   const mentsuGroup = shantenMentsu(paiInfo)
 
-  return mentsuGroup[0].shanten
+  // 待ちの抽出
+  let machiSeiri: any[] = []
+  mentsuGroup.forEach((m: any) => {
+    machiSeiri = machiSeiri.concat(m.machi)
+  })
+
+  // ソート
+  machiSeiri = machiSeiri.sort((a: any, b: any): any => {
+    return a.hai > b.hai
+  })
+
+  // 重複の排除
+  const machiSeiri2: any[] = []
+  machiSeiri.forEach((c) => {
+    let doubleCheck = false
+    machiSeiri2.forEach((d) => {
+      if (c.hai === d.hai) {
+        doubleCheck = true
+      }
+    })
+
+    if (!doubleCheck) {
+      machiSeiri2.push(c)
+    }
+  })
+
+  return {
+    shanten: mentsuGroup[0].shanten,
+    machi: machiSeiri2,
+    mentsuGroup: mentsuGroup
+  }
 }
 
 export const shantenMentsu = (paiInfo: PaiProp): any => {
@@ -231,7 +261,8 @@ export const shantenMentsu = (paiInfo: PaiProp): any => {
     toitsu: [],
     tatsu: [],
     remain: [],
-    shanten: 99
+    shanten: 99,
+    machi: []
   }
 
   // 対子の可能性を取得(対子なしも含めて)
@@ -395,6 +426,78 @@ export const shantenMentsu = (paiInfo: PaiProp): any => {
 
   const shantenComplete = shantenSeiri.filter((c) => {
     return c.shanten === minShanten
+  })
+
+  // シャンテンが0 = テンパイ時にそれぞれの待ちをセットする
+
+  shantenComplete.forEach((c, k) => {
+    if (c.shanten === 0) {
+      if (c.mentsu.length === 3 && c.toitsu.length === 1 && c.tatsu.length === 1) {
+        // ターツの待ち
+        // カンチャン
+        if (c.tatsu[0][0].num === c.tatsu[0][1].num - 2) {
+          shantenComplete[k].machi = [{
+            // eslint-disable-next-line
+            hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num + 1),
+            type: c.tatsu[0][0].type,
+            // eslint-disable-next-line
+            num: c.tatsu[0][0].num + 1
+          }]
+        }
+        // 両面（ペンチャン込み)
+        if (c.tatsu[0][0].num === c.tatsu[0][1].num - 1) {
+          const ryomen = []
+          if (c.tatsu[0][0].num !== 1) {
+            ryomen.push({
+              // eslint-disable-next-line
+              hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num - 1),
+              type: c.tatsu[0][0].type,
+              // eslint-disable-next-line
+              num: c.tatsu[0][0].num - 1
+            })
+          }
+          if (c.tatsu[0][0].num !== 8) {
+            ryomen.push({
+              // eslint-disable-next-line
+              hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num + 2),
+              type: c.tatsu[0][0].type,
+              // eslint-disable-next-line
+              num: c.tatsu[0][0].num + 2
+            })
+          }
+          shantenComplete[k].machi = ryomen
+        }
+      }
+
+      // シャンポン
+      if (c.mentsu.length === 3 && c.toitsu.length === 2) {
+        shantenComplete[k].machi = [{
+          hai: 'hai_' + String(c.toitsu[0][0].type) + '_' + String(c.toitsu[0][0].num),
+          type: c.toitsu[0][0].type,
+          num: c.toitsu[0][0].num
+        },
+        {
+          hai: 'hai_' + String(c.toitsu[1][0].type) + '_' + String(c.toitsu[1][0].num),
+          type: c.toitsu[1][0].type,
+          num: c.toitsu[1][0].num
+        }]
+      }
+
+      // 単騎/七対子
+      if (c.mentsu.length === 4 || c.toitsu.length === 6) {
+        c.remainHaiCountInfo.forEach((r: any) => {
+          if (r.count === 1) {
+            shantenComplete[k].machi = [{
+              hai: 'hai_' + String(r.type) + '_' + String(r.num),
+              type: r.type,
+              num: r.num
+            }]
+          }
+        })
+      }
+
+      // @todo: 国士
+    }
   })
 
   return shantenComplete
