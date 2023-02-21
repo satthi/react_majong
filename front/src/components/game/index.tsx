@@ -6,7 +6,7 @@ import { initialSet } from './initial_set'
 import { turn } from './turn'
 import { shantenCheck } from './shanten_check'
 
-export const Game = ({ oya }: { oya: string }): JSX.Element => {
+export const Game = ({ oya, ownAuto }: { oya: string, ownAuto: boolean }): JSX.Element => {
   const userList = ['own', 'player1', 'player2', 'player3']
 
   const initialSortPai = {} as any
@@ -63,7 +63,7 @@ export const Game = ({ oya }: { oya: string }): JSX.Element => {
 
     // ターン
     if (boardStatus.match(/^turn_/) !== null) {
-      turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser)
+      turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser, ownAuto)
     }
 
     // シャンテン判定(ひとまず全員分)

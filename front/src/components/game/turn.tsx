@@ -3,7 +3,7 @@ import type { AllPaiProp } from '../board/type'
 import { cpuThink } from './cpu_think'
 import { shantenCheck } from './shanten_check'
 
-export const turn = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, execUser: string, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
+export const turn = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, execUser: string, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
   const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (turnUserMatch === null) {
@@ -31,7 +31,7 @@ export const turn = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction
   shantenCheck(allPai, setAllPai)
 
   setTimeout(() => {
-    if (turnUser === 'own') {
+    if (turnUser === 'own' && !ownAuto) {
       setExecUser(turnUser)
       setBoardStatus('think_' + turnUser)
     } else {

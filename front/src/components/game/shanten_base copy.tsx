@@ -95,8 +95,6 @@ const shantenKokushi = (paiInfo: PaiProp): number => {
     count2 = 1
   }
 
-  console.log(count1)
-  console.log(count2)
 
   return 13 - count1 - count2
 }
@@ -481,8 +479,6 @@ const shantenMentsu = (paiInfo: PaiProp): number => {
     }
   })
   
-  console.log(paiInfo);
-
   // 属性ごとに切り分け
   const manzuList: any[] = []
   const pinzuList: any[] = []

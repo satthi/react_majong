@@ -29,7 +29,6 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
   const player1Pai = allPai.player1
   const player2Pai = allPai.player2
   const player3Pai = allPai.player3
-  console.log(ownPai.shanten)
   const [haiOpen, setHaiOpen] = useState(false)
   // 表示
   return <>
