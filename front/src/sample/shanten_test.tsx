@@ -32,8 +32,8 @@ export const ShantenTest = (): JSX.Element => {
       'hai_1_8',
       'hai_1_9',
       'hai_1_9',
-      'hai_1_9'
-
+      'hai_1_9',
+      'hai_4_1'
     ],
     naki: [],
     sutehai: [],

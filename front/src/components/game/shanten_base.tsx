@@ -443,7 +443,7 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
         }
         // 両面（ペンチャン込み)
         if (c.tatsu[0][0].num === c.tatsu[0][1].num - 1) {
-          const ryomen = []
+          const ryomen: HaiInfoProp[] = []
           if (c.tatsu[0][0].num !== 1) {
             ryomen.push({
               // eslint-disable-next-line
@@ -482,15 +482,17 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
 
       // 単騎/七対子
       if (c.mentsu.length === 4 || c.toitsu.length === 6) {
+        const tanki: HaiInfoProp[] = []
         c.remainHaiCountInfo.forEach((r) => {
           if (r.count === 1) {
-            shantenComplete[k].machi = [{
+            tanki.push({
               hai: 'hai_' + String(r.type) + '_' + String(r.num),
               type: r.type,
               num: r.num
-            }]
+            })
           }
         })
+        shantenComplete[k].machi = tanki
       }
 
       // @todo: 国士
