@@ -1,6 +1,6 @@
 import style from './base_hai.module.css'
 import { getHaiSrc } from '../hai/hai_info'
-import type { AllPaiProp, MachiProp } from '../type'
+import type { AllPaiProp, HaiInfoProp } from '../type'
 import { execSuteru } from '../../game/exec_suteru'
 
 interface OwnBaseHaiProp {
@@ -11,7 +11,7 @@ interface OwnBaseHaiProp {
   setBoardStatus: React.Dispatch<React.SetStateAction<string>>
   yama: string[]
   shanten: number
-  machi: MachiProp[]
+  machi: HaiInfoProp[]
 }
 
 const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, haiKey: number, yama: string[]): void => {

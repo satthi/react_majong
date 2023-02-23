@@ -1,21 +1,21 @@
-import type { PaiProp } from '../board/type'
+import type { HaiCountInfoProp, HaiInfoProp, PaiProp, ShantenBaseInfo } from '../board/type'
 
 export const shantenBase = (paiInfo: PaiProp): any => {
   const mentsuGroup = shantenMentsu(paiInfo)
 
   // 待ちの抽出
-  let machiSeiri: any[] = []
-  mentsuGroup.forEach((m: any) => {
+  let machiSeiri: HaiInfoProp[] = []
+  mentsuGroup.forEach((m) => {
     machiSeiri = machiSeiri.concat(m.machi)
   })
 
   // ソート
-  machiSeiri = machiSeiri.sort((a: any, b: any): any => {
-    return a.hai > b.hai
+  machiSeiri = machiSeiri.sort((a, b) => {
+    return (a.hai > b.hai) ? 1 : -1
   })
 
   // 重複の排除
-  const machiSeiri2: any[] = []
+  const machiSeiri2: HaiInfoProp[] = []
   machiSeiri.forEach((c) => {
     let doubleCheck = false
     machiSeiri2.forEach((d) => {
@@ -32,14 +32,14 @@ export const shantenBase = (paiInfo: PaiProp): any => {
   return {
     shanten: mentsuGroup[0].shanten,
     machi: machiSeiri2,
-    mentsuGroup: mentsuGroup
+    mentsuGroup
   }
 }
 
-export const shantenMentsu = (paiInfo: PaiProp): any => {
+export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
   // 鳴いてる数はメンツとしてカウント
 
-  const haiCountInfo = [
+  const haiCountInfo: HaiCountInfoProp[] = [
     {
       hai: 'hai_1_1',
       type: 1,
@@ -254,7 +254,7 @@ export const shantenMentsu = (paiInfo: PaiProp): any => {
     }
   })
 
-  const shantenBaseInfo = {
+  const shantenBaseInfo: ShantenBaseInfo = {
     remainHaiCountInfo: haiCountInfo,
     kokushi: [],
     mentsu: [],
@@ -266,15 +266,15 @@ export const shantenMentsu = (paiInfo: PaiProp): any => {
   }
 
   // 対子の可能性を取得(対子なしも含めて)
-  const shantenCheck1 = []
+  const shantenCheck1: ShantenBaseInfo[] = []
   haiCountInfo.forEach((h, k) => {
     if (h.count >= 2) {
       // 対子を除いたデータ
-      const copyhaiCountInfo = JSON.parse(JSON.stringify(haiCountInfo))
+      const copyhaiCountInfo: HaiCountInfoProp[] = JSON.parse(JSON.stringify(haiCountInfo))
       copyhaiCountInfo[k].count = copyhaiCountInfo[k].count - 2
 
       // 対子データの作成
-      const toitsuInfo = [
+      const toitsuInfo: HaiInfoProp[] = [
         {
           hai: h.hai,
           type: h.type,
@@ -287,7 +287,7 @@ export const shantenMentsu = (paiInfo: PaiProp): any => {
         }
       ]
 
-      const shantenStartToitsu = JSON.parse(JSON.stringify(shantenBaseInfo))
+      const shantenStartToitsu: ShantenBaseInfo = JSON.parse(JSON.stringify(shantenBaseInfo))
       shantenStartToitsu.remainHaiCountInfo = copyhaiCountInfo
       shantenStartToitsu.toitsu.push(toitsuInfo)
 
@@ -296,7 +296,7 @@ export const shantenMentsu = (paiInfo: PaiProp): any => {
     }
   })
   // 対子がないパターンのセット
-  const shantenNotoitsu = JSON.parse(JSON.stringify(shantenBaseInfo))
+  const shantenNotoitsu: ShantenBaseInfo = JSON.parse(JSON.stringify(shantenBaseInfo))
   shantenCheck1.push(shantenNotoitsu)
 
   // ここからメンツがなくなるまでチェックするよー(max4回)
@@ -358,27 +358,24 @@ export const shantenMentsu = (paiInfo: PaiProp): any => {
 
   // メンツなどの並び替え(重複除去に使用したい)
   shantenCheck27.forEach((a) => {
-    a.mentsu = a.mentsu.sort((a: any, b: any): any => {
-      // eslint-disable-next-line
-      return a[0].hai + a[1].hai + a[2].hai > b[0].hai + b[1].hai + b[2].hai 
+    a.mentsu = a.mentsu.sort((a, b) => {
+      return (a[0].hai.concat(a[1].hai).concat(a[2].hai) > b[0].hai.concat(b[1].hai).concat(b[2].hai)) ? 1 : -1
     })
-    a.toitsu = a.toitsu.sort((a: any, b: any) => {
-      // eslint-disable-next-line
-      return a[0].hai + a[1].hai > b[0].hai + b[1].hai 
+    a.toitsu = a.toitsu.sort((a, b) => {
+      return (a[0].hai.concat(a[1].hai) > b[0].hai.concat(b[1].hai)) ? 1 : -1
     })
-    a.tatsu = a.tatsu.sort((a: any, b: any) => {
-      // eslint-disable-next-line
-      return a[0].hai + a[1].hai > b[0].hai + b[1].hai
+    a.tatsu = a.tatsu.sort((a, b) => {
+      return (a[0].hai.concat(a[1].hai) > b[0].hai.concat(b[1].hai)) ? 1 : -1
     })
   })
 
   // 重複を排除(同じものはいらない)
-  const shantenSeiri: any[] = []
+  const shantenSeiri: ShantenBaseInfo[] = []
   shantenCheck27.forEach((c) => {
     let doubleCheck = false
     shantenSeiri.forEach((d) => {
       if (
-        JSON.stringify(c.anko) === JSON.stringify(d.anko) &&
+        JSON.stringify(c.mentsu) === JSON.stringify(d.mentsu) &&
         JSON.stringify(c.toitsu) === JSON.stringify(d.toitsu) &&
         JSON.stringify(c.tatsu) === JSON.stringify(d.tatsu) &&
         JSON.stringify(c.remainHaiCountInfo) === JSON.stringify(d.remainHaiCountInfo)
@@ -503,20 +500,20 @@ export const shantenMentsu = (paiInfo: PaiProp): any => {
   return shantenComplete
 }
 
-const mentsuBunseki = (shantenCheck1: any[]): any[] => {
-  const shantenCheck2: any[] = []
+const mentsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[] => {
+  const shantenCheck2: ShantenBaseInfo[] = []
   shantenCheck1.forEach((c, k) => {
     let mentsuNone = true
-    c.remainHaiCountInfo.forEach((c2: any, k2: number) => {
+    c.remainHaiCountInfo.forEach((c2, k2) => {
       // 暗刻のパターン
       if (c2.count >= 3) {
         mentsuNone = false
 
-        const copyhaiCountInfoAnko = JSON.parse(JSON.stringify(c.remainHaiCountInfo))
+        const copyhaiCountInfoAnko: HaiCountInfoProp[] = JSON.parse(JSON.stringify(c.remainHaiCountInfo))
         copyhaiCountInfoAnko[k2].count = copyhaiCountInfoAnko[k2].count - 3
 
         // 暗刻データの作成
-        const ankoInfo = [
+        const ankoInfo: HaiInfoProp[] = [
           {
             hai: c2.hai,
             type: c2.type,
@@ -534,7 +531,7 @@ const mentsuBunseki = (shantenCheck1: any[]): any[] => {
           }
         ]
 
-        const shantenAnko = JSON.parse(JSON.stringify(c))
+        const shantenAnko: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
         shantenAnko.remainHaiCountInfo = copyhaiCountInfoAnko
         shantenAnko.mentsu.push(ankoInfo)
 
@@ -543,34 +540,43 @@ const mentsuBunseki = (shantenCheck1: any[]): any[] => {
       }
 
       // 順子のパターン
+      // eslint-disable-next-line
       if (c2.count >= 1 && c2.type !== 4 && c2.num <= 7 && c.remainHaiCountInfo[k2 + 1].count >= 1 && c.remainHaiCountInfo[k2 + 2].count >= 1) {
         mentsuNone = false
 
-        const copyhaiCountInfoShuntsu = JSON.parse(JSON.stringify(c.remainHaiCountInfo))
+        const copyhaiCountInfoShuntsu: HaiCountInfoProp[] = JSON.parse(JSON.stringify(c.remainHaiCountInfo))
         copyhaiCountInfoShuntsu[k2].count = copyhaiCountInfoShuntsu[k2].count - 1
+        // eslint-disable-next-line
         copyhaiCountInfoShuntsu[k2 + 1].count = copyhaiCountInfoShuntsu[k2 + 1].count - 1
+        // eslint-disable-next-line
         copyhaiCountInfoShuntsu[k2 + 2].count = copyhaiCountInfoShuntsu[k2 + 2].count - 1
 
         // 順子データの作成
-        const shuntsuInfo = [
+        const shuntsuInfo: HaiInfoProp[] = [
           {
             hai: c2.hai,
             type: c2.type,
             num: c2.num
           },
           {
+            // eslint-disable-next-line
             hai: c.remainHaiCountInfo[k2 + 1].hai,
+            // eslint-disable-next-line
             type: c.remainHaiCountInfo[k2 + 1].type,
+            // eslint-disable-next-line
             num: c.remainHaiCountInfo[k2 + 1].num
           },
           {
+            // eslint-disable-next-line
             hai: c.remainHaiCountInfo[k2 + 2].hai,
+            // eslint-disable-next-line
             type: c.remainHaiCountInfo[k2 + 2].type,
+            // eslint-disable-next-line
             num: c.remainHaiCountInfo[k2 + 2].num
           }
         ]
 
-        const shantenShuntsu = JSON.parse(JSON.stringify(c))
+        const shantenShuntsu: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
         shantenShuntsu.remainHaiCountInfo = copyhaiCountInfoShuntsu
         shantenShuntsu.mentsu.push(shuntsuInfo)
 
@@ -580,7 +586,7 @@ const mentsuBunseki = (shantenCheck1: any[]): any[] => {
     })
     // メンツがない時はそのままセットする
     if (mentsuNone) {
-      const shantenSonomama = JSON.parse(JSON.stringify(c))
+      const shantenSonomama: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
       shantenCheck2.push(shantenSonomama)
     }
   })
@@ -588,20 +594,20 @@ const mentsuBunseki = (shantenCheck1: any[]): any[] => {
   return shantenCheck2
 }
 
-const toitsuTatsuBunseki = (shantenCheck1: any[]): any[] => {
-  const shantenCheck2: any[] = []
+const toitsuTatsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[] => {
+  const shantenCheck2: ShantenBaseInfo[] = []
   shantenCheck1.forEach((c, k) => {
     let mentsuNone = true
-    c.remainHaiCountInfo.forEach((c2: any, k2: number) => {
+    c.remainHaiCountInfo.forEach((c2, k2) => {
       // 対子のパターン
       if (c2.count >= 2) {
         mentsuNone = false
 
-        const copyhaiCountInfoToitsu = JSON.parse(JSON.stringify(c.remainHaiCountInfo))
+        const copyhaiCountInfoToitsu: HaiCountInfoProp[] = JSON.parse(JSON.stringify(c.remainHaiCountInfo))
         copyhaiCountInfoToitsu[k2].count = copyhaiCountInfoToitsu[k2].count - 2
 
         // 暗刻データの作成
-        const toitsuInfo = [
+        const toitsuInfo: HaiInfoProp[] = [
           {
             hai: c2.hai,
             type: c2.type,
@@ -614,7 +620,7 @@ const toitsuTatsuBunseki = (shantenCheck1: any[]): any[] => {
           }
         ]
 
-        const shantenToitsu = JSON.parse(JSON.stringify(c))
+        const shantenToitsu: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
         shantenToitsu.remainHaiCountInfo = copyhaiCountInfoToitsu
         shantenToitsu.toitsu.push(toitsuInfo)
 
@@ -623,28 +629,34 @@ const toitsuTatsuBunseki = (shantenCheck1: any[]): any[] => {
       }
 
       // ターツのパターン1(横並び)
+      // eslint-disable-next-line
       if (c2.count >= 1 && c2.type !== 4 && c2.num <= 8 && c.remainHaiCountInfo[k2 + 1].count >= 1) {
         mentsuNone = false
 
-        const copyhaiCountInfoTatsu1 = JSON.parse(JSON.stringify(c.remainHaiCountInfo))
+        const copyhaiCountInfoTatsu1: HaiCountInfoProp[] = JSON.parse(JSON.stringify(c.remainHaiCountInfo))
+        // eslint-disable-next-line
         copyhaiCountInfoTatsu1[k2].count = copyhaiCountInfoTatsu1[k2].count - 1
+        // eslint-disable-next-line
         copyhaiCountInfoTatsu1[k2 + 1].count = copyhaiCountInfoTatsu1[k2 + 1].count - 1
 
         // 順子データの作成
-        const tatsu1Info = [
+        const tatsu1Info: HaiInfoProp[] = [
           {
             hai: c2.hai,
             type: c2.type,
             num: c2.num
           },
           {
+            // eslint-disable-next-line
             hai: c.remainHaiCountInfo[k2 + 1].hai,
+            // eslint-disable-next-line
             type: c.remainHaiCountInfo[k2 + 1].type,
+            // eslint-disable-next-line
             num: c.remainHaiCountInfo[k2 + 1].num
           }
         ]
 
-        const shantenTatsu1 = JSON.parse(JSON.stringify(c))
+        const shantenTatsu1: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
         shantenTatsu1.remainHaiCountInfo = copyhaiCountInfoTatsu1
         shantenTatsu1.tatsu.push(tatsu1Info)
 
@@ -653,28 +665,33 @@ const toitsuTatsuBunseki = (shantenCheck1: any[]): any[] => {
       }
 
       // ターツのパターン2(カンチャン)
+      // eslint-disable-next-line
       if (c2.count >= 1 && c2.type !== 4 && c2.num <= 7 && c.remainHaiCountInfo[k2 + 2].count >= 1) {
         mentsuNone = false
 
-        const copyhaiCountInfoTatsu2 = JSON.parse(JSON.stringify(c.remainHaiCountInfo))
+        const copyhaiCountInfoTatsu2: HaiCountInfoProp[] = JSON.parse(JSON.stringify(c.remainHaiCountInfo))
         copyhaiCountInfoTatsu2[k2].count = copyhaiCountInfoTatsu2[k2].count - 1
+        // eslint-disable-next-line
         copyhaiCountInfoTatsu2[k2 + 2].count = copyhaiCountInfoTatsu2[k2 + 2].count - 1
 
         // 順子データの作成
-        const tatsu2Info = [
+        const tatsu2Info: HaiInfoProp[] = [
           {
             hai: c2.hai,
             type: c2.type,
             num: c2.num
           },
           {
+            // eslint-disable-next-line
             hai: c.remainHaiCountInfo[k2 + 2].hai,
+            // eslint-disable-next-line
             type: c.remainHaiCountInfo[k2 + 2].type,
+            // eslint-disable-next-line
             num: c.remainHaiCountInfo[k2 + 2].num
           }
         ]
 
-        const shantenTatsu2 = JSON.parse(JSON.stringify(c))
+        const shantenTatsu2: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
         shantenTatsu2.remainHaiCountInfo = copyhaiCountInfoTatsu2
         shantenTatsu2.tatsu.push(tatsu2Info)
 
@@ -685,7 +702,7 @@ const toitsuTatsuBunseki = (shantenCheck1: any[]): any[] => {
 
     // メンツがない時はそのままセットする
     if (mentsuNone) {
-      const shantenSonomama = JSON.parse(JSON.stringify(c))
+      const shantenSonomama: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
       shantenCheck2.push(shantenSonomama)
     }
   })

@@ -1,11 +1,11 @@
 import style from './base_hai.module.css'
 import { getHaiSrc } from '../hai/hai_info'
-import type { MachiProp } from '../type'
+import type { HaiInfoProp } from '../type'
 
 interface BaseHaiOpenProp {
   base: string[]
   shanten: number
-  machi: MachiProp[]
+  machi: HaiInfoProp[]
 }
 
 export const BaseHaiOpen = ({ base, shanten, machi }: BaseHaiOpenProp): JSX.Element => {

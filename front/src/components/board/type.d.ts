@@ -26,10 +26,18 @@ export type SutehaiProp = {
   type: string
 }
 
-export type MachiProp = {
+export type HaiInfoProp = {
   hai: string
-  type: string
-  num: numner
+  type: number
+  num: number
+
+}
+
+export type HaiCountInfoProp = {
+  hai: string
+  type: number
+  num: number
+  count: number
 }
 
 export type UserProp = 'own' | 'player1' | 'player2' | 'player3'
@@ -48,3 +56,14 @@ export type HaiSrcProp = {
 }
 
 export type HaiDirectionProp = 'direction_0' | 'direction_1' | 'direction_2' | 'direction_3' | 'direction_4' | 'direction_5' | 'direction_6' | 'direction_7'
+
+export type ShantenBaseInfo = {
+  remainHaiCountInfo: HaiCountInfoProp[]
+  kokushi: HaiInfoProp[]
+  mentsu: HaiInfoProp[][]
+  toitsu: HaiInfoProp[][]
+  tatsu: HaiInfoProp[][]
+  remain: HaiInfoProp[]
+  shanten: number
+  machi:  HaiInfoProp[]
+}
