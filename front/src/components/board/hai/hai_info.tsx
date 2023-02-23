@@ -272,7 +272,6 @@ import hai_4_7_6 from './p_ji_c_6.gif'
 import hai_4_7_7 from './p_ji_c_7.gif'
 import type { HaiDirectionProp, HaiSrcProp } from '../type'
 
-// ちゃんとすんのもめんどくさいのでとりあえずany
 const haiSrc: HaiSrcProp = {
   hai_1_1: {
     direction_0: hai_1_1_0,

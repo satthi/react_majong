@@ -14,25 +14,41 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
       base: [],
       naki: [],
       sutehai: [],
-      shanten: undefined
+      shanten: {
+        shanten: 99,
+        machi: [],
+        mentsuGroup: []
+      }
     },
     player1: {
       base: [],
       naki: [],
       sutehai: [],
-      shanten: undefined
+      shanten: {
+        shanten: 99,
+        machi: [],
+        mentsuGroup: []
+      }
     },
     player2: {
       base: [],
       naki: [],
       sutehai: [],
-      shanten: undefined
+      shanten: {
+        shanten: 99,
+        machi: [],
+        mentsuGroup: []
+      }
     },
     player3: {
       base: [],
       naki: [],
       sutehai: [],
-      shanten: undefined
+      shanten: {
+        shanten: 99,
+        machi: [],
+        mentsuGroup: []
+      }
     }
   }
 
@@ -47,7 +63,11 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
         base: [],
         naki: [],
         sutehai: [],
-        shanten: 99
+        shanten: {
+          shanten: 99,
+          machi: [],
+          mentsuGroup: []
+        }
       }
     }
   })
@@ -61,7 +81,11 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
         base: [],
         naki: [],
         sutehai: [],
-        shanten: 99
+        shanten: {
+          shanten: 99,
+          machi: [],
+          mentsuGroup: []
+        }
       }
     }
   })

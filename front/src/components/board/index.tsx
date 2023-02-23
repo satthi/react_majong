@@ -132,6 +132,6 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
     {/* eslint-disable-next-line */}
     <button onClick={() => execHaiOpen(haiOpen, setHaiOpen)}>open</button>
     {/* eslint-disable-next-line */}
-    <button disabled={ownPai.shanten !== -1} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</button>
+    <button disabled={ownPai.shanten.shanten !== -1} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</button>
   </>
 }

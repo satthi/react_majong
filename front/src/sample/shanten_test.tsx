@@ -1,10 +1,11 @@
 import React from 'react'
 import { BaseHaiOpen } from '../components/board/common/base_hai_open'
 import { getHaiSrc } from '../components/board/hai/hai_info'
+import type { PaiProp } from '../components/board/type'
 import { shantenBase, shantenMentsu } from '../components/game/shanten_base'
 
 export const ShantenTest = (): JSX.Element => {
-  const hai = {
+  const hai: PaiProp = {
     base: [
       // 'hai_1_1',
       // 'hai_1_1',
@@ -36,7 +37,11 @@ export const ShantenTest = (): JSX.Element => {
     ],
     naki: [],
     sutehai: [],
-    shanten: 99
+    shanten: {
+      shanten: 99,
+      machi: [],
+      mentsuGroup: []
+    }
   }
   const a = shantenBase(hai)
   const shantenMentsuData = shantenMentsu(hai)

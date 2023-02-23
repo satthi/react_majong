@@ -1,6 +1,6 @@
-import type { HaiCountInfoProp, HaiInfoProp, PaiProp, ShantenBaseInfo } from '../board/type'
+import type { HaiCountInfoProp, HaiInfoProp, PaiProp, ShantenBaseInfo, ShantenInfo } from '../board/type'
 
-export const shantenBase = (paiInfo: PaiProp): any => {
+export const shantenBase = (paiInfo: PaiProp): ShantenInfo => {
   const mentsuGroup = shantenMentsu(paiInfo)
 
   // 待ちの抽出

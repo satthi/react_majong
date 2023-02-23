@@ -9,7 +9,14 @@ export type PaiProp = {
   base: string[]
   naki: nakiPositionProp[]
   sutehai: SutehaiProp[]
-  shanten: any // 後調整
+  shanten: ShantenInfo
+}
+
+export type ShantenInfo = {
+  shanten: number
+  machi: HaiInfoProp[]
+  mentsuGroup: ShantenBaseInfo[]
+
 }
 
 type nakiPositionProp = {
