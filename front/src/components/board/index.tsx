@@ -32,106 +32,118 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
   const [haiOpen, setHaiOpen] = useState(false)
   // 表示
   return <>
-    <div className={style.board}>
-      <>
-        {/* 自陣 */}
-        {(boardStatus !== 'agari_ron_own' && boardStatus !== 'agari_tsumo_own')
-          ? <div className={style.ownPaiBaseField}>
-            <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama}shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} />
-          </div>
-          : <div className={style.ownPaiBaseField}>
-          <BaseHaiOpen base={ownPai.base} shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} />
-        </div>
-      }
-
-        {/* 鳴き */}
-        <div className={style.ownNakiField}>
-          <Naki naki={ownPai.naki} />
-        </div>
-
-        {/* 捨て牌 */}
-        <div className={style.ownSutehaiField}>
-          <Sutehai sutehai={ownPai.sutehai}/>
-        </div>
-
-        {/* player1 */}
-        {!haiOpen
-          ? <div className={style.player1PaiBaseField}>
-            <PlaterBaseHai base={player1Pai.base} />
-          </div>
-          : <div className={style.player1PaiBaseField}>
-            <BaseHaiOpen base={player1Pai.base} shanten={player1Pai.shantenInfo.shanten} machi={player1Pai.shantenInfo.machi} />
+    <div className={style.boardBase}>
+      <div className={style.board}>
+        <>
+          {/* 自陣 */}
+          {(boardStatus !== 'agari_ron_own' && boardStatus !== 'agari_tsumo_own')
+            ? <div className={style.ownPaiBaseField}>
+              <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama}shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} />
+            </div>
+            : <div className={style.ownPaiBaseField}>
+            <BaseHaiOpen base={ownPai.base} shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} />
           </div>
         }
 
-        {/* 鳴き */}
-        <div className={style.player1NakiField}>
-          <Naki naki={player1Pai.naki} />
-        </div>
-
-        {/* 捨て牌 */}
-        <div className={style.player1SutehaiField}>
-          <Sutehai sutehai={player1Pai.sutehai}/>
-        </div>
-
-        {/* player2 */}
-        {!haiOpen
-          ? <div className={style.player2PaiBaseField}>
-            <PlaterBaseHai base={player2Pai.base} />
+          {/* 鳴き */}
+          <div className={style.ownNakiField}>
+            <Naki naki={ownPai.naki} />
           </div>
-          : <div className={style.player2PaiBaseField}>
-            <BaseHaiOpen base={player2Pai.base} shanten={player2Pai.shantenInfo.shanten} machi={player2Pai.shantenInfo.machi} />
+
+          {/* 捨て牌 */}
+          <div className={style.ownSutehaiField}>
+            <Sutehai sutehai={ownPai.sutehai}/>
           </div>
-        }
 
-        {/* 鳴き */}
-        <div className={style.player2NakiField}>
-          <Naki naki={player2Pai.naki} />
-        </div>
+          {/* player1 */}
+          {!haiOpen
+            ? <div className={style.player1PaiBaseField}>
+              <PlaterBaseHai base={player1Pai.base} />
+            </div>
+            : <div className={style.player1PaiBaseField}>
+              <BaseHaiOpen base={player1Pai.base} shanten={player1Pai.shantenInfo.shanten} machi={player1Pai.shantenInfo.machi} />
+            </div>
+          }
 
-        {/* 捨て牌 */}
-        <div className={style.player2SutehaiField}>
-          <Sutehai sutehai={player2Pai.sutehai}/>
-        </div>
-
-        {/* player3 */}
-        {!haiOpen
-          ? <div className={style.player3PaiBaseField}>
-            <PlaterBaseHai base={player3Pai.base} />
+          {/* 鳴き */}
+          <div className={style.player1NakiField}>
+            <Naki naki={player1Pai.naki} />
           </div>
-          : <div className={style.player3PaiBaseField}>
-            <BaseHaiOpen base={player3Pai.base} shanten={player3Pai.shantenInfo.shanten} machi={player3Pai.shantenInfo.machi} />
+
+          {/* 捨て牌 */}
+          <div className={style.player1SutehaiField}>
+            <Sutehai sutehai={player1Pai.sutehai}/>
           </div>
-        }
 
-        {/* 鳴き */}
-        <div className={style.player3NakiField}>
-          <Naki naki={player3Pai.naki} />
-        </div>
+          {/* player2 */}
+          {!haiOpen
+            ? <div className={style.player2PaiBaseField}>
+              <PlaterBaseHai base={player2Pai.base} />
+            </div>
+            : <div className={style.player2PaiBaseField}>
+              <BaseHaiOpen base={player2Pai.base} shanten={player2Pai.shantenInfo.shanten} machi={player2Pai.shantenInfo.machi} />
+            </div>
+          }
 
-        {/* 捨て牌 */}
-        <div className={style.player3SutehaiField}>
-          <Sutehai sutehai={player3Pai.sutehai}/>
-        </div>
+          {/* 鳴き */}
+          <div className={style.player2NakiField}>
+            <Naki naki={player2Pai.naki} />
+          </div>
 
-        <div className={style.info}>
-          残り：{yama.length - 14} 枚
-          {boardStatus === 'ryukyoku' && <>流局</>}
-          {boardStatus === 'agari_tsumo_own' && <>own ツモ</>}
-          {boardStatus === 'agari_ron_own' && <>own ロン</>}
-          {boardStatus === 'agari_tsumo_player1' && <>player1 ツモ</>}
-          {boardStatus === 'agari_ron_player1' && <>player1 ロン</>}
-          {boardStatus === 'agari_tsumo_player2' && <>player2 ツモ</>}
-          {boardStatus === 'agari_ron_player2' && <>player2 ロン</>}
-          {boardStatus === 'agari_tsumo_player3' && <>player3 ツモ</>}
-          {boardStatus === 'agari_ron_player3' && <>player3 ロン</>}
-        </div>
-      </>
+          {/* 捨て牌 */}
+          <div className={style.player2SutehaiField}>
+            <Sutehai sutehai={player2Pai.sutehai}/>
+          </div>
+
+          {/* player3 */}
+          {!haiOpen
+            ? <div className={style.player3PaiBaseField}>
+              <PlaterBaseHai base={player3Pai.base} />
+            </div>
+            : <div className={style.player3PaiBaseField}>
+              <BaseHaiOpen base={player3Pai.base} shanten={player3Pai.shantenInfo.shanten} machi={player3Pai.shantenInfo.machi} />
+            </div>
+          }
+
+          {/* 鳴き */}
+          <div className={style.player3NakiField}>
+            <Naki naki={player3Pai.naki} />
+          </div>
+
+          {/* 捨て牌 */}
+          <div className={style.player3SutehaiField}>
+            <Sutehai sutehai={player3Pai.sutehai}/>
+          </div>
+
+          <div className={style.info}>
+            残り：{yama.length - 14} 枚
+            {boardStatus === 'ryukyoku' && <>流局</>}
+            {boardStatus === 'agari_tsumo_own' && <>own ツモ</>}
+            {boardStatus === 'agari_ron_own' && <>own ロン</>}
+            {boardStatus === 'agari_tsumo_player1' && <>player1 ツモ</>}
+            {boardStatus === 'agari_ron_player1' && <>player1 ロン</>}
+            {boardStatus === 'agari_tsumo_player2' && <>player2 ツモ</>}
+            {boardStatus === 'agari_ron_player2' && <>player2 ロン</>}
+            {boardStatus === 'agari_tsumo_player3' && <>player3 ツモ</>}
+            {boardStatus === 'agari_ron_player3' && <>player3 ロン</>}
+          </div>
+        </>
+      </div>
     </div>
-
-    {/* eslint-disable-next-line */}
-    <button onClick={() => execHaiOpen(haiOpen, setHaiOpen)}>open</button>
-    {/* eslint-disable-next-line */}
-    <button disabled={ownPai.shantenInfo.shanten !== -1} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</button>
+    <div className={style.controlBase}>
+      <table>
+        <tr>
+          {/* eslint-disable-next-line */}
+          {haiOpen && <td onClick={() => execHaiOpen(haiOpen, setHaiOpen)} className={style.controlRed}>牌を閉じる</td>}
+          {/* eslint-disable-next-line */}
+          {!haiOpen && <td onClick={() => execHaiOpen(haiOpen, setHaiOpen)} className={style.controlGreen}>牌を開ける</td>}
+        </tr>
+        <tr>
+          {ownPai.shantenInfo.shanten !== -1 && <td className={style.controlGray}>ツモ</td>}
+          {/* eslint-disable-next-line */}
+          {ownPai.shantenInfo.shanten === -1 && <td className={style.controlGreen} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</td>}
+        </tr>
+      </table>
+    </div>
   </>
 }

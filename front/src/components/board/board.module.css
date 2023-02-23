@@ -1,4 +1,8 @@
+.boardBase {
+    clear: both;
+}
 .board {
+    float: left;
     position: relative;
     width: 1000px;
     height: 1000px;
@@ -108,4 +112,31 @@
     top: 400px;
     left: 400px;
 
+}
+
+.controlBase {
+    float: left;
+}
+
+.controlBase td {
+    padding: 10px;
+    font-size: 2em;
+}
+
+.controlRed {
+    color: white;
+    background-color: orangered;
+    cursor: pointer;
+}
+
+.controlGreen {
+    color: white;
+    background-color: green;
+    cursor: pointer;
+}
+
+
+.controlGray {
+    background-color: gray;
+    cursor: no-drop;
 }
