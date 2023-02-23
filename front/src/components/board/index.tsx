@@ -224,27 +224,27 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           <tr>
             <>
               {/* @todo: リーチ可能かどうかの判定 */}
-              {!isReachable(ownPai) && <td className={style.controlGray}>リーチ</td>}
+              {!isReachable(ownPai, boardStatus) && <td className={style.controlGray}>リーチ</td>}
               {/* eslint-disable-next-line */}
-              {isReachable(ownPai) && reachMode && <td className={style.controlRed} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
+              {isReachable(ownPai, boardStatus) && reachMode && <td className={style.controlRed} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
               {/* eslint-disable-next-line */}
-              {isReachable(ownPai) && !reachMode && <td className={style.controlGreen} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
+              {isReachable(ownPai, boardStatus) && !reachMode && <td className={style.controlGreen} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
             </>
           </tr>
           <tr>
-            {ownPai.shantenInfo.shanten !== -1 && <td className={style.controlGray}>ツモ</td>}
+            {(ownPai.shantenInfo.shanten !== -1 || boardStatus.match(/^agari_/) !== null) && <td className={style.controlGray}>ツモ</td>}
             {/* eslint-disable-next-line */}
-            {ownPai.shantenInfo.shanten === -1 && <td className={style.controlGreen} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</td>}
+            {ownPai.shantenInfo.shanten === -1 && boardStatus.match(/^agari_/) === null && <td className={style.controlGreen} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</td>}
           </tr>
           <tr>
-            {!ownPai.nakiCheck.ron && <td className={style.controlGray}>ロン</td>}
+            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.ron) && <td className={style.controlGray}>ロン</td>}
             {/* eslint-disable-next-line */}
-            {ownPai.nakiCheck.ron && <td className={style.controlGreen} onClick={() => execOwnRon(allPai, setAllPai, boardStatus, setBoardStatus, yama)}>ロン</td>}
+            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ron) && <td className={style.controlGreen} onClick={() => execOwnRon(allPai, setAllPai, boardStatus, setBoardStatus, yama)}>ロン</td>}
           </tr>
           <tr>
-            {!ownPai.nakiCheck.ron && !ownPai.nakiCheck.pon && !ownPai.nakiCheck.ti && !ownPai.nakiCheck.kan && <td className={style.controlGray}>キャンセル</td>}
+            {(boardStatus.match(/^agari_/) !== null || (!ownPai.nakiCheck.ron && !ownPai.nakiCheck.pon && !ownPai.nakiCheck.ti && !ownPai.nakiCheck.kan)) && <td className={style.controlGray}>キャンセル</td>}
             {/* eslint-disable-next-line */}
-            {(ownPai.nakiCheck.ron || ownPai.nakiCheck.pon || ownPai.nakiCheck.ti || ownPai.nakiCheck.kan) && <td className={style.controlRed} onClick={() => execOwnCancel(allPai, setAllPai, boardStatus, setBoardStatus, yama)}>キャンセル</td>}
+            {boardStatus.match(/^agari_/) === null && ((ownPai.nakiCheck.ron || ownPai.nakiCheck.pon || ownPai.nakiCheck.ti || ownPai.nakiCheck.kan)) && <td className={style.controlRed} onClick={() => execOwnCancel(allPai, setAllPai, boardStatus, setBoardStatus, yama)}>キャンセル</td>}
           </tr>
         </tbody>
       </table>

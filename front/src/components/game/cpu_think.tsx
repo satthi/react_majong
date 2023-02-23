@@ -37,7 +37,7 @@ const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
   const shuffleShanteList = shuffle(minShantenList)
 
   // テンパイ即リーチする
-  const suteType = tenpaiSokuReach(allPai[turnUser])
+  const suteType = tenpaiSokuReach(allPai[turnUser], boardStatus)
 
   execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, suteType, ownAuto)
 }
@@ -66,8 +66,8 @@ const minShantenPick = (hai: PaiProp): ShantenListProp[] => {
   })
 }
 
-const tenpaiSokuReach = (hai: PaiProp): SuteType => {
-  return isReachable(hai) ? 'reach' : 'normal'
+const tenpaiSokuReach = (hai: PaiProp, boardStatus: string): SuteType => {
+  return isReachable(hai, boardStatus) ? 'reach' : 'normal'
 }
 
 const shuffle = ([...array]): ShantenListProp[] => {

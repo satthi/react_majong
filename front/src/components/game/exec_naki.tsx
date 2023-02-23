@@ -41,7 +41,6 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
   // ポンなど実行されたときの次の人の調整も必要
   if (ronExec) {
-    console.log('JJJ')
     return
   }
 

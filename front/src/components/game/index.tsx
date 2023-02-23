@@ -157,11 +157,6 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
       turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser, ownAuto)
     }
 
-    // 鳴き判定
-    // if (boardStatus.match(/^naki_/) !== null) {
-    //   ownNaki(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser, ownAuto)
-    // }
-
     // シャンテン判定(ひとまず全員分)
     shantenCheck(allPai, setAllPai)
   }
