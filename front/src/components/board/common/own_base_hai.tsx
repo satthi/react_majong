@@ -1,7 +1,8 @@
 import style from './base_hai.module.css'
 import { getHaiSrc } from '../hai/hai_info'
-import type { AllPaiProp, HaiInfoProp, SuteType } from '../type'
+import type { AllPaiProp, HaiInfoProp, PaiProp, SuteType } from '../type'
 import { execSuteru } from '../../game/exec_suteru'
+import { shantenBase } from '../../game/shanten_base'
 
 interface OwnBaseHaiProp {
   allPai: AllPaiProp
@@ -30,7 +31,15 @@ const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
     let suteType: SuteType = 'normal'
     // リーチモードの場合はリーチする
     if (reachMode) {
-      // @todo: その牌を切ったときにテンパイするか確認。しないときは反応なし
+      // その牌を切ったときにテンパイするか確認。しないときは反応なし
+      const checkHaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[turnUser]))
+      checkHaiInfo.base.splice(haiKey, 1)
+      const shantenInfo = shantenBase(checkHaiInfo)
+      // 切ったらテンパイが崩れる
+      if (shantenInfo.shanten !== 0) {
+        return
+      }
+
       suteType = 'reach'
       setReachMode(false)
     }
