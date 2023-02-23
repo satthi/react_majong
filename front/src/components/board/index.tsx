@@ -9,6 +9,7 @@ import { BaseHaiOpen } from './common/base_hai_open'
 import { setTsumo } from './common/set_tsumo'
 import b_1_1 from './parts/b_1_1.gif'
 import b_1_2 from './parts/b_1_2.gif'
+import { isReachable } from '../game/detection/is_reachable'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -18,15 +19,15 @@ interface BoardProp {
   yama: string[]
 }
 
-export const execHaiOpen = (haiOpen: boolean, setHaiOpen: React.Dispatch<React.SetStateAction<boolean>>): void => {
+const execHaiOpen = (haiOpen: boolean, setHaiOpen: React.Dispatch<React.SetStateAction<boolean>>): void => {
   setHaiOpen(!haiOpen)
 }
 
-export const execOwnTsumo = (allPai: AllPaiProp, setBoardStatus: React.Dispatch<React.SetStateAction<string>>): void => {
+const execOwnTsumo = (allPai: AllPaiProp, setBoardStatus: React.Dispatch<React.SetStateAction<string>>): void => {
   setTsumo(allPai, 'own', setBoardStatus)
 }
 
-export const execOwnReachMode = (reachMode: boolean, setReachMode: React.Dispatch<React.SetStateAction<boolean>>): void => {
+const execOwnReachMode = (reachMode: boolean, setReachMode: React.Dispatch<React.SetStateAction<boolean>>): void => {
   setReachMode(!reachMode)
 }
 
@@ -175,12 +176,14 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           {!haiOpen && <td onClick={() => execHaiOpen(haiOpen, setHaiOpen)} className={style.controlGreen}>牌を開ける</td>}
         </tr>
         <tr>
-          {/* @todo: リーチ可能かどうかの判定 */}
-          {ownPai.shantenInfo.shanten !== 0 && <td className={style.controlGray}>リーチ</td>}
-          {/* eslint-disable-next-line */}
-          {ownPai.shantenInfo.shanten === 0 && reachMode && <td className={style.controlRed} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
-          {/* eslint-disable-next-line */}
-          {ownPai.shantenInfo.shanten === 0 && !reachMode && <td className={style.controlGreen} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
+          <>
+            {/* @todo: リーチ可能かどうかの判定 */}
+            {!isReachable(ownPai) && <td className={style.controlGray}>リーチ</td>}
+            {/* eslint-disable-next-line */}
+            {isReachable(ownPai) && reachMode && <td className={style.controlRed} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
+            {/* eslint-disable-next-line */}
+            {isReachable(ownPai) && !reachMode && <td className={style.controlGreen} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
+          </>
         </tr>
         <tr>
           {ownPai.shantenInfo.shanten !== -1 && <td className={style.controlGray}>ツモ</td>}
