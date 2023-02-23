@@ -1,15 +1,40 @@
 import { useState } from 'react'
 import { Board } from '../board'
 import { getInitialYama } from '../board/hai/hai_info'
-import type { AllPaiProp } from '../board/type'
+import type { AllPaiProp, UserProp } from '../board/type'
 import { initialSet } from './initial_set'
 import { turn } from './turn'
 import { shantenCheck } from './shanten_check'
 
-export const Game = ({ oya, ownAuto }: { oya: string, ownAuto: boolean }): JSX.Element => {
-  const userList = ['own', 'player1', 'player2', 'player3']
+export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX.Element => {
+  const userList: UserProp[] = ['own', 'player1', 'player2', 'player3']
 
-  const initialSortPai = {} as any
+  const initialSortPai: AllPaiProp = {
+    own: {
+      base: [],
+      naki: [],
+      sutehai: [],
+      shanten: undefined
+    },
+    player1: {
+      base: [],
+      naki: [],
+      sutehai: [],
+      shanten: undefined
+    },
+    player2: {
+      base: [],
+      naki: [],
+      sutehai: [],
+      shanten: undefined
+    },
+    player3: {
+      base: [],
+      naki: [],
+      sutehai: [],
+      shanten: undefined
+    }
+  }
 
   let setSortPaiFlag = false
   userList.forEach((user) => {
@@ -41,10 +66,10 @@ export const Game = ({ oya, ownAuto }: { oya: string, ownAuto: boolean }): JSX.E
     }
   })
 
-  const [allPai, setAllPai] = useState(initialSortPai as AllPaiProp)
+  const [allPai, setAllPai] = useState(initialSortPai)
 
   // 山の設置
-  const [yama, setYama] = useState(getInitialYama() as string[])
+  const [yama, setYama] = useState(getInitialYama())
 
   const [boardStatus, setBoardStatus] = useState('initial')
 

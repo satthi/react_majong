@@ -1,15 +1,15 @@
 
-import type { AllPaiProp } from '../board/type'
+import type { AllPaiProp, UserProp } from '../board/type'
 
-export const execSuteru = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number, yama: string[]): void => {
+export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number, yama: string[]): void => {
   const suteruHai = allPai[user].base.splice(suteruKey, 1)
 
   allPai[user].base = allPai[user].base.sort() // 最後ソートして配置
   // @todo: リーチを考慮
-  allPai[user].sutehai = allPai[user].sutehai.concat({ hai: suteruHai, type: 'normal' }) // type は後で調整が必要
+  allPai[user].sutehai = allPai[user].sutehai.concat({ hai: suteruHai[0], type: 'normal' }) // type は後で調整が必要
   setAllPai(allPai)
 
-  const userKey = Object.keys(allPai).findIndex((e) => e === user)
+  const userKey = (Object.keys(allPai) as UserProp[]).findIndex((e) => e === user)
   let nextKey = userKey + 1
   if (typeof Object.keys(allPai)[nextKey] === 'undefined') {
     nextKey = 0

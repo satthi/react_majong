@@ -1,10 +1,10 @@
-import type { AllPaiProp } from '../board/type'
+import type { AllPaiProp, UserProp } from '../board/type'
 
-export const initialSet = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
+export const initialSet = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
   // とりあえず4枚ずつ配布
 
   for (let i = 1; i <= 3; i += 1) {
-    Object.keys(allPai).forEach((user: string) => {
+    (Object.keys(allPai) as UserProp[]).forEach((user) => {
       // 4マイずつ配布
       const catYama = yama.splice(0, 4)
       setYama(yama)
@@ -15,7 +15,7 @@ export const initialSet = (allPai: any, setAllPai: React.Dispatch<React.SetState
   }
 
   // 1枚ずつ配布
-  Object.keys(allPai).forEach((user: string) => {
+  (Object.keys(allPai) as UserProp[]).forEach((user) => {
     const catYama = yama.splice(0, 1)
     setYama(yama)
 

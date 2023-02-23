@@ -22,11 +22,11 @@ export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   cpuThink1(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, turnUser)
 }
 
-const cpuThink1 = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, turnUser: string): void => {
+const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, turnUser: UserProp): void => {
   // とりあえずシャンテン数が減る方向に切ってみる
   const shantenList: any[] = []
   let minShanten = 99
-  allPai[turnUser].base.forEach((_c: any, k: number) => {
+  allPai[turnUser].base.forEach((_c: string, k: number) => {
     const paiInfoCopy = JSON.parse(JSON.stringify(allPai[turnUser]))
     // 1個ずつずらしてみる
     paiInfoCopy.base.splice(k, 1)

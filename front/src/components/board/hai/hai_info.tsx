@@ -616,11 +616,11 @@ const haiSrc: HaiSrcProp = {
   }
 }
 
-export const getHaiSrc = (hai: string, direction: number): any => {
+export const getHaiSrc = (hai: string, direction: number): string => {
   return haiSrc[hai]['direction_' + String(direction) as HaiDirectionProp]
 }
 
-export const getInitialYama = (): any[] => {
+export const getInitialYama = (): string[] => {
   const haiList = Object.keys(haiSrc)
   const yama = haiList.concat(haiList).concat(haiList).concat(haiList)
 
@@ -628,7 +628,7 @@ export const getInitialYama = (): any[] => {
   return shuffle(yama)
 }
 
-const shuffle = ([...array]): any[] => {
+const shuffle = ([...array]): string[] => {
   for (let i = array.length - 1; i >= 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]]
