@@ -19,7 +19,13 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
         machi: [],
         mentsuGroup: []
       },
-      isReach: false
+      isReach: false,
+      nakiCheck: {
+        ron: false,
+        pon: false,
+        ti: false,
+        kan: false
+      }
     },
     player1: {
       base: [],
@@ -30,7 +36,13 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
         machi: [],
         mentsuGroup: []
       },
-      isReach: false
+      isReach: false,
+      nakiCheck: {
+        ron: false,
+        pon: false,
+        ti: false,
+        kan: false
+      }
     },
     player2: {
       base: [],
@@ -41,7 +53,13 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
         machi: [],
         mentsuGroup: []
       },
-      isReach: false
+      isReach: false,
+      nakiCheck: {
+        ron: false,
+        pon: false,
+        ti: false,
+        kan: false
+      }
     },
     player3: {
       base: [],
@@ -52,7 +70,13 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
         machi: [],
         mentsuGroup: []
       },
-      isReach: false
+      isReach: false,
+      nakiCheck: {
+        ron: false,
+        pon: false,
+        ti: false,
+        kan: false
+      }
     }
   }
 
@@ -72,7 +96,13 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
           machi: [],
           mentsuGroup: []
         },
-        isReach: false
+        isReach: false,
+        nakiCheck: {
+          ron: false,
+          pon: false,
+          ti: false,
+          kan: false
+        }
       }
     }
   })
@@ -91,7 +121,13 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
           machi: [],
           mentsuGroup: []
         },
-        isReach: false
+        isReach: false,
+        nakiCheck: {
+          ron: false,
+          pon: false,
+          ti: false,
+          kan: false
+        }
       }
     }
   })
@@ -120,6 +156,11 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
     if (boardStatus.match(/^turn_/) !== null) {
       turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser, ownAuto)
     }
+
+    // 鳴き判定
+    // if (boardStatus.match(/^naki_/) !== null) {
+    //   ownNaki(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser, ownAuto)
+    // }
 
     // シャンテン判定(ひとまず全員分)
     shantenCheck(allPai, setAllPai)

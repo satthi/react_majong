@@ -1,33 +1,35 @@
 
 import type { AllPaiProp, SuteType, UserProp } from '../board/type'
+import { isRonable } from './detection/is_ronable'
+import { execNaki } from './exec_naki'
 
-export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number, yama: string[], suteType: SuteType): void => {
+export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number, yama: string[], suteType: SuteType, ownAuto: boolean): void => {
   const suteruHai = allPai[user].base.splice(suteruKey, 1)
 
   allPai[user].base = allPai[user].base.sort() // 最後ソートして配置
-  // @todo: リーチを考慮
   allPai[user].sutehai = allPai[user].sutehai.concat({ hai: suteruHai[0], type: suteType }) // type は後で調整が必要
+
+  // 停止がかかった際にはいったん以下の処理はスキップ
   // リーチ情報をセット
   if (suteType === 'reach') {
     allPai[user].isReach = true
   }
-  setAllPai(allPai)
 
-  const userKey = (Object.keys(allPai) as UserProp[]).findIndex((e) => e === user)
-  let nextKey = userKey + 1
-  if (typeof Object.keys(allPai)[nextKey] === 'undefined') {
-    nextKey = 0
-  }
-
-  // @todo: ポンやチーなど
-
-  // 次の人にターンを回す
-  setTimeout(() => {
-    if (yama.length > 14) {
-      setBoardStatus('turn_' + Object.keys(allPai)[nextKey])
-    } else {
-      // 14マイに到達したら流局
-      setBoardStatus('ryukyoku')
+  // ロン/ポン/チー/カンが存在するかの確認(順番含めていったん無視が正解ぽ)
+  (Object.keys(allPai) as UserProp[]).forEach((checkUser: UserProp) => {
+    // @todo: ポン/チー/カンの制御
+    if (checkUser !== user && isRonable(allPai[checkUser], suteruHai[0])) {
+      allPai[checkUser].nakiCheck.ron = true
     }
-  }, 500)
+  })
+
+  setAllPai(allPai)
+  // 操作者に鳴きがない場合は
+  if (ownAuto || (!allPai.own.nakiCheck.ron && !allPai.own.nakiCheck.pon && !allPai.own.nakiCheck.ti && !allPai.own.nakiCheck.kan)) {
+    // 自動で判定を進めてよい
+    execNaki(allPai, setAllPai, user, setBoardStatus, yama, suteruHai[0])
+  } else {
+    // 鳴きの確認
+    setBoardStatus('naki_' + user)
+  }
 }

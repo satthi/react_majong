@@ -11,6 +11,7 @@ export type PaiProp = {
   sutehai: SutehaiProp[]
   shantenInfo: ShantenInfoProp
   isReach: boolean
+  nakiCheck: NakiCheckProp
 }
 
 export type ShantenInfoProp = {
@@ -81,3 +82,18 @@ export type ShantenBaseInfo = {
   shanten: number
   machi:  HaiInfoProp[]
 }
+
+export type AllNakiCheckProp = {
+  own: NakiCheckProp
+  player1: NakiCheckProp
+  player2: NakiCheckProp
+  player3: NakiCheckProp
+}
+
+export type NakiCheckProp = {
+  ron: boolean
+  pon: boolean
+  ti: boolean
+  kan: boolean
+}
+

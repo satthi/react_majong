@@ -17,7 +17,7 @@ export const turn = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStat
   }
 
   // 2回実行されることがあるので牌の数が足りてるときは何もしないようにする
-  if ((allPai[turnUser].base.length as number) + (allPai[turnUser].naki.length as number) * 3 >= 14) {
+  if (allPai[turnUser].base.length + allPai[turnUser].naki.length * 3 >= 14) {
     return
   }
   // 牌をツモる
@@ -35,7 +35,7 @@ export const turn = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStat
       setExecUser(turnUser)
       setBoardStatus('think_'.concat(turnUser))
     } else {
-      cpuThink(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser)
+      cpuThink(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto)
     }
   }, 250)
 }

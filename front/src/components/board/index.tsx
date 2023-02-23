@@ -1,5 +1,5 @@
 import style from './board.module.css'
-import type { AllPaiProp } from './type'
+import type { AllPaiProp, UserProp } from './type'
 import { Sutehai } from './common/sutehai'
 import { OwnBaseHai } from './common/own_base_hai'
 import { PlaterBaseHai } from './common/player_base_hai'
@@ -10,6 +10,8 @@ import { setTsumo } from './common/set_tsumo'
 import b_1_1 from './parts/b_1_1.gif'
 import b_1_2 from './parts/b_1_2.gif'
 import { isReachable } from '../game/detection/is_reachable'
+import { shantenCheck } from '../game/shanten_check'
+import { execNaki } from '../game/exec_naki'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -29,6 +31,49 @@ const execOwnTsumo = (allPai: AllPaiProp, setBoardStatus: React.Dispatch<React.S
 
 const execOwnReachMode = (reachMode: boolean, setReachMode: React.Dispatch<React.SetStateAction<boolean>>): void => {
   setReachMode(!reachMode)
+}
+
+const execOwnRon = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[]): void => {
+  // ロン牌をセットして実行
+  const nakiUserMatch = boardStatus.match(/^naki_(own|player1|player2|player3)$/)
+  // マッチしないときは何もしない
+  if (nakiUserMatch === null) {
+    return
+  }
+  const nakiUser = nakiUserMatch[1] as UserProp
+  const suteruhai = allPai[nakiUser].sutehai[allPai[nakiUser].sutehai.length - 1].hai
+
+  // ロンだけ判定をonに
+  allPai.own.nakiCheck.ron = true
+  allPai.own.nakiCheck.pon = false
+  allPai.own.nakiCheck.ti = false
+  allPai.own.nakiCheck.kan = false
+  setAllPai(allPai)
+  shantenCheck(allPai, setAllPai)
+
+  // 判定を進める
+  execNaki(allPai, setAllPai, nakiUser, setBoardStatus, yama, suteruhai)
+}
+
+const execOwnCancel = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[]): void => {
+  const nakiUserMatch = boardStatus.match(/^naki_(own|player1|player2|player3)$/)
+  // マッチしないときは何もしない
+  if (nakiUserMatch === null) {
+    return
+  }
+  const nakiUser = nakiUserMatch[1] as UserProp
+  const suteruhai = allPai[nakiUser].sutehai[allPai[nakiUser].sutehai.length - 1].hai
+
+  // ロンなどのフラグを全部offにして次のターンに
+  allPai.own.nakiCheck.ron = false
+  allPai.own.nakiCheck.pon = false
+  allPai.own.nakiCheck.ti = false
+  allPai.own.nakiCheck.kan = false
+  setAllPai(allPai)
+  shantenCheck(allPai, setAllPai)
+
+  // 判定を進める
+  execNaki(allPai, setAllPai, nakiUser, setBoardStatus, yama, suteruhai)
 }
 
 export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: BoardProp): JSX.Element => {
@@ -65,7 +110,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           </div>
 
           {/* リーチ棒 */}
-          {allPai.own.isReach === true &&
+          {allPai.own.isReach &&
             <div className={style.ownReachField}>
               <img src={b_1_2} />
             </div>
@@ -92,7 +137,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           </div>
 
           {/* リーチ棒 */}
-          {allPai.player1.isReach === true &&
+          {allPai.player1.isReach &&
             <div className={style.player1ReachField}>
               <img src={b_1_1} />
             </div>
@@ -119,7 +164,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           </div>
 
           {/* リーチ棒 */}
-          {allPai.player2.isReach === true &&
+          {allPai.player2.isReach &&
             <div className={style.player2ReachField}>
               <img src={b_1_2} />
             </div>
@@ -146,7 +191,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           </div>
 
           {/* リーチ棒 */}
-          {allPai.player3.isReach === true &&
+          {allPai.player3.isReach &&
           <div className={style.player3ReachField}>
               <img src={b_1_1} />
             </div>
@@ -169,27 +214,39 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
     </div>
     <div className={style.controlBase}>
       <table>
-        <tr>
-          {/* eslint-disable-next-line */}
-          {haiOpen && <td onClick={() => execHaiOpen(haiOpen, setHaiOpen)} className={style.controlRed}>牌を閉じる</td>}
-          {/* eslint-disable-next-line */}
-          {!haiOpen && <td onClick={() => execHaiOpen(haiOpen, setHaiOpen)} className={style.controlGreen}>牌を開ける</td>}
-        </tr>
-        <tr>
-          <>
-            {/* @todo: リーチ可能かどうかの判定 */}
-            {!isReachable(ownPai) && <td className={style.controlGray}>リーチ</td>}
+        <tbody>
+          <tr>
             {/* eslint-disable-next-line */}
-            {isReachable(ownPai) && reachMode && <td className={style.controlRed} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
+            {haiOpen && <td onClick={() => execHaiOpen(haiOpen, setHaiOpen)} className={style.controlRed}>牌を閉じる</td>}
             {/* eslint-disable-next-line */}
-            {isReachable(ownPai) && !reachMode && <td className={style.controlGreen} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
-          </>
-        </tr>
-        <tr>
-          {ownPai.shantenInfo.shanten !== -1 && <td className={style.controlGray}>ツモ</td>}
-          {/* eslint-disable-next-line */}
-          {ownPai.shantenInfo.shanten === -1 && <td className={style.controlGreen} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</td>}
-        </tr>
+            {!haiOpen && <td onClick={() => execHaiOpen(haiOpen, setHaiOpen)} className={style.controlGreen}>牌を開ける</td>}
+          </tr>
+          <tr>
+            <>
+              {/* @todo: リーチ可能かどうかの判定 */}
+              {!isReachable(ownPai) && <td className={style.controlGray}>リーチ</td>}
+              {/* eslint-disable-next-line */}
+              {isReachable(ownPai) && reachMode && <td className={style.controlRed} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
+              {/* eslint-disable-next-line */}
+              {isReachable(ownPai) && !reachMode && <td className={style.controlGreen} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
+            </>
+          </tr>
+          <tr>
+            {ownPai.shantenInfo.shanten !== -1 && <td className={style.controlGray}>ツモ</td>}
+            {/* eslint-disable-next-line */}
+            {ownPai.shantenInfo.shanten === -1 && <td className={style.controlGreen} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</td>}
+          </tr>
+          <tr>
+            {!ownPai.nakiCheck.ron && <td className={style.controlGray}>ロン</td>}
+            {/* eslint-disable-next-line */}
+            {ownPai.nakiCheck.ron && <td className={style.controlGreen} onClick={() => execOwnRon(allPai, setAllPai, boardStatus, setBoardStatus, yama)}>ロン</td>}
+          </tr>
+          <tr>
+            {!ownPai.nakiCheck.ron && !ownPai.nakiCheck.pon && !ownPai.nakiCheck.ti && !ownPai.nakiCheck.kan && <td className={style.controlGray}>キャンセル</td>}
+            {/* eslint-disable-next-line */}
+            {(ownPai.nakiCheck.ron || ownPai.nakiCheck.pon || ownPai.nakiCheck.ti || ownPai.nakiCheck.kan) && <td className={style.controlRed} onClick={() => execOwnCancel(allPai, setAllPai, boardStatus, setBoardStatus, yama)}>キャンセル</td>}
+          </tr>
+        </tbody>
       </table>
     </div>
   </>

@@ -45,11 +45,10 @@ const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
     }
 
     // リーチ時はツモ切りのみ
-    if (allPai.own.isReach === true && haiKey !== allPai.own.base.length - 1) {
+    if (allPai.own.isReach && haiKey !== allPai.own.base.length - 1) {
       return
     }
-
-    execSuteru(allPai, setAllPai, 'own', setBoardStatus, haiKey, yama, suteType)
+    execSuteru(allPai, setAllPai, 'own', boardStatus, setBoardStatus, haiKey, yama, suteType, false)
   }
 }
 

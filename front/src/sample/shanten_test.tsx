@@ -42,7 +42,13 @@ export const ShantenTest = (): JSX.Element => {
       machi: [],
       mentsuGroup: []
     },
-    isReach: false
+    isReach: false,
+    nakiCheck: {
+      ron: false,
+      pon: false,
+      ti: false,
+      kan: false
+    }
   }
   const a = shantenBase(hai)
   const shantenMentsuData = shantenMentsu(hai)
