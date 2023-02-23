@@ -37,6 +37,8 @@ export type SutehaiProp = {
   type: string
 }
 
+export type SuteType = 'normal' | 'reach'
+
 export type HaiInfoProp = {
   hai: string
   type: number

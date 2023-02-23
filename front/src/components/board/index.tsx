@@ -24,12 +24,18 @@ export const execOwnTsumo = (allPai: AllPaiProp, setBoardStatus: React.Dispatch<
   setTsumo(allPai, 'own', setBoardStatus)
 }
 
+export const execOwnReachMode = (reachMode: boolean, setReachMode: React.Dispatch<React.SetStateAction<boolean>>): void => {
+  setReachMode(!reachMode)
+}
+
 export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: BoardProp): JSX.Element => {
   const ownPai = allPai.own
   const player1Pai = allPai.player1
   const player2Pai = allPai.player2
   const player3Pai = allPai.player3
   const [haiOpen, setHaiOpen] = useState(false)
+  const [reachMode, setReachMode] = useState(false)
+
   // 表示
   return <>
     <div className={style.boardBase}>
@@ -38,7 +44,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           {/* 自陣 */}
           {(boardStatus !== 'agari_ron_own' && boardStatus !== 'agari_tsumo_own')
             ? <div className={style.ownPaiBaseField}>
-              <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama}shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} />
+              <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama}shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} reachMode={reachMode} setReachMode={setReachMode} />
             </div>
             : <div className={style.ownPaiBaseField}>
             <BaseHaiOpen base={ownPai.base} shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} />
@@ -56,7 +62,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           </div>
 
           {/* player1 */}
-          {!haiOpen
+          {(!haiOpen && boardStatus !== 'agari_ron_player1' && boardStatus !== 'agari_tsumo_player1')
             ? <div className={style.player1PaiBaseField}>
               <PlaterBaseHai base={player1Pai.base} />
             </div>
@@ -76,7 +82,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           </div>
 
           {/* player2 */}
-          {!haiOpen
+          {(!haiOpen && boardStatus !== 'agari_ron_player2' && boardStatus !== 'agari_tsumo_player2')
             ? <div className={style.player2PaiBaseField}>
               <PlaterBaseHai base={player2Pai.base} />
             </div>
@@ -96,7 +102,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           </div>
 
           {/* player3 */}
-          {!haiOpen
+          {(!haiOpen && boardStatus !== 'agari_ron_player3' && boardStatus !== 'agari_tsumo_player3')
             ? <div className={style.player3PaiBaseField}>
               <PlaterBaseHai base={player3Pai.base} />
             </div>
@@ -137,6 +143,14 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           {haiOpen && <td onClick={() => execHaiOpen(haiOpen, setHaiOpen)} className={style.controlRed}>牌を閉じる</td>}
           {/* eslint-disable-next-line */}
           {!haiOpen && <td onClick={() => execHaiOpen(haiOpen, setHaiOpen)} className={style.controlGreen}>牌を開ける</td>}
+        </tr>
+        <tr>
+          {/* @todo: リーチ可能かどうかの判定 */}
+          {ownPai.shantenInfo.shanten !== 0 && <td className={style.controlGray}>リーチ</td>}
+          {/* eslint-disable-next-line */}
+          {ownPai.shantenInfo.shanten === 0 && reachMode && <td className={style.controlRed} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
+          {/* eslint-disable-next-line */}
+          {ownPai.shantenInfo.shanten === 0 && !reachMode && <td className={style.controlGreen} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
         </tr>
         <tr>
           {ownPai.shantenInfo.shanten !== -1 && <td className={style.controlGray}>ツモ</td>}

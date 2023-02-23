@@ -49,7 +49,8 @@ const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
   const shuffleShanteList = shuffle(minShantenList)
 
   // ひとまず自摸切りしておく
-  execSuteru(allPai, setAllPai, turnUser, setBoardStatus, shuffleShanteList[0].key, yama)
+  // @todo: リーチについての考慮
+  execSuteru(allPai, setAllPai, turnUser, setBoardStatus, shuffleShanteList[0].key, yama, 'normal')
 
   setExecUser(turnUser)
 }
