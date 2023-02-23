@@ -10,6 +10,7 @@ export type PaiProp = {
   naki: nakiPositionProp[]
   sutehai: SutehaiProp[]
   shantenInfo: ShantenInfoProp
+  isReach: boolean
 }
 
 export type ShantenInfoProp = {

@@ -41,7 +41,8 @@ export const ShantenTest = (): JSX.Element => {
       shanten: 99,
       machi: [],
       mentsuGroup: []
-    }
+    },
+    isReach: false
   }
   const a = shantenBase(hai)
   const shantenMentsuData = shantenMentsu(hai)

@@ -643,6 +643,8 @@ export const getInitialYama = (): string[] => {
   return yama
 }
 
+// @todo: チート未起動時は不要にはなる
+// eslint-disable-next-line
 const shuffle = ([...array]): string[] => {
   for (let i = array.length - 1; i >= 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

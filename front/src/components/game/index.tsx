@@ -18,7 +18,8 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
         shanten: 99,
         machi: [],
         mentsuGroup: []
-      }
+      },
+      isReach: false
     },
     player1: {
       base: [],
@@ -28,7 +29,8 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
         shanten: 99,
         machi: [],
         mentsuGroup: []
-      }
+      },
+      isReach: false
     },
     player2: {
       base: [],
@@ -38,7 +40,8 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
         shanten: 99,
         machi: [],
         mentsuGroup: []
-      }
+      },
+      isReach: false
     },
     player3: {
       base: [],
@@ -48,7 +51,8 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
         shanten: 99,
         machi: [],
         mentsuGroup: []
-      }
+      },
+      isReach: false
     }
   }
 
@@ -67,7 +71,8 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
           shanten: 99,
           machi: [],
           mentsuGroup: []
-        }
+        },
+        isReach: false
       }
     }
   })
@@ -85,7 +90,8 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
           shanten: 99,
           machi: [],
           mentsuGroup: []
-        }
+        },
+        isReach: false
       }
     }
   })

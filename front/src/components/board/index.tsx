@@ -7,6 +7,8 @@ import { Naki } from './common/naki'
 import { useState } from 'react'
 import { BaseHaiOpen } from './common/base_hai_open'
 import { setTsumo } from './common/set_tsumo'
+import b_1_1 from './parts/b_1_1.gif'
+import b_1_2 from './parts/b_1_2.gif'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -61,6 +63,13 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <Sutehai sutehai={ownPai.sutehai}/>
           </div>
 
+          {/* リーチ棒 */}
+          {allPai.own.isReach === true &&
+            <div className={style.ownReachField}>
+              <img src={b_1_2} />
+            </div>
+          }
+
           {/* player1 */}
           {(!haiOpen && boardStatus !== 'agari_ron_player1' && boardStatus !== 'agari_tsumo_player1')
             ? <div className={style.player1PaiBaseField}>
@@ -80,6 +89,13 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           <div className={style.player1SutehaiField}>
             <Sutehai sutehai={player1Pai.sutehai}/>
           </div>
+
+          {/* リーチ棒 */}
+          {allPai.player1.isReach === true &&
+            <div className={style.player1ReachField}>
+              <img src={b_1_1} />
+            </div>
+          }
 
           {/* player2 */}
           {(!haiOpen && boardStatus !== 'agari_ron_player2' && boardStatus !== 'agari_tsumo_player2')
@@ -101,6 +117,13 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <Sutehai sutehai={player2Pai.sutehai}/>
           </div>
 
+          {/* リーチ棒 */}
+          {allPai.player2.isReach === true &&
+            <div className={style.player2ReachField}>
+              <img src={b_1_2} />
+            </div>
+          }
+
           {/* player3 */}
           {(!haiOpen && boardStatus !== 'agari_ron_player3' && boardStatus !== 'agari_tsumo_player3')
             ? <div className={style.player3PaiBaseField}>
@@ -120,6 +143,13 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           <div className={style.player3SutehaiField}>
             <Sutehai sutehai={player3Pai.sutehai}/>
           </div>
+
+          {/* リーチ棒 */}
+          {allPai.player3.isReach === true &&
+          <div className={style.player3ReachField}>
+              <img src={b_1_1} />
+            </div>
+          }
 
           <div className={style.info}>
             残り：{yama.length - 14} 枚

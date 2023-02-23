@@ -7,6 +7,10 @@ export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
   allPai[user].base = allPai[user].base.sort() // 最後ソートして配置
   // @todo: リーチを考慮
   allPai[user].sutehai = allPai[user].sutehai.concat({ hai: suteruHai[0], type: suteType }) // type は後で調整が必要
+  // リーチ情報をセット
+  if (suteType === 'reach') {
+    allPai[user].isReach = true
+  }
   setAllPai(allPai)
 
   const userKey = (Object.keys(allPai) as UserProp[]).findIndex((e) => e === user)
