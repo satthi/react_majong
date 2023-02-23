@@ -52,37 +52,37 @@ export const ShantenTest = (): JSX.Element => {
     </div>
 
     <div style={{ position: 'absolute', top: '200px' }}>
-      {shantenMentsuData.map((b: any, bi: number) => {
+      {shantenMentsuData.map((b, bi) => {
         return <div style={{ clear: 'both' }} key={bi}>
-          {b.mentsu.map((c: any, ci: number) => {
+          {b.mentsu.map((c, ci) => {
             return <div style={{ border: ' 3px solid #000', float: 'left' }} key={ci} >
-              {c.map((cmentsugroup: any, cmentsugroupI: number) => {
+              {c.map((cmentsugroup, cmentsugroupI) => {
                 return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroupI} />
               })}
             </div>
           })}
-          {b.toitsu.map((c: any, ci: number) => {
+          {b.toitsu.map((c, ci) => {
             return <div style={{ border: '3px solid #000', float: 'left' }} key={ci} >
-              {c.map((cmentsugroup: any, cmentsugroupI: number) => {
+              {c.map((cmentsugroup, cmentsugroupI) => {
                 return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroupI} />
               })}
             </div>
           })}
-          {b.tatsu.map((c: any, ci: number) => {
+          {b.tatsu.map((c, ci) => {
             return <div style={{ border: '3px solid #000', float: 'left' }} key={ci} >
-              {c.map((cmentsugroup: any, cmentsugroupI: number) => {
+              {c.map((cmentsugroup, cmentsugroupI) => {
                 return <img src={getHaiSrc(cmentsugroup.hai, 1)} key={cmentsugroupI} />
               })}
             </div>
           })}
           {b.kokushi.length > 0 &&
             <div style={{ border: '3px solid #000', float: 'left' }}>
-              {b.kokushi.map((c: any, ci: number) => {
+              {b.kokushi.map((c, ci) => {
                 return <img src={getHaiSrc(c.hai, 1)} key={ci} />
               })}
             </div>
           }
-          {b.remainHaiCountInfo.map((c: any) => {
+          {b.remainHaiCountInfo.map((c) => {
             return [...Array(c.count)].map((x) => {
               return <div style={{ border: '3px solid #000', float: 'left' }} key={x} ><img src={getHaiSrc(c.hai, 1)} /></div>
             })

@@ -18,6 +18,11 @@ export type ShantenInfoProp = {
   mentsuGroup: ShantenBaseInfo[]
 }
 
+export type ShantenListProp = {
+  key: number
+  shantenInfo: ShantenInfoProp
+}
+
 type nakiPositionProp = {
   type: string
   key: {

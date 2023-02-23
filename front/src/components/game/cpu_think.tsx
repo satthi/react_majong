@@ -1,5 +1,5 @@
 import { setTsumo } from '../board/common/set_tsumo'
-import type { AllPaiProp, UserProp } from '../board/type'
+import type { AllPaiProp, PaiProp, ShantenListProp, UserProp } from '../board/type'
 import { execSuteru } from './exec_suteru'
 import { shantenBase } from './shanten_base'
 
@@ -13,7 +13,7 @@ export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   const turnUser = turnUserMatch[1] as UserProp
 
   // 上がり
-  if (allPai[turnUser].shanten.shanten === -1) {
+  if (allPai[turnUser].shantenInfo.shanten === -1) {
     setTsumo(allPai, turnUser, setBoardStatus)
     return
   }
@@ -24,25 +24,25 @@ export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
 const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, turnUser: UserProp): void => {
   // とりあえずシャンテン数が減る方向に切ってみる
-  const shantenList: any[] = []
+  const shantenList: ShantenListProp[] = []
   let minShanten = 99
   allPai[turnUser].base.forEach((_c: string, k: number) => {
-    const paiInfoCopy = JSON.parse(JSON.stringify(allPai[turnUser]))
+    const paiInfoCopy: PaiProp = JSON.parse(JSON.stringify(allPai[turnUser]))
     // 1個ずつずらしてみる
     paiInfoCopy.base.splice(k, 1)
 
-    const shanten = shantenBase(paiInfoCopy)
+    const shantenInfo = shantenBase(paiInfoCopy)
     shantenList.push({
       key: k,
-      shanten
+      shantenInfo
     })
-    if (minShanten > shanten.shanten) {
-      minShanten = shanten.shanten
+    if (minShanten > shantenInfo.shanten) {
+      minShanten = shantenInfo.shanten
     }
   })
 
   const minShantenList = shantenList.filter((s) => {
-    return s.shanten.shanten === minShanten
+    return s.shantenInfo.shanten === minShanten
   })
 
   // シャンテン数が少ないものをランダムで切るようにする
@@ -54,7 +54,7 @@ const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
   setExecUser(turnUser)
 }
 
-const shuffle = ([...array]): any[] => {
+const shuffle = ([...array]): ShantenListProp[] => {
   for (let i = array.length - 1; i >= 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]]

@@ -317,7 +317,7 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
   // 国士セットを別に追加する
   // @todo: 鳴きがあるときはセット不要
   let kokushiToitsuSet = false
-  let toitsuInfo: any = []
+  let toitsuInfo: HaiInfoProp[] = []
   const copyhaiCountInfo = JSON.parse(JSON.stringify(haiCountInfo))
   haiCountInfo.forEach((h, k) => {
     if (h.count > 0 && (h.num === 1 || h.num === 9 || h.type === 4)) {
@@ -482,7 +482,7 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
 
       // 単騎/七対子
       if (c.mentsu.length === 4 || c.toitsu.length === 6) {
-        c.remainHaiCountInfo.forEach((r: any) => {
+        c.remainHaiCountInfo.forEach((r) => {
           if (r.count === 1) {
             shantenComplete[k].machi = [{
               hai: 'hai_' + String(r.type) + '_' + String(r.num),
