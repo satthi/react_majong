@@ -37,7 +37,7 @@ export const ShantenTest = (): JSX.Element => {
     ],
     naki: [],
     sutehai: [],
-    shanten: {
+    shantenInfo: {
       shanten: 99,
       machi: [],
       mentsuGroup: []

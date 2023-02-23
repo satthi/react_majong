@@ -37,10 +37,10 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
         {/* 自陣 */}
         {(boardStatus !== 'agari_ron_own' && boardStatus !== 'agari_tsumo_own')
           ? <div className={style.ownPaiBaseField}>
-            <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama}shanten={ownPai.shanten.shanten} machi={ownPai.shanten.machi} />
+            <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama}shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} />
           </div>
           : <div className={style.ownPaiBaseField}>
-          <BaseHaiOpen base={ownPai.base} shanten={ownPai.shanten.shanten} machi={ownPai.shanten.machi} />
+          <BaseHaiOpen base={ownPai.base} shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} />
         </div>
       }
 
@@ -60,7 +60,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <PlaterBaseHai base={player1Pai.base} />
           </div>
           : <div className={style.player1PaiBaseField}>
-            <BaseHaiOpen base={player1Pai.base} shanten={player1Pai.shanten.shanten} machi={player1Pai.shanten.machi} />
+            <BaseHaiOpen base={player1Pai.base} shanten={player1Pai.shantenInfo.shanten} machi={player1Pai.shantenInfo.machi} />
           </div>
         }
 
@@ -80,7 +80,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <PlaterBaseHai base={player2Pai.base} />
           </div>
           : <div className={style.player2PaiBaseField}>
-            <BaseHaiOpen base={player2Pai.base} shanten={player2Pai.shanten.shanten} machi={player2Pai.shanten.machi} />
+            <BaseHaiOpen base={player2Pai.base} shanten={player2Pai.shantenInfo.shanten} machi={player2Pai.shantenInfo.machi} />
           </div>
         }
 
@@ -100,7 +100,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             <PlaterBaseHai base={player3Pai.base} />
           </div>
           : <div className={style.player3PaiBaseField}>
-            <BaseHaiOpen base={player3Pai.base} shanten={player3Pai.shanten.shanten} machi={player3Pai.shanten.machi} />
+            <BaseHaiOpen base={player3Pai.base} shanten={player3Pai.shantenInfo.shanten} machi={player3Pai.shantenInfo.machi} />
           </div>
         }
 
@@ -132,6 +132,6 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
     {/* eslint-disable-next-line */}
     <button onClick={() => execHaiOpen(haiOpen, setHaiOpen)}>open</button>
     {/* eslint-disable-next-line */}
-    <button disabled={ownPai.shanten.shanten !== -1} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</button>
+    <button disabled={ownPai.shantenInfo.shanten !== -1} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</button>
   </>
 }
