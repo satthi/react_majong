@@ -270,9 +270,10 @@ import hai_4_7_4 from './p_ji_c_4.gif'
 import hai_4_7_5 from './p_ji_c_5.gif'
 import hai_4_7_6 from './p_ji_c_6.gif'
 import hai_4_7_7 from './p_ji_c_7.gif'
+import type { HaiDirectionProp, HaiSrcProp } from '../type'
 
 // ちゃんとすんのもめんどくさいのでとりあえずany
-const haiSrc: any = {
+const haiSrc: HaiSrcProp = {
   hai_1_1: {
     direction_0: hai_1_1_0,
     direction_1: hai_1_1_1,
@@ -616,7 +617,7 @@ const haiSrc: any = {
 }
 
 export const getHaiSrc = (hai: string, direction: number): any => {
-  return haiSrc[hai]['direction_' + String(direction)]
+  return haiSrc[hai]['direction_' + String(direction) as HaiDirectionProp]
 }
 
 export const getInitialYama = (): any[] => {

@@ -1,16 +1,16 @@
 import { setTsumo } from '../board/common/set_tsumo'
-import type { AllPaiProp } from '../board/type'
+import type { AllPaiProp, UserProp } from '../board/type'
 import { execSuteru } from './exec_suteru'
 import { shantenBase } from './shanten_base'
 
-export const cpuThink = (allPai: any, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
+export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
   const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (turnUserMatch === null) {
     return
   }
 
-  const turnUser = turnUserMatch[1]
+  const turnUser = turnUserMatch[1] as UserProp
 
   // 上がり
   if (allPai[turnUser].shanten.shanten === -1) {
