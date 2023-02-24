@@ -50,7 +50,7 @@
 .player1SutehaiField {
     position: absolute;
     top: 380px;
-    left: 590px;
+    left: 640px;
     width: 210px;
     height: 210px;
     transform:rotate(-90deg);
@@ -67,7 +67,7 @@
 .player1ReachField {
     position: absolute;
     top: 430px;
-    left: 570px;
+    left: 620px;
 }
 
 /* player2 */
@@ -135,10 +135,10 @@
 }
 
 .info {
-    position: absolute;
-    width:200px;
+    position: relative;
+    width:240px;
     top: 400px;
-    left: 400px;
+    left: 380px;
 
 }
 

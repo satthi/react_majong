@@ -1,0 +1,14 @@
+.gedan {
+    position: absolute;
+    top: 80px;
+}
+
+.jodan {
+    position: absolute;
+    top: 64px;
+}
+
+.gedanReach {
+    position: absolute;
+    top: 130px;
+}

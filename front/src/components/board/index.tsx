@@ -12,6 +12,8 @@ import b_1_2 from './parts/b_1_2.gif'
 import { isReachable } from '../game/detection/is_reachable'
 import { shantenCheck } from '../game/shanten_check'
 import { execNaki } from '../game/exec_naki'
+import { DoraNormal } from './common/dora_normal'
+import { DoraReach } from './common/dora_reach'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -212,6 +214,27 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             {boardStatus === 'agari_ron_player2' && <>player2 ロン</>}
             {boardStatus === 'agari_tsumo_player3' && <>player3 ツモ</>}
             {boardStatus === 'agari_ron_player3' && <>player3 ロン</>}
+            {/* ドラ */}
+            <div className={style.doraField}>
+              {
+                (
+                  (
+                    (boardStatus === 'agari_tsumo_own' || boardStatus === 'agari_ron_own') && allPai.own.isReach
+                  ) ||
+                  (
+                    (boardStatus === 'agari_tsumo_player1' || boardStatus === 'agari_ron_player1') && allPai.player1.isReach
+                  ) ||
+                  (
+                    (boardStatus === 'agari_tsumo_player2' || boardStatus === 'agari_ron_player2') && allPai.player2.isReach
+                  ) ||
+                  (
+                    (boardStatus === 'agari_tsumo_player3' || boardStatus === 'agari_ron_player3') && allPai.player3.isReach
+                  )
+                )
+                  ? <DoraReach yama={yama} />
+                  : <DoraNormal yama={yama} />
+              }
+            </div>
           </div>
         </>
       </div>
