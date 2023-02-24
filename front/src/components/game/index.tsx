@@ -173,9 +173,6 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
     if (boardStatus.match(/^turn_/) !== null) {
       turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser, ownAuto, bakaze)
     }
-
-    // シャンテン判定(ひとまず全員分)
-    // shantenCheck(allPai, setAllPai, bakaze)
   }
 
   return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} />

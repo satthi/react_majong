@@ -2,6 +2,7 @@
 import type { AllPaiProp, SuteType, UserProp } from '../board/type'
 import { isRonable } from './detection/is_ronable'
 import { execNaki } from './exec_naki'
+import { shantenCheck } from './shanten_check'
 
 export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number, yama: string[], suteType: SuteType, ownAuto: boolean, bakaze: number): void => {
   const suteruHai = allPai[user].base.splice(suteruKey, 1)
@@ -24,6 +25,8 @@ export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
   })
 
   setAllPai(allPai)
+  shantenCheck(allPai, setAllPai, yama, bakaze, user)
+
   // 操作者に鳴きがない場合は
   // eslint-disable-next-line
   if (ownAuto || (!allPai.own.nakiCheck.ron && !allPai.own.nakiCheck.pon && !allPai.own.nakiCheck.ti && !allPai.own.nakiCheck.kan)) {

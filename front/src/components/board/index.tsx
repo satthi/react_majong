@@ -85,10 +85,6 @@ const execOwnCancel = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
 }
 
 const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, yama: string[]): string => {
-  // console.log(boardStatus)
-  // console.log(allPai)
-  // console.log(bakaze)
-  // console.log(yama)
   const agariMatch = boardStatus.match(/^agari_(tsumo|ron)_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (agariMatch === null) {
@@ -100,7 +96,6 @@ const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: numbe
 
   // 上がり情報の内訳取得
   const agariPaiInfo = allPai[agariUser]
-  console.log(agariPaiInfo)
 
   const checkHaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[agariUser]))
   const agariHai = checkHaiInfo.base.splice(checkHaiInfo.base.length - 1, 1)
@@ -129,12 +124,60 @@ const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: numbe
     })
   })
 
+  // ここにドラ判定を追加する
+  // @todo: カンドラ
+  let omoteDoraCount = 0
+  let uraDoraCount = 0
+  const omoteDora = getDora(yama[yama.length - 6])
+  let uraDora = ''
+  if (agariPaiInfo.isReach) {
+    uraDora = getDora(yama[yama.length - 5])
+  }
+  // @todo: 鳴いた牌のドラ判定
+  agariPaiInfo.base.forEach((b) => {
+    if (b === omoteDora) {
+      omoteDoraCount++
+    }
+    if (b === uraDora) {
+      uraDoraCount++
+    }
+  })
+
+  agariInfo.han += omoteDoraCount + uraDoraCount
+  if (omoteDoraCount > 0) {
+    agariInfo.yakuList.push('ドラ' + String(omoteDoraCount))
+  }
+  if (uraDoraCount > 0) {
+    agariInfo.yakuList.push('裏ドラ' + String(uraDoraCount))
+  }
+
   let agariString = ''
   agariString += '上がり: ' + agariUser + '/' + agariStatus + '<br />'
   agariString += String(agariInfo.fu) + '符' + String(agariInfo.han) + '翻<br />'
   agariString += agariInfo.yakuList.join('<br />')
 
   return agariString
+}
+
+const getDora = (doraHyojiText: string): string => {
+  const omoteDoraMatch = doraHyojiText.match(/^hai_([1-4])_([1-9])$/)
+  // matchしないことはないはずなんだけどね
+  if (omoteDoraMatch === null) {
+    return ''
+  }
+  const doraType = Number(omoteDoraMatch[1])
+  let doraNum = Number(omoteDoraMatch[2]) + 1
+  // 数字牌が9の次は1
+  if ((doraType === 1 || doraType === 2 || doraType === 3) && doraNum === 10) {
+    doraNum = 1
+  } else if (doraType === 4 && doraNum === 5) {
+    // 北の次は東
+    doraNum = 1
+  } else if (doraType === 4 && doraNum === 8) {
+    // 中の次は白
+    doraNum = 5
+  }
+  return 'hai_' + String(doraType) + '_' + String(doraNum)
 }
 
 export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, bakaze, kyoku, hon, reach }: BoardProp): JSX.Element => {
