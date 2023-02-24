@@ -1,4 +1,4 @@
-import type { ColorFlagProp, ColorTypeProp, HaiInfoProp, PaiProp, ShantenBaseInfo } from '../../board/type'
+import type { ColorFlagProp, ColorTypeProp, HaiInfoProp, IkkiTsukanFlagProp, IkkiTsukanTypeProp, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
 
 // ダブルリーチチェック
@@ -240,6 +240,58 @@ export const sanshokuDoukokuCheck = (shantenInfo: ShantenBaseInfo, machiHai: Hai
   })
 
   return sanshokuFlag
+}
+
+// 三暗刻(ツモ)
+export const sanankoCheck = (shantenInfo: ShantenBaseInfo, isTsumo: boolean): boolean => {
+  let ankoCount = 0
+  shantenInfo.mentsu.forEach((m) => {
+    if (m[0].num === m[1].num) {
+      ankoCount++
+    }
+  })
+
+  // 自模ったときは暗刻扱い
+  if (isTsumo && shantenInfo.toitsu.length === 2) {
+    ankoCount++
+  }
+
+  return ankoCount === 3
+}
+
+export const ikkitsukanCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+  let ikkitsukanFlag = false
+  shantenInfo.mentsu.forEach((m1, m1Key) => {
+    if (m1[0].num !== m1[1].num && (m1[0].num === 1 || m1[0].num === 4 || m1[0].num === 7)) {
+      // 自身が順子前提
+      const ikkiTsukanCheck: IkkiTsukanFlagProp = {
+        num_1: false,
+        num_4: false,
+        num_7: false
+      }
+      ikkiTsukanCheck['num_' + String(m1[0].num) as IkkiTsukanTypeProp] = true
+      shantenInfo.mentsu.forEach((m2, m2Key) => {
+        // 順子で一通に使えるパーツで同じ色
+        if (m2[0].num !== m2[1].num && (m2[0].num === 1 || m2[0].num === 4 || m2[0].num === 7) && m1[0].type === m2[0].type) {
+          ikkiTsukanCheck['num_' + String(m2[0].num) as IkkiTsukanTypeProp] = true
+        }
+      })
+
+      // ターツがあるときは面とにして一緒に比較
+      if (shantenInfo.tatsu.length > 0) {
+        const kariMentsu = makeKariMentsu(shantenInfo.tatsu[0], machiHai)
+        if ((kariMentsu[0].num === 1 || kariMentsu[0].num === 4 || kariMentsu[0].num === 7) && m1[0].type === kariMentsu[0].type) {
+          ikkiTsukanCheck['num_' + String(kariMentsu[0].num) as IkkiTsukanTypeProp] = true
+        }
+      }
+      // 3セットそろっていれば一気通貫
+      if (ikkiTsukanCheck.num_1 === true && ikkiTsukanCheck.num_4 === true && ikkiTsukanCheck.num_7 === true) {
+        ikkitsukanFlag = true
+      }
+    }
+  })
+
+  return ikkitsukanFlag
 }
 
 // 一九字牌の判定

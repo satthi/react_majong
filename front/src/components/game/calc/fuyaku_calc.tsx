@@ -1,6 +1,6 @@
 import type { HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
-import { doubleReachCheck, haiteiCheck, ipekoCheck, ippatsuCheck, pinfuCheck, reachCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, tanyaoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
+import { doubleReachCheck, haiteiCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, pinfuCheck, reachCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, tanyaoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
 export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): MachiTensuInfo => {
   // テンパイ以外は計算しない
@@ -231,6 +231,32 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     tsumoYakuList.push('三色同刻')
     ronYakuList.push('三色同刻')
   }
+
+  // 三暗刻(ツモとロンを別ロジックにする)
+  if (sanankoCheck(shantenInfo, true)) {
+    tsumoYaku += 2
+    tsumoYakuList.push('三暗刻')
+  }
+
+  if (sanankoCheck(shantenInfo, false)) {
+    ronYaku += 2
+    ronYakuList.push('三暗刻')
+  }
+
+  // 一気通貫
+  if (ikkitsukanCheck(shantenInfo, machiHai)) {
+    // 食い下がりあり
+    if (isMemzen(paiInfo)) {
+      tsumoYaku += 2
+      ronYaku += 2
+    } else {
+      tsumoYaku += 1
+      ronYaku += 1
+    }
+    tsumoYakuList.push('一気通貫')
+    ronYakuList.push('一気通貫')
+  }
+
 
   return [tsumoYaku, ronYaku, tsumoYakuList, ronYakuList]
 }

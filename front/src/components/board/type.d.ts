@@ -121,5 +121,12 @@ export type ColorFlagProp = {
   type_3: boolean
   type_4: boolean
 }
-
 export type ColorTypeProp = 'type_1' | 'type_2' | 'type_3' | 'type_4'
+
+export type IkkiTsukanFlagProp = {
+  num_1: boolean
+  num_4: boolean
+  num_7: boolean
+}
+
+export type IkkiTsukanTypeProp = 'num_1' | 'num_4' | 'num_7'
