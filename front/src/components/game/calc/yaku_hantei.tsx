@@ -384,6 +384,73 @@ export const honrotoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp
   return honrotoFlag
 }
 
+export const ryanpekoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
+  // 面前
+  if (!isMemzen(paiInfo)) {
+    return false
+  }
+
+  // 全部順子前提
+  let shuntsuCheck = true
+  shantenInfo.mentsu.forEach((m) => {
+    if (m[0].hai === m[1].hai) {
+      shuntsuCheck = false
+    }
+  })
+
+  if (shantenInfo.toitsu.length >= 2) {
+    shuntsuCheck = false
+  }
+
+  if (!shuntsuCheck) {
+    return false
+  }
+
+  const shuntsuList: HaiInfoProp[][] = JSON.parse(JSON.stringify(shantenInfo.mentsu))
+  if (shantenInfo.tatsu.length === 1) {
+    const kariMentsu = makeKariMentsu(shantenInfo.tatsu[0], machiHai)
+    shuntsuList.push(kariMentsu)
+  }
+
+  // 力技で・・・ｗ
+  return (shuntsuList[0][0].hai === shuntsuList[1][0].hai && shuntsuList[2][0].hai === shuntsuList[3][0].hai) ||
+    (shuntsuList[0][0].hai === shuntsuList[2][0].hai && shuntsuList[1][0].hai === shuntsuList[3][0].hai) ||
+    (shuntsuList[0][0].hai === shuntsuList[3][0].hai && shuntsuList[1][0].hai === shuntsuList[2][0].hai)
+}
+
+
+export const junchantaCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+  let chantaFlag = true
+  shantenInfo.mentsu.forEach((m) => {
+    // 数字で並べた一番小さいものが1でも大きいものが9でもない
+    if (m[0].type === 4 || (m[0].num !== 1 && m[2].num !== 9)) {
+      chantaFlag = false
+    }
+  })
+  shantenInfo.toitsu.forEach((m) => {
+    // 1/9でもない
+    if (m[0].type === 4 && (m[0].num !== 1 && m[0].num !== 9)) {
+      chantaFlag = false
+    }
+  })
+
+  // ターツがあるときは面とにして一緒に比較
+  if (shantenInfo.tatsu.length > 0) {
+    const kariMentsu = makeKariMentsu(shantenInfo.tatsu[0], machiHai)
+    if (kariMentsu[0].type === 4 || (kariMentsu[0].num !== 1 && kariMentsu[2].num !== 9)) {
+      chantaFlag = false
+    }
+  }
+
+  // 単騎のパターン
+  shantenInfo.remainHaiCountInfo.forEach((r) => {
+    if (r.count > 0 && (r.type === 4 || (r.num !== 1 && r.num !== 9))) {
+      chantaFlag = false
+    }
+  })
+  return chantaFlag
+}
+
 // 一九字牌の判定
 const isYaochu = (hai: HaiInfoProp): boolean => {
   return hai.type === 4 || hai.num === 1 || hai.num === 9
