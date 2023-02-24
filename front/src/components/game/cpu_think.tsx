@@ -139,7 +139,6 @@ const minShantenPick = (hai: PaiProp, yama: string[], bakaze: number): ShantenLi
     // 1個ずつずらしてみる
     paiInfoCopy.base.splice(k, 1)
 
-    console.log('DDD')
     const shantenInfo = shantenBase(paiInfoCopy, yama, bakaze, hai.jikaze)
     shantenList.push({
       key: k,

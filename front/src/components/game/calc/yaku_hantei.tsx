@@ -459,8 +459,6 @@ export const chinitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
       if (isshokuColor === 0) {
         isshokuColor = h.type
       } else if (isshokuColor !== h.type) {
-        console.log(isshokuColor)
-        console.log(h.type)
         chinitsuFlag = false
       }
     }
