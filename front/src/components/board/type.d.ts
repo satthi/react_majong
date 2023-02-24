@@ -49,13 +49,18 @@ export type HaiInfoProp = {
 
 export type MachiInfoProp = {
   haiInfo: HaiInfoProp
+  tensu: MachiTensuInfo
+}
+
+export type MachiTensuInfo = {
   ron: TensuInfoProp
-  tsumo: TensuInfoProp
+  tsumo: TensuInfoProp  
 }
 
 export type TensuInfoProp = {
   fu: number
   han: number
+  yakuman: number
 }
 
 export type HaiCountInfoProp = {

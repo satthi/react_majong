@@ -1,4 +1,5 @@
 import type { HaiCountInfoProp, HaiInfoProp, MachiInfoProp, PaiProp, ShantenBaseInfo, ShantenInfoProp } from '../board/type'
+import { fuyakuCalc } from './fuyaku_calc'
 
 export const shantenBase = (paiInfo: PaiProp): ShantenInfoProp => {
   const mentsuGroup = shantenMentsu(paiInfo)
@@ -442,14 +443,7 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
               num: c.tatsu[0][0].num + 1
             },
             // @todo: 点数計算
-            ron: {
-              fu: 0,
-              han: 0
-            },
-            tsumo: {
-              fu: 0,
-              han: 0
-            }
+            tensu: fuyakuCalc()
           }]
         }
         // 両面（ペンチャン込み)
@@ -465,14 +459,7 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
                 num: c.tatsu[0][0].num - 1
               },
               // @todo: 点数計算
-              ron: {
-                fu: 0,
-                han: 0
-              },
-              tsumo: {
-                fu: 0,
-                han: 0
-              }
+              tensu: fuyakuCalc()
             })
           }
           if (c.tatsu[0][0].num !== 8) {
@@ -485,14 +472,7 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
                 num: c.tatsu[0][0].num + 2
               },
               // @todo: 点数計算
-              ron: {
-                fu: 0,
-                han: 0
-              },
-              tsumo: {
-                fu: 0,
-                han: 0
-              }
+              tensu: fuyakuCalc()
             })
           }
           shantenComplete[k].machi = ryomen
@@ -508,14 +488,7 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
             num: c.toitsu[0][0].num
           },
           // @todo: 点数計算
-          ron: {
-            fu: 0,
-            han: 0
-          },
-          tsumo: {
-            fu: 0,
-            han: 0
-          }
+          tensu: fuyakuCalc()
         },
         {
           haiInfo: {
@@ -524,14 +497,7 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
             num: c.toitsu[1][0].num
           },
           // @todo: 点数計算
-          ron: {
-            fu: 0,
-            han: 0
-          },
-          tsumo: {
-            fu: 0,
-            han: 0
-          }
+          tensu: fuyakuCalc()
         }]
       }
 
@@ -547,15 +513,7 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
                 num: r.num
               },
               // @todo: 点数計算
-              ron: {
-                fu: 0,
-                han: 0
-              },
-              tsumo: {
-                fu: 0,
-                han: 0
-              }
-
+              tensu: fuyakuCalc()
             })
           }
         })
