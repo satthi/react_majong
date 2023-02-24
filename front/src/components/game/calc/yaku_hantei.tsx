@@ -1,4 +1,4 @@
-import type { HaiInfoProp, PaiProp, ShantenBaseInfo } from '../../board/type'
+import type { ColorFlagProp, ColorTypeProp, HaiInfoProp, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
 
 // ダブルリーチチェック
@@ -141,11 +141,7 @@ export const ipekoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machi
 
   // ターツがいる場合、ターツの組み合わせと合うものであれば一盃口
   if (shantenInfo.tatsu.length > 0) {
-    const tatsuCopy: HaiInfoProp[] = JSON.parse(JSON.stringify(shantenInfo.tatsu[0]))
-    let kariMentsu = tatsuCopy.concat(machiHai)
-    kariMentsu = kariMentsu.sort((a, b) => {
-      return (a.hai > b.hai) ? 1 : -1
-    })
+    const kariMentsu = makeKariMentsu(shantenInfo.tatsu[0], machiHai)
 
     shantenInfo.mentsu.forEach((m3) => {
       if (
@@ -167,6 +163,43 @@ export const haiteiCheck = (yama: string[]): boolean => {
   return yama.length === 14
 }
 
+// 三色同順
+export const sanshokuDoujunCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+  let sanshokuFlag = false
+  shantenInfo.mentsu.forEach((m1, m1Key) => {
+    if (m1[0].num !== m1[1].num) {
+      // 自身が順子前提
+      const sanshokuColorCheck: ColorFlagProp = {
+        type_1: false,
+        type_2: false,
+        type_3: false,
+        type_4: false
+      }
+      sanshokuColorCheck['type_' + String(m1[0].type) as ColorTypeProp] = true
+      shantenInfo.mentsu.forEach((m2, m2Key) => {
+        // 順子で一番下の数字が同じとき
+        if (m2[0].num !== m2[1].num && m1[0].num === m2[0].num) {
+          sanshokuColorCheck['type_' + String(m2[0].type) as ColorTypeProp] = true
+        }
+      })
+
+      // ターツがあるときは面とにして一緒に比較
+      if (shantenInfo.tatsu.length > 0) {
+        const kariMentsu = makeKariMentsu(shantenInfo.tatsu[0], machiHai)
+        if (m1[0].num === kariMentsu[0].num) {
+          sanshokuColorCheck['type_' + String(kariMentsu[0].type) as ColorTypeProp] = true
+        }
+      }
+      // 3セットそろっていれば三色同順
+      if (sanshokuColorCheck.type_1 === true && sanshokuColorCheck.type_2 === true && sanshokuColorCheck.type_3 === true) {
+        sanshokuFlag = true
+      }
+    }
+  })
+
+  return sanshokuFlag
+}
+
 // 一九字牌の判定
 const isYaochu = (hai: HaiInfoProp): boolean => {
   return hai.type === 4 || hai.num === 1 || hai.num === 9
@@ -175,4 +208,12 @@ const isYaochu = (hai: HaiInfoProp): boolean => {
 const isYakuhai = (hai: HaiInfoProp, bakaze: number, jikaze: number): boolean => {
   // 役牌は場風/自風/白發中
   return hai.type === 4 && (hai.num === bakaze || hai.num === jikaze || hai.num === 5 || hai.num === 6 || hai.num === 7)
+}
+
+const makeKariMentsu = (tatsuToitsu: HaiInfoProp[], machiHai: HaiInfoProp): HaiInfoProp[] => {
+  const tatsuToitsuCopy: HaiInfoProp[] = JSON.parse(JSON.stringify(tatsuToitsu))
+  const kariMentsu = tatsuToitsuCopy.concat(machiHai)
+  return kariMentsu.sort((a, b) => {
+    return (a.hai > b.hai) ? 1 : -1
+  })
 }

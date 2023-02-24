@@ -1,6 +1,6 @@
 import type { HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
-import { doubleReachCheck, haiteiCheck, ipekoCheck, ippatsuCheck, pinfuCheck, reachCheck, tanyaoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
+import { doubleReachCheck, haiteiCheck, ipekoCheck, ippatsuCheck, pinfuCheck, reachCheck, sanshokuDoujunCheck, tanyaoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
 export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): MachiTensuInfo => {
   // テンパイ以外は計算しない
@@ -206,6 +206,22 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     ronYaku += 1
     tsumoYakuList.push('海底撈月')
     ronYakuList.push('河底撈魚')
+  }
+
+  // @todo: 嶺上開花/槍槓 は後
+
+  // 三色同順
+  if (sanshokuDoujunCheck(shantenInfo, machiHai)) {
+    // 食い下がりあり
+    if (isMemzen(paiInfo)) {
+      tsumoYaku += 2
+      ronYaku += 2
+    } else {
+      tsumoYaku += 1
+      ronYaku += 1
+    }
+    tsumoYakuList.push('三色同順')
+    ronYakuList.push('三色同順')
   }
 
   return [tsumoYaku, ronYaku, tsumoYakuList, ronYakuList]

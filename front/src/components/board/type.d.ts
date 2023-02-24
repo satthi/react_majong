@@ -115,3 +115,11 @@ export type NakiCheckProp = {
   kan: boolean
 }
 
+export type ColorFlagProp = {
+  type_1: boolean
+  type_2: boolean
+  type_3: boolean
+  type_4: boolean
+}
+
+export type ColorTypeProp = 'type_1' | 'type_2' | 'type_3' | 'type_4'
