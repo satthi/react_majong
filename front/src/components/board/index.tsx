@@ -110,6 +110,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           </div>
 
           {/* リーチ棒 */}
+          {/* eslint-disable-next-line */}
           {allPai.own.isReach &&
             <div className={style.ownReachField}>
               <img src={b_1_2} />
@@ -137,6 +138,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           </div>
 
           {/* リーチ棒 */}
+          {/* eslint-disable-next-line */}
           {allPai.player1.isReach &&
             <div className={style.player1ReachField}>
               <img src={b_1_1} />
@@ -164,6 +166,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           </div>
 
           {/* リーチ棒 */}
+          {/* eslint-disable-next-line */}
           {allPai.player2.isReach &&
             <div className={style.player2ReachField}>
               <img src={b_1_2} />
@@ -191,6 +194,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
           </div>
 
           {/* リーチ棒 */}
+          {/* eslint-disable-next-line */}
           {allPai.player3.isReach &&
           <div className={style.player3ReachField}>
               <img src={b_1_1} />
@@ -237,11 +241,13 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             {ownPai.shantenInfo.shanten === -1 && boardStatus.match(/^agari_/) === null && <td className={style.controlGreen} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</td>}
           </tr>
           <tr>
+            {/* eslint-disable-next-line */}
             {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.ron) && <td className={style.controlGray}>ロン</td>}
             {/* eslint-disable-next-line */}
             {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ron) && <td className={style.controlGreen} onClick={() => execOwnRon(allPai, setAllPai, boardStatus, setBoardStatus, yama)}>ロン</td>}
           </tr>
           <tr>
+            {/* eslint-disable-next-line */}
             {(boardStatus.match(/^agari_/) !== null || (!ownPai.nakiCheck.ron && !ownPai.nakiCheck.pon && !ownPai.nakiCheck.ti && !ownPai.nakiCheck.kan)) && <td className={style.controlGray}>キャンセル</td>}
             {/* eslint-disable-next-line */}
             {boardStatus.match(/^agari_/) === null && ((ownPai.nakiCheck.ron || ownPai.nakiCheck.pon || ownPai.nakiCheck.ti || ownPai.nakiCheck.kan)) && <td className={style.controlRed} onClick={() => execOwnCancel(allPai, setAllPai, boardStatus, setBoardStatus, yama)}>キャンセル</td>}

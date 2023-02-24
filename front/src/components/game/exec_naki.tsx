@@ -28,6 +28,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   let nakiExec = false
   let ronExec = false
   sortUsers.forEach((sortUser) => {
+    // eslint-disable-next-line
     if (allPai[sortUser].nakiCheck.ron && !nakiExec) {
       nakiExec = true
 

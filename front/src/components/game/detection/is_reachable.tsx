@@ -9,6 +9,7 @@ export const isReachable = (pai: PaiProp, boardStatus: string): boolean => {
   // ツモ順であること
   // すでに誰かが上がっていないこと
 
+  // eslint-disable-next-line
   return !pai.isReach &&
     isMemzen(pai) &&
     pai.shantenInfo.shanten <= 0 &&

@@ -45,6 +45,7 @@ const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
     }
 
     // リーチ時はツモ切りのみ
+    // eslint-disable-next-line
     if (allPai.own.isReach && haiKey !== allPai.own.base.length - 1) {
       return
     }

@@ -21,6 +21,7 @@ export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
   // @todo: ここのロジックを色々頑張りたいところ
   // リーチ状態では考えることはなくツモ切り
+  // eslint-disable-next-line
   if (allPai[turnUser].isReach) {
     execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, allPai[turnUser].base.length - 1, yama, 'normal', ownAuto)
   } else {

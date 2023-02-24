@@ -25,6 +25,7 @@ export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
 
   setAllPai(allPai)
   // 操作者に鳴きがない場合は
+  // eslint-disable-next-line
   if (ownAuto || (!allPai.own.nakiCheck.ron && !allPai.own.nakiCheck.pon && !allPai.own.nakiCheck.ti && !allPai.own.nakiCheck.kan)) {
     // 自動で判定を進めてよい
     execNaki(allPai, setAllPai, user, setBoardStatus, yama, suteruHai[0])
