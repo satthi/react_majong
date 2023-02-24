@@ -3,8 +3,6 @@ import { isMemzen } from '../detection/is_menzen'
 import { doubleReachCheck, ipekoCheck, ippatsuCheck, pinfuCheck, reachCheck, tanyaoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
 export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: number, jikaze: number): MachiTensuInfo => {
-  console.log(shantenInfo)
-  console.log(machiHai)
   // テンパイ以外は計算しない
   if (shantenInfo.shanten !== 0) {
     return {

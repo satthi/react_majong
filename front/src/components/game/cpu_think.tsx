@@ -33,8 +33,7 @@ export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
 const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, turnUser: UserProp, ownAuto: boolean, bakaze: number): void => {
   const minShantenList = minShantenPick(allPai[turnUser], bakaze)
-
-  // シャンテン数が少ないものをランダムで切るようにする
+  // 牌のリストをコストで見るようにしてみる
   const shuffleShanteList = shuffle(minShantenList)
 
   // テンパイ即リーチする
@@ -43,6 +42,7 @@ const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
   execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, suteType, ownAuto, bakaze)
 }
 
+// これ処理が重いので見直し
 const minShantenPick = (hai: PaiProp, bakaze: number): ShantenListProp[] => {
   // とりあえずシャンテン数が減る方向に切ってみる
   const shantenList: ShantenListProp[] = []
@@ -52,6 +52,7 @@ const minShantenPick = (hai: PaiProp, bakaze: number): ShantenListProp[] => {
     // 1個ずつずらしてみる
     paiInfoCopy.base.splice(k, 1)
 
+    console.log('DDD')
     const shantenInfo = shantenBase(paiInfoCopy, bakaze, hai.jikaze)
     shantenList.push({
       key: k,

@@ -3,11 +3,13 @@ import { isMemzen } from '../detection/is_menzen'
 
 // ダブルリーチチェック
 export const doubleReachCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  // eslint-disable-next-line
   return shantenInfo.haiInfo.isReach && shantenInfo.haiInfo.sutehai[0].type === 'reach'
 }
 
 // リーチチェック
 export const reachCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  // eslint-disable-next-line
   return shantenInfo.haiInfo.isReach
 }
 

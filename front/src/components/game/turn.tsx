@@ -28,7 +28,7 @@ export const turn = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStat
   allPai[turnUser].base = allPai[turnUser].base.concat(catYama)
   setAllPai(allPai)
 
-  shantenCheck(allPai, setAllPai, bakaze)
+  shantenCheck(allPai, setAllPai, bakaze, turnUser)
 
   setTimeout(() => {
     if (turnUser === 'own' && !ownAuto) {

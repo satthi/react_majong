@@ -4,7 +4,6 @@ import { getInitialYama } from '../board/hai/hai_info'
 import type { AllPaiProp, UserProp } from '../board/type'
 import { initialSet } from './initial_set'
 import { turn } from './turn'
-import { shantenCheck } from './shanten_check'
 
 interface GameProp {
   oya: UserProp
@@ -176,7 +175,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
     }
 
     // シャンテン判定(ひとまず全員分)
-    shantenCheck(allPai, setAllPai, bakaze)
+    // shantenCheck(allPai, setAllPai, bakaze)
   }
 
   return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} />

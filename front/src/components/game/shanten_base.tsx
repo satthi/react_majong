@@ -15,7 +15,7 @@ export const shantenBase = (paiInfo: PaiProp, jikaze: number, bakaze: number): S
     return (a.haiInfo.hai > b.haiInfo.hai) ? 1 : -1
   })
 
-  // 重複の排除
+  // // 重複の排除
   const machiSeiri2: MachiInfoProp[] = []
   machiSeiri.forEach((c) => {
     let doubleCheck = false
@@ -39,7 +39,6 @@ export const shantenBase = (paiInfo: PaiProp, jikaze: number, bakaze: number): S
 
 export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number): ShantenBaseInfo[] => {
   // 鳴いてる数はメンツとしてカウント
-
   const haiCountInfo: HaiCountInfoProp[] = [
     {
       hai: 'hai_1_1',
@@ -308,7 +307,7 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
   const shantenCheck4 = mentsuBunseki(shantenCheck3)
   const shantenCheck5 = mentsuBunseki(shantenCheck4)
 
-  // 対子/ターツのチェック(max 7回)
+  // // 対子/ターツのチェック(max 7回)
   const shantenCheck21 = toitsuTatsuBunseki(shantenCheck5)
   const shantenCheck22 = toitsuTatsuBunseki(shantenCheck21)
   const shantenCheck23 = toitsuTatsuBunseki(shantenCheck22)

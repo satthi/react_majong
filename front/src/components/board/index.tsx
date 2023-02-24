@@ -1,5 +1,5 @@
 import style from './board.module.css'
-import type { AllPaiProp, UserProp } from './type'
+import type { AllPaiProp, PaiProp, TensuInfoProp, UserProp } from './type'
 import { Sutehai } from './common/sutehai'
 import { OwnBaseHai } from './common/own_base_hai'
 import { PlaterBaseHai } from './common/player_base_hai'
@@ -15,6 +15,7 @@ import { shantenCheck } from '../game/shanten_check'
 import { execNaki } from '../game/exec_naki'
 import { DoraNormal } from './common/dora_normal'
 import { DoraReach } from './common/dora_reach'
+import { shantenBase } from '../game/shanten_base'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -56,7 +57,7 @@ const execOwnRon = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetState
   allPai.own.nakiCheck.ti = false
   allPai.own.nakiCheck.kan = false
   setAllPai(allPai)
-  shantenCheck(allPai, setAllPai, bakaze)
+  shantenCheck(allPai, setAllPai, bakaze, 'own')
 
   // 判定を進める
   execNaki(allPai, setAllPai, nakiUser, setBoardStatus, yama, suteruhai, bakaze)
@@ -77,10 +78,63 @@ const execOwnCancel = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
   allPai.own.nakiCheck.ti = false
   allPai.own.nakiCheck.kan = false
   setAllPai(allPai)
-  shantenCheck(allPai, setAllPai, bakaze)
+  shantenCheck(allPai, setAllPai, bakaze, 'own')
 
   // 判定を進める
   execNaki(allPai, setAllPai, nakiUser, setBoardStatus, yama, suteruhai, bakaze)
+}
+
+const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, yama: string[]): string => {
+  // console.log(boardStatus)
+  // console.log(allPai)
+  // console.log(bakaze)
+  // console.log(yama)
+  const agariMatch = boardStatus.match(/^agari_(tsumo|ron)_(own|player1|player2|player3)$/)
+  // マッチしないときは何もしない
+  if (agariMatch === null) {
+    return ''
+  }
+
+  const agariUser = agariMatch[2] as UserProp
+  const agariStatus = agariMatch[1]
+
+  // 上がり情報の内訳取得
+  const agariPaiInfo = allPai[agariUser]
+  console.log(agariPaiInfo)
+
+  const checkHaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[agariUser]))
+  const agariHai = checkHaiInfo.base.splice(checkHaiInfo.base.length - 1, 1)
+
+  const shantenInfoMentsu = shantenBase(checkHaiInfo, bakaze, checkHaiInfo.jikaze)
+
+  let agariInfo: TensuInfoProp = {
+    fu: 0,
+    han: 0,
+    yakuman: 0,
+    yakuList: []
+  }
+  shantenInfoMentsu.mentsuGroup.forEach((g) => {
+    g.machi.forEach((m) => {
+      if (m.haiInfo.hai === agariHai[0]) {
+        if (agariStatus === 'tsumo') {
+          if (agariInfo.han < m.tensu.tsumo.han || (agariInfo.han === m.tensu.tsumo.han && agariInfo.fu < m.tensu.tsumo.fu)) {
+            agariInfo = m.tensu.tsumo
+          }
+        } else {
+          if (agariInfo.han < m.tensu.ron.han || (agariInfo.han === m.tensu.ron.han && agariInfo.fu < m.tensu.ron.fu)) {
+            agariInfo = m.tensu.ron
+          }
+        }
+      }
+    })
+  })
+
+  let agariString = ''
+  agariString += '上がり: ' + agariUser + '/' + agariStatus + '<br />'
+  agariString += String(agariInfo.fu) + '符' + String(agariInfo.han) + '翻<br />'
+  agariString += agariInfo.yakuList.join('<br />')
+
+  return agariString
 }
 
 export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, bakaze, kyoku, hon, reach }: BoardProp): JSX.Element => {
@@ -313,6 +367,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, ba
           </tr>
         </tbody>
       </table>
+      <div dangerouslySetInnerHTML={{ __html: displayAgariInfo(boardStatus, allPai, bakaze, yama) }} />
     </div>
   </>
 }
