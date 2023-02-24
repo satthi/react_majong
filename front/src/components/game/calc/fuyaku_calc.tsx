@@ -1,6 +1,6 @@
 import type { HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
-import { doubleReachCheck, haiteiCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, pinfuCheck, reachCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, tanyaoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
+import { chantaCheck, doubleReachCheck, haiteiCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, pinfuCheck, reachCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, tanyaoCheck, toitoihoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
 export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): MachiTensuInfo => {
   // テンパイ以外は計算しない
@@ -255,6 +255,40 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     }
     tsumoYakuList.push('一気通貫')
     ronYakuList.push('一気通貫')
+  }
+
+  // @todo: 七対子
+
+  // 対々和
+  if (toitoihoCheck(shantenInfo)) {
+    tsumoYaku += 2
+    ronYaku += 2
+    tsumoYakuList.push('対々和')
+    ronYakuList.push('対々和')
+  }
+
+  // 混全帯幺九
+  if (chantaCheck(shantenInfo, machiHai)) {
+    // 食い下がりあり
+    if (isMemzen(paiInfo)) {
+      tsumoYaku += 2
+      ronYaku += 2
+    } else {
+      tsumoYaku += 1
+      ronYaku += 1
+    }
+    tsumoYakuList.push('混全帯幺九')
+    ronYakuList.push('混全帯幺九')
+  }
+
+  // @todo: 三槓子
+
+  // 小三元
+  if (shosangenCheck(shantenInfo)) {
+    tsumoYaku += 2
+    ronYaku += 2
+    tsumoYakuList.push('小三元')
+    ronYakuList.push('小三元')
   }
 
 

@@ -130,3 +130,11 @@ export type IkkiTsukanFlagProp = {
 }
 
 export type IkkiTsukanTypeProp = 'num_1' | 'num_4' | 'num_7'
+
+export type SangenhaiFlagProp = {
+  num_5: boolean
+  num_6: boolean
+  num_7: boolean
+}
+
+export type SangenhaiTypeProp = 'num_5' | 'num_6' | 'num_7'

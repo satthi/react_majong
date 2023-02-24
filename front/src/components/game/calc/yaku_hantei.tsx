@@ -1,4 +1,4 @@
-import type { ColorFlagProp, ColorTypeProp, HaiInfoProp, IkkiTsukanFlagProp, IkkiTsukanTypeProp, PaiProp, ShantenBaseInfo } from '../../board/type'
+import type { ColorFlagProp, ColorTypeProp, HaiInfoProp, IkkiTsukanFlagProp, IkkiTsukanTypeProp, PaiProp, SangenhaiFlagProp, SangenhaiTypeProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
 
 // ダブルリーチチェック
@@ -292,6 +292,75 @@ export const ikkitsukanCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoP
   })
 
   return ikkitsukanFlag
+}
+
+export const toitoihoCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  // 順子/ターツがないこと
+  let shuntsuCount = 0
+  shantenInfo.mentsu.forEach((m) => {
+    if (m[0].num !== m[1].num) {
+      shuntsuCount++
+    }
+  })
+
+  // 対子の数までチェックに入れることで七対子と区別可能
+  return shuntsuCount === 0 && shantenInfo.tatsu.length === 0 && shantenInfo.toitsu.length <= 2
+}
+
+export const chantaCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+  let chantaFlag = true
+  shantenInfo.mentsu.forEach((m) => {
+    // 字牌でなく 数字で並べた一番小さいものが1でも大きいものが9でもない
+    if (m[0].type !== 4 && m[0].num !== 1 && m[2].num !== 9) {
+      chantaFlag = false
+    }
+  })
+  shantenInfo.toitsu.forEach((m) => {
+    // 字牌でなく 1/9でもない
+    if (m[0].type !== 4 && m[0].num !== 1 && m[0].num !== 9) {
+      chantaFlag = false
+    }
+  })
+
+  // ターツがあるときは面とにして一緒に比較
+  if (shantenInfo.tatsu.length > 0) {
+    const kariMentsu = makeKariMentsu(shantenInfo.tatsu[0], machiHai)
+    if (kariMentsu[0].type !== 4 && kariMentsu[0].num !== 1 && kariMentsu[2].num !== 9) {
+      chantaFlag = false
+    }
+  }
+
+  return chantaFlag
+}
+
+export const shosangenCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  // 七対子については判定をしないようにする
+  if (shantenInfo.toitsu.length >= 6) {
+    return false
+  }
+  const SangenhaiCheck: SangenhaiFlagProp = {
+    num_5: false,
+    num_6: false,
+    num_7: false
+  }
+  shantenInfo.mentsu.forEach((m) => {
+    if (m[0].hai === 'hai_4_5' || m[0].hai === 'hai_4_6' || m[0].hai === 'hai_4_7') {
+      SangenhaiCheck['num_' + String(m[0].num) as SangenhaiTypeProp] = true
+    }
+  })
+  shantenInfo.toitsu.forEach((m) => {
+    if (m[0].hai === 'hai_4_5' || m[0].hai === 'hai_4_6' || m[0].hai === 'hai_4_7') {
+      SangenhaiCheck['num_' + String(m[0].num) as SangenhaiTypeProp] = true
+    }
+  })
+
+  shantenInfo.remainHaiCountInfo.forEach((r) => {
+    if (r.hai === 'hai_4_5' || r.hai === 'hai_4_6' || r.hai === 'hai_4_7') {
+      SangenhaiCheck['num_' + String(r.num) as SangenhaiTypeProp] = true
+    }
+  })
+
+  return SangenhaiCheck.num_5 === true && SangenhaiCheck.num_6 === true && SangenhaiCheck.num_7 === true
 }
 
 // 一九字牌の判定
