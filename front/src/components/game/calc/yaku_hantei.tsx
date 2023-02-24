@@ -1,26 +1,26 @@
-import type { HaiInfoProp, ShantenBaseInfo } from '../../board/type'
+import type { HaiInfoProp, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
 
 // ダブルリーチチェック
-export const doubleReachCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+export const doubleReachCheck = (paiInfo: PaiProp): boolean => {
   // eslint-disable-next-line
-  return shantenInfo.haiInfo.isReach && shantenInfo.haiInfo.sutehai[0].type === 'reach'
+  return paiInfo.isReach && paiInfo.sutehai[0].type === 'reach'
 }
 
 // リーチチェック
-export const reachCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+export const reachCheck = (paiInfo: PaiProp): boolean => {
   // eslint-disable-next-line
-  return shantenInfo.haiInfo.isReach
+  return paiInfo.isReach
 }
 
 // 一発チェック
-export const ippatsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
-  return shantenInfo.haiInfo.isReach && shantenInfo.haiInfo.sutehai[shantenInfo.haiInfo.sutehai.length - 1].type === 'reach'
+export const ippatsuCheck = (paiInfo: PaiProp): boolean => {
+  return paiInfo.isReach && paiInfo.sutehai[paiInfo.sutehai.length - 1].type === 'reach'
 }
 
 // 面前ツモチェック
-export const tsumoCheck = (shantenInfo: ShantenBaseInfo): boolean => {
-  return isMemzen(shantenInfo.haiInfo)
+export const tsumoCheck = (paiInfo: PaiProp): boolean => {
+  return isMemzen(paiInfo)
 }
 
 // 役牌チェック
@@ -78,10 +78,10 @@ export const tanyaoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp)
   return tanyaoFlag
 }
 
-export const pinfuCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: number, jikaze: number): boolean => {
+export const pinfuCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, bakaze: number, jikaze: number): boolean => {
   // 面前/順子三つ/雀頭が役牌じゃない/ターツが両面
   if (
-    !isMemzen(shantenInfo.haiInfo) ||
+    !isMemzen(paiInfo) ||
     shantenInfo.mentsu.length !== 3 ||
     shantenInfo.toitsu.length !== 1 ||
     shantenInfo.tatsu.length !== 1
@@ -117,9 +117,9 @@ export const pinfuCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, 
   return isPinfu
 }
 
-export const ipekoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+export const ipekoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
   // 面前
-  if (!isMemzen(shantenInfo.haiInfo)) {
+  if (!isMemzen(paiInfo)) {
     return false
   }
 

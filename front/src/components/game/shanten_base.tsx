@@ -263,8 +263,7 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
     tatsu: [],
     remain: [],
     shanten: 99,
-    machi: [],
-    haiInfo: paiInfo
+    machi: []
   }
 
   // 対子の可能性を取得(対子なしも含めて)
@@ -446,7 +445,7 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
           shantenComplete[k].machi = [{
             haiInfo: machiHai1,
             // @todo: 点数計算
-            tensu: fuyakuCalc(c, machiHai1, jikaze, bakaze)
+            tensu: fuyakuCalc(c, paiInfo, machiHai1, jikaze, bakaze)
           }]
         }
         // 両面（ペンチャン込み)
@@ -464,7 +463,7 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
             ryomen.push({
               haiInfo: machiHai2,
               // @todo: 点数計算
-              tensu: fuyakuCalc(c, machiHai2, jikaze, bakaze)
+              tensu: fuyakuCalc(c, paiInfo, machiHai2, jikaze, bakaze)
             })
           }
           if (c.tatsu[0][0].num !== 8) {
@@ -479,7 +478,7 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
             ryomen.push({
               haiInfo: machiHai3,
               // @todo: 点数計算
-              tensu: fuyakuCalc(c, machiHai3, jikaze, bakaze)
+              tensu: fuyakuCalc(c, paiInfo, machiHai3, jikaze, bakaze)
             })
           }
           shantenComplete[k].machi = ryomen
@@ -503,12 +502,12 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
         shantenComplete[k].machi = [{
           haiInfo: machiHai4,
           // @todo: 点数計算
-          tensu: fuyakuCalc(c, machiHai4, jikaze, bakaze)
+          tensu: fuyakuCalc(c, paiInfo, machiHai4, jikaze, bakaze)
         },
         {
           haiInfo: machiHai5,
           // @todo: 点数計算
-          tensu: fuyakuCalc(c, machiHai5, jikaze, bakaze)
+          tensu: fuyakuCalc(c, paiInfo, machiHai5, jikaze, bakaze)
         }]
       }
 
@@ -526,7 +525,7 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
             tanki.push({
               haiInfo: machiHai6,
               // @todo: 点数計算
-              tensu: fuyakuCalc(c, machiHai6, jikaze, bakaze)
+              tensu: fuyakuCalc(c, paiInfo, machiHai6, jikaze, bakaze)
             })
           }
         })

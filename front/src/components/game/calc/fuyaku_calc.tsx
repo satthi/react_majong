@@ -1,8 +1,8 @@
-import type { HaiInfoProp, MachiTensuInfo, ShantenBaseInfo } from '../../board/type'
+import type { HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
 import { doubleReachCheck, ipekoCheck, ippatsuCheck, pinfuCheck, reachCheck, tanyaoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
-export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: number, jikaze: number): MachiTensuInfo => {
+export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, bakaze: number, jikaze: number): MachiTensuInfo => {
   // テンパイ以外は計算しない
   if (shantenInfo.shanten !== 0) {
     return {
@@ -25,10 +25,10 @@ export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, 
   // @todo: 七対子判定
 
   // それ以外 府計算
-  const [ronFu, tsumoFu] = fuCalc(shantenInfo, machiHai, bakaze, jikaze)
+  const [ronFu, tsumoFu] = fuCalc(shantenInfo, paiInfo, machiHai, bakaze, jikaze)
 
   // ここから役計算
-  const [tsumoHan, ronHan, tsumoYakuList, ronYakuList] = tensuCalc(shantenInfo, machiHai, bakaze, jikaze)
+  const [tsumoHan, ronHan, tsumoYakuList, ronYakuList] = tensuCalc(shantenInfo, paiInfo, machiHai, bakaze, jikaze)
 
   return {
     ron: {
@@ -46,7 +46,7 @@ export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, 
   }
 }
 
-const fuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: number, jikaze: number): number[] => {
+const fuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, bakaze: number, jikaze: number): number[] => {
   let ronFu = 20
   let tsumoFu = 20
 
@@ -109,7 +109,7 @@ const fuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: num
   }
 
   // この判定最後のほうにしよう
-  if (isMemzen(shantenInfo.haiInfo)) {
+  if (isMemzen(paiInfo)) {
     ronFu += 10
     // 20符=ピンフ系
     if (tsumoFu !== 20) {
@@ -134,19 +134,19 @@ const isYakuhai = (hai: HaiInfoProp, bakaze: number, jikaze: number): boolean =>
   return hai.type === 4 && (hai.num === bakaze || hai.num === jikaze || hai.num === 5 || hai.num === 6 || hai.num === 7)
 }
 
-const tensuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: number, jikaze: number): Array<number | string[]> => {
+const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, bakaze: number, jikaze: number): Array<number | string[]> => {
   let tsumoYaku = 0
   let ronYaku = 0
   const tsumoYakuList: string[] = []
   const ronYakuList: string[] = []
 
   // ダブルリーチ/リーチ
-  if (doubleReachCheck(shantenInfo)) {
+  if (doubleReachCheck(paiInfo)) {
     tsumoYaku += 2
     ronYaku += 2
     tsumoYakuList.push('ダブル立直')
     ronYakuList.push('ダブル立直')
-  } else if (reachCheck(shantenInfo)) {
+  } else if (reachCheck(paiInfo)) {
     tsumoYaku += 1
     ronYaku += 1
     tsumoYakuList.push('立直')
@@ -154,7 +154,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: 
   }
 
   // 一発
-  if (ippatsuCheck(shantenInfo)) {
+  if (ippatsuCheck(paiInfo)) {
     tsumoYaku += 1
     ronYaku += 1
     tsumoYakuList.push('一発')
@@ -162,7 +162,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: 
   }
 
   // ツモ
-  if (tsumoCheck(shantenInfo)) {
+  if (tsumoCheck(paiInfo)) {
     tsumoYaku += 1
     tsumoYakuList.push('門前自摸')
   }
@@ -185,7 +185,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: 
   }
 
   // ピンフ
-  if (pinfuCheck(shantenInfo, machiHai, bakaze, jikaze)) {
+  if (pinfuCheck(shantenInfo, paiInfo, bakaze, jikaze)) {
     tsumoYaku += 1
     ronYaku += 1
     tsumoYakuList.push('平和')
@@ -193,7 +193,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: 
   }
 
   // 一盃口
-  if (ipekoCheck(shantenInfo, machiHai)) {
+  if (ipekoCheck(shantenInfo, paiInfo, machiHai)) {
     tsumoYaku += 1
     ronYaku += 1
     tsumoYakuList.push('一盃口')

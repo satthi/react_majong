@@ -99,7 +99,6 @@ export type ShantenBaseInfo = {
   remain: HaiInfoProp[]
   shanten: number
   machi:  MachiInfoProp[]
-  haiInfo: PaiProp
 }
 
 export type AllNakiCheckProp = {
