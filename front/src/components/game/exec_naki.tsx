@@ -34,7 +34,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
       allPai[sortUser].base.push(suteruhai)
       setAllPai(allPai)
-      shantenCheck(allPai, setAllPai, bakaze, sortUser)
+      shantenCheck(allPai, setAllPai, yama, bakaze, sortUser)
       setRon(allPai, sortUser, setBoardStatus)
       ronExec = true
     }

@@ -1,8 +1,8 @@
 import type { HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
-import { doubleReachCheck, ipekoCheck, ippatsuCheck, pinfuCheck, reachCheck, tanyaoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
+import { doubleReachCheck, haiteiCheck, ipekoCheck, ippatsuCheck, pinfuCheck, reachCheck, tanyaoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
-export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, bakaze: number, jikaze: number): MachiTensuInfo => {
+export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): MachiTensuInfo => {
   // テンパイ以外は計算しない
   if (shantenInfo.shanten !== 0) {
     return {
@@ -28,7 +28,7 @@ export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machi
   const [ronFu, tsumoFu] = fuCalc(shantenInfo, paiInfo, machiHai, bakaze, jikaze)
 
   // ここから役計算
-  const [tsumoHan, ronHan, tsumoYakuList, ronYakuList] = tensuCalc(shantenInfo, paiInfo, machiHai, bakaze, jikaze)
+  const [tsumoHan, ronHan, tsumoYakuList, ronYakuList] = tensuCalc(shantenInfo, paiInfo, machiHai, yama, bakaze, jikaze)
 
   return {
     ron: {
@@ -134,7 +134,7 @@ const isYakuhai = (hai: HaiInfoProp, bakaze: number, jikaze: number): boolean =>
   return hai.type === 4 && (hai.num === bakaze || hai.num === jikaze || hai.num === 5 || hai.num === 6 || hai.num === 7)
 }
 
-const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, bakaze: number, jikaze: number): Array<number | string[]> => {
+const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): Array<number | string[]> => {
   let tsumoYaku = 0
   let ronYaku = 0
   const tsumoYakuList: string[] = []
@@ -198,6 +198,14 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     ronYaku += 1
     tsumoYakuList.push('一盃口')
     ronYakuList.push('一盃口')
+  }
+
+  // 海底撈月/河底撈魚
+  if (haiteiCheck(yama)) {
+    tsumoYaku += 1
+    ronYaku += 1
+    tsumoYakuList.push('海底撈月')
+    ronYakuList.push('河底撈魚')
   }
 
   return [tsumoYaku, ronYaku, tsumoYakuList, ronYakuList]

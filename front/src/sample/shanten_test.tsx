@@ -50,16 +50,15 @@ export const ShantenTest = (): JSX.Element => {
       'hai_1_4',
       'hai_1_5',
       'hai_1_5',
-      'hai_1_6',
+      'hai_1_5',
       'hai_1_6',
       'hai_1_7',
       'hai_1_8',
-      'hai_2_7',
+      'hai_3_1',
       'hai_3_3',
       'hai_3_4',
       'hai_3_5',
-      'hai_3_6',
-      'hai_3_2'
+      'hai_3_6'
     ],
     naki: [],
     sutehai: [],
@@ -77,10 +76,27 @@ export const ShantenTest = (): JSX.Element => {
     },
     jikaze: 2
   }
+  // ハイテイチェック用
+  const yama = [
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1',
+    'hai_1_1'
+  ]
   const jikaze = 1
   const bakaze = 2
-  const a = shantenBase(hai, jikaze, bakaze)
-  const shantenMentsuData = shantenMentsu(hai, jikaze, bakaze)
+  const a = shantenBase(hai, yama, jikaze, bakaze)
+  const shantenMentsuData = shantenMentsu(hai, yama, jikaze, bakaze)
 
   return <>
     <div style={{ position: 'absolute', top: '40px' }}>

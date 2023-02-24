@@ -57,7 +57,7 @@ const execOwnRon = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetState
   allPai.own.nakiCheck.ti = false
   allPai.own.nakiCheck.kan = false
   setAllPai(allPai)
-  shantenCheck(allPai, setAllPai, bakaze, 'own')
+  shantenCheck(allPai, setAllPai, yama, bakaze, 'own')
 
   // 判定を進める
   execNaki(allPai, setAllPai, nakiUser, setBoardStatus, yama, suteruhai, bakaze)
@@ -78,7 +78,7 @@ const execOwnCancel = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
   allPai.own.nakiCheck.ti = false
   allPai.own.nakiCheck.kan = false
   setAllPai(allPai)
-  shantenCheck(allPai, setAllPai, bakaze, 'own')
+  shantenCheck(allPai, setAllPai, yama, bakaze, 'own')
 
   // 判定を進める
   execNaki(allPai, setAllPai, nakiUser, setBoardStatus, yama, suteruhai, bakaze)
@@ -105,7 +105,7 @@ const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: numbe
   const checkHaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[agariUser]))
   const agariHai = checkHaiInfo.base.splice(checkHaiInfo.base.length - 1, 1)
 
-  const shantenInfoMentsu = shantenBase(checkHaiInfo, bakaze, checkHaiInfo.jikaze)
+  const shantenInfoMentsu = shantenBase(checkHaiInfo, yama, bakaze, checkHaiInfo.jikaze)
 
   let agariInfo: TensuInfoProp = {
     fu: 0,

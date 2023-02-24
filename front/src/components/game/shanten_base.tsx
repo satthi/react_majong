@@ -1,8 +1,8 @@
 import type { HaiCountInfoProp, HaiInfoProp, MachiInfoProp, PaiProp, ShantenBaseInfo, ShantenInfoProp } from '../board/type'
 import { fuyakuCalc } from './calc/fuyaku_calc'
 
-export const shantenBase = (paiInfo: PaiProp, jikaze: number, bakaze: number): ShantenInfoProp => {
-  const mentsuGroup = shantenMentsu(paiInfo, jikaze, bakaze)
+export const shantenBase = (paiInfo: PaiProp, yama: string[], jikaze: number, bakaze: number): ShantenInfoProp => {
+  const mentsuGroup = shantenMentsu(paiInfo, yama, jikaze, bakaze)
 
   // 待ちの抽出
   let machiSeiri: MachiInfoProp[] = []
@@ -37,7 +37,7 @@ export const shantenBase = (paiInfo: PaiProp, jikaze: number, bakaze: number): S
   }
 }
 
-export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number): ShantenBaseInfo[] => {
+export const shantenMentsu = (paiInfo: PaiProp, yama: string[], jikaze: number, bakaze: number): ShantenBaseInfo[] => {
   // 鳴いてる数はメンツとしてカウント
   const haiCountInfo: HaiCountInfoProp[] = [
     {
@@ -445,7 +445,7 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
           shantenComplete[k].machi = [{
             haiInfo: machiHai1,
             // @todo: 点数計算
-            tensu: fuyakuCalc(c, paiInfo, machiHai1, jikaze, bakaze)
+            tensu: fuyakuCalc(c, paiInfo, machiHai1, yama, jikaze, bakaze)
           }]
         }
         // 両面（ペンチャン込み)
@@ -463,7 +463,7 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
             ryomen.push({
               haiInfo: machiHai2,
               // @todo: 点数計算
-              tensu: fuyakuCalc(c, paiInfo, machiHai2, jikaze, bakaze)
+              tensu: fuyakuCalc(c, paiInfo, machiHai2, yama, jikaze, bakaze)
             })
           }
           if (c.tatsu[0][0].num !== 8) {
@@ -478,7 +478,7 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
             ryomen.push({
               haiInfo: machiHai3,
               // @todo: 点数計算
-              tensu: fuyakuCalc(c, paiInfo, machiHai3, jikaze, bakaze)
+              tensu: fuyakuCalc(c, paiInfo, machiHai3, yama, jikaze, bakaze)
             })
           }
           shantenComplete[k].machi = ryomen
@@ -502,12 +502,12 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
         shantenComplete[k].machi = [{
           haiInfo: machiHai4,
           // @todo: 点数計算
-          tensu: fuyakuCalc(c, paiInfo, machiHai4, jikaze, bakaze)
+          tensu: fuyakuCalc(c, paiInfo, machiHai4, yama, jikaze, bakaze)
         },
         {
           haiInfo: machiHai5,
           // @todo: 点数計算
-          tensu: fuyakuCalc(c, paiInfo, machiHai5, jikaze, bakaze)
+          tensu: fuyakuCalc(c, paiInfo, machiHai5, yama, jikaze, bakaze)
         }]
       }
 
@@ -525,7 +525,7 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
             tanki.push({
               haiInfo: machiHai6,
               // @todo: 点数計算
-              tensu: fuyakuCalc(c, paiInfo, machiHai6, jikaze, bakaze)
+              tensu: fuyakuCalc(c, paiInfo, machiHai6, yama, jikaze, bakaze)
             })
           }
         })

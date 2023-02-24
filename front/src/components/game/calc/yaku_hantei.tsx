@@ -161,6 +161,12 @@ export const ipekoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machi
   return ipekoCheck
 }
 
+// ハイテイ／ホウテイチェック
+export const haiteiCheck = (yama: string[]): boolean => {
+  // ツモ山が残ってないとき
+  return yama.length === 14
+}
+
 // 一九字牌の判定
 const isYaochu = (hai: HaiInfoProp): boolean => {
   return hai.type === 4 || hai.num === 1 || hai.num === 9
