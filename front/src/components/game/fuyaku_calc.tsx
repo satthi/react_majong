@@ -28,18 +28,21 @@ export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, 
   // それ以外 府計算
   const [ronFu, tsumoFu] = fuCalc(shantenInfo, machiHai, bakaze, jikaze)
 
+  // ここから役計算
+  const [tsumoHan, ronHan, tsumoYakuList, ronYakuList] = tensuCalc(shantenInfo, machiHai, bakaze, jikaze)
+
   return {
     ron: {
       fu: ronFu,
-      han: 0,
+      han: ronHan as number,
       yakuman: 0,
-      yakuList: []
+      yakuList: ronYakuList as string[]
     },
     tsumo: {
       fu: tsumoFu,
-      han: 0,
+      han: tsumoHan as number,
       yakuman: 0,
-      yakuList: []
+      yakuList: tsumoYakuList as string[]
     }
   }
 }
@@ -88,14 +91,36 @@ const fuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: num
     })
   }
 
-  // 符を最後切り上げ(七対子以外)
-  // ronFu = Math.ceil(ronFu / 10) * 10
-  // tsumoFu = Math.ceil(tsumoFu / 10) * 10
+  if (shantenInfo.toitsu.length === 1) {
+    // カンチャン/ペンチャン
+    if (
+      shantenInfo.tatsu[0][0].num === shantenInfo.tatsu[0][1].num - 2 ||
+      shantenInfo.tatsu[0][0].num === 1 ||
+      shantenInfo.tatsu[0][0].num === 8
+    ) {
+      ronFu += 2
+      tsumoFu += 2
+    }
+
+    // 雀頭
+    if (isYakuhai(shantenInfo.toitsu[0][0], bakaze, jikaze)) {
+      ronFu += 2
+      tsumoFu += 2
+    }
+  }
+
   // この判定最後のほうにしよう
   if (isMemzen(shantenInfo.haiInfo)) {
     ronFu += 10
-    tsumoFu += 2 // ピンフを除く件については後で調整
+    // 20符=ピンフ系
+    if (tsumoFu !== 20) {
+      tsumoFu += 2 // ピンフを除く件については後で調整
+    }
   }
+
+  // 符を最後切り上げ
+  ronFu = Math.ceil(ronFu / 10) * 10
+  tsumoFu = Math.ceil(tsumoFu / 10) * 10
 
   return [ronFu, tsumoFu]
 }
@@ -108,4 +133,179 @@ const isYaochu = (hai: HaiInfoProp): boolean => {
 const isYakuhai = (hai: HaiInfoProp, bakaze: number, jikaze: number): boolean => {
   // 役牌は場風/自風/白發中
   return hai.type === 4 && (hai.num === bakaze || hai.num === jikaze || hai.num === 5 || hai.num === 6 || hai.num === 7)
+}
+
+const tensuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: number, jikaze: number): Array<number | string[]> => {
+  let tsumoYaku = 0
+  let ronYaku = 0
+  const tsumoYakuList: string[] = []
+  const ronYakuList: string[] = []
+
+  // ダブルリーチ/リーチ
+  if (doubleReachCheck(shantenInfo)) {
+    tsumoYaku += 2
+    ronYaku += 2
+    tsumoYakuList.push('ダブル立直')
+    ronYakuList.push('ダブル立直')
+  } else if (reachCheck(shantenInfo)) {
+    tsumoYaku += 1
+    ronYaku += 1
+    tsumoYakuList.push('立直')
+    ronYakuList.push('立直')
+  }
+
+  // 一発
+  if (ippatsuCheck(shantenInfo)) {
+    tsumoYaku += 1
+    ronYaku += 1
+    tsumoYakuList.push('一発')
+    ronYakuList.push('一発')
+  }
+
+  // ツモ
+  if (tsumoCheck(shantenInfo)) {
+    tsumoYaku += 1
+    tsumoYakuList.push('門前自摸')
+  }
+
+  // 役牌
+  const yakuhaiCount = yakuhaiCheck(shantenInfo, machiHai, bakaze, jikaze)
+  if (yakuhaiCount > 0) {
+    tsumoYaku += yakuhaiCount
+    ronYaku += yakuhaiCount
+    tsumoYakuList.push('役牌 '.concat(String(yakuhaiCount)))
+    ronYakuList.push('役牌 '.concat(String(yakuhaiCount)))
+  }
+
+  // タンヤオ
+  if (tanyaoCheck(shantenInfo, machiHai)) {
+    tsumoYaku += 1
+    ronYaku += 1
+    tsumoYakuList.push('断么九')
+    ronYakuList.push('断么九')
+  }
+
+  // ピンフ
+  if (pinfuCheck(shantenInfo, machiHai, bakaze, jikaze)) {
+    tsumoYaku += 1
+    ronYaku += 1
+    tsumoYakuList.push('平和')
+    ronYakuList.push('平和')
+  }
+
+  return [tsumoYaku, ronYaku, tsumoYakuList, ronYakuList]
+}
+
+// ダブルリーチチェック
+const doubleReachCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  return shantenInfo.haiInfo.isReach && shantenInfo.haiInfo.sutehai[0].type === 'reach'
+}
+
+// リーチチェック
+const reachCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  return shantenInfo.haiInfo.isReach
+}
+
+// 一発チェック
+const ippatsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  return shantenInfo.haiInfo.isReach && shantenInfo.haiInfo.sutehai[shantenInfo.haiInfo.sutehai.length - 1].type === 'reach'
+}
+
+// 面前ツモチェック
+const tsumoCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  return isMemzen(shantenInfo.haiInfo)
+}
+
+// 役牌チェック
+const yakuhaiCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: number, jikaze: number): number => {
+  let yakuhaiCheck = 0
+  shantenInfo.mentsu.forEach((m) => {
+    if (m[0].type === 4 && (m[0].num === 5 || m[0].num === 6 || m[0].num === 7)) {
+      yakuhaiCheck++
+    }
+
+    // 場風と自風をダブルでカウントできるように
+    if (m[0].type === 4 && (m[0].num === bakaze)) {
+      yakuhaiCheck++
+    }
+
+    if (m[0].type === 4 && (m[0].num === jikaze)) {
+      yakuhaiCheck++
+    }
+  })
+
+  if (shantenInfo.toitsu.length === 2) {
+    shantenInfo.toitsu.forEach((t) => {
+      if (t[0].hai === machiHai.hai) {
+        if (t[0].type === 4 && (t[0].num === 5 || t[0].num === 6 || t[0].num === 7)) {
+          yakuhaiCheck++
+        }
+
+        // 場風と自風をダブルでカウントできるように
+        if (t[0].type === 4 && (t[0].num === bakaze)) {
+          yakuhaiCheck++
+        }
+
+        if (t[0].type === 4 && (t[0].num === jikaze)) {
+          yakuhaiCheck++
+        }
+      }
+    })
+  }
+
+  return yakuhaiCheck
+}
+
+// タンヤオ
+const tanyaoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+  let tanyaoFlag = true
+  shantenInfo.haiCountInfo.forEach((h) => {
+    if (h.count > 0 && (h.type === 4 || h.num === 1 || h.num === 9)) {
+      tanyaoFlag = false
+    }
+  })
+  if (isYaochu(machiHai)) {
+    tanyaoFlag = false
+  }
+
+  return tanyaoFlag
+}
+
+const pinfuCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: number, jikaze: number): boolean => {
+  // 面前/順子三つ/雀頭が役牌じゃない/ターツが両面
+  if (
+    !isMemzen(shantenInfo.haiInfo) ||
+    shantenInfo.mentsu.length !== 3 ||
+    shantenInfo.toitsu.length !== 1 ||
+    shantenInfo.tatsu.length !== 1
+  ) {
+    return false
+  }
+
+  // メンツ
+  let isPinfu = true
+  shantenInfo.mentsu.forEach((m) => {
+    // 暗刻はだめよ
+    if (m[0].num === m[1].num) {
+      isPinfu = false
+    }
+  })
+
+  // 雀頭チェック
+  if (isYakuhai(shantenInfo.toitsu[0][0], bakaze, jikaze)) {
+    isPinfu = false
+  }
+
+  // ターツ
+  // 横並びじゃない
+  if (shantenInfo.tatsu[0][0].num !== shantenInfo.tatsu[0][1].num - 1) {
+    isPinfu = false
+  }
+
+  // ペンチャンじゃない
+  if (shantenInfo.tatsu[0][0].num === 1 || shantenInfo.tatsu[0][0].num === 8) {
+    isPinfu = false
+  }
+
+  return isPinfu
 }

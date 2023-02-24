@@ -91,6 +91,7 @@ export type HaiDirectionProp = 'direction_0' | 'direction_1' | 'direction_2' | '
 
 export type ShantenBaseInfo = {
   remainHaiCountInfo: HaiCountInfoProp[]
+  haiCountInfo: HaiCountInfoProp[]
   kokushi: HaiInfoProp[]
   mentsu: HaiInfoProp[][]
   toitsu: HaiInfoProp[][]

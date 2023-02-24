@@ -257,6 +257,7 @@ export const shantenMentsu = (paiInfo: PaiProp, jikaze: number, bakaze: number):
 
   const shantenBaseInfo: ShantenBaseInfo = {
     remainHaiCountInfo: haiCountInfo,
+    haiCountInfo,
     kokushi: [],
     mentsu: [],
     toitsu: [],

@@ -33,19 +33,32 @@ export const ShantenTest = (): JSX.Element => {
       // 'hai_1_9',
       // 'hai_1_9',
       // 'hai_1_9'
-      'hai_1_1',
+      // 'hai_4_5',
+      // 'hai_4_5',
+      // 'hai_4_5',
+      // 'hai_1_4',
+      // 'hai_1_5',
+      // 'hai_1_6',
+      // 'hai_4_1',
+      // 'hai_4_1',
+      // 'hai_2_3',
+      // 'hai_2_4',
+      // 'hai_2_5',
+      // 'hai_2_6',
+      // 'hai_2_8'
       'hai_1_2',
       'hai_1_3',
       'hai_1_4',
+      'hai_1_4',
       'hai_1_5',
       'hai_1_6',
-      'hai_2_1',
-      'hai_2_1',
-      'hai_2_3',
       'hai_2_4',
       'hai_2_5',
       'hai_2_6',
-      'hai_2_7'
+      'hai_3_6',
+      'hai_3_6',
+      'hai_3_7',
+      'hai_3_8'
     ],
     naki: [],
     sutehai: [],
@@ -114,9 +127,9 @@ export const ShantenTest = (): JSX.Element => {
           {b.machi.map((m, mkey) => {
             return <div key={mkey}>
               <>待ち： </>
-              <img src={getHaiSrc(m.haiInfo.hai, 1)} key={mkey} />
-              <>ロン： { m.tensu.ron.fu }符 { m.tensu.ron.han } 翻</>
-              <>ツモ： { m.tensu.tsumo.fu }符 { m.tensu.tsumo.han } 翻</>
+              <img src={getHaiSrc(m.haiInfo.hai, 1)} key={mkey} /><br />
+              <>ロン： { m.tensu.ron.fu }符 { m.tensu.ron.han } 翻 {m.tensu.ron.yakuList.join('/')}</><br />
+              <>ツモ： { m.tensu.tsumo.fu }符 { m.tensu.tsumo.han } 翻 {m.tensu.tsumo.yakuList.join('/')}</>
             </div>
           })}
         </div>
