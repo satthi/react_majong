@@ -200,6 +200,48 @@ export const sanshokuDoujunCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiI
   return sanshokuFlag
 }
 
+// 三色同刻
+export const sanshokuDoukokuCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+  let sanshokuFlag = false
+  shantenInfo.mentsu.forEach((m1, m1Key) => {
+    if (m1[0].num === m1[1].num) {
+      // 自身が暗刻前提
+      const sanshokuColorCheck: ColorFlagProp = {
+        type_1: false,
+        type_2: false,
+        type_3: false,
+        type_4: false
+      }
+      sanshokuColorCheck['type_' + String(m1[0].type) as ColorTypeProp] = true
+      shantenInfo.mentsu.forEach((m2, m2Key) => {
+        // 暗刻で一番下の数字が同じとき
+        if (m2[0].num === m2[1].num && m1[0].num === m2[0].num) {
+          sanshokuColorCheck['type_' + String(m2[0].type) as ColorTypeProp] = true
+        }
+      })
+
+      // 対子が2つあるときは面とにして一緒に比較
+      if (shantenInfo.toitsu.length === 2) {
+        let kariMentsu
+        if (shantenInfo.toitsu[0][0].hai === machiHai.hai) {
+          kariMentsu = makeKariMentsu(shantenInfo.toitsu[0], machiHai)
+        } else {
+          kariMentsu = makeKariMentsu(shantenInfo.toitsu[1], machiHai)
+        }
+        if (m1[0].num === kariMentsu[0].num) {
+          sanshokuColorCheck['type_' + String(kariMentsu[0].type) as ColorTypeProp] = true
+        }
+      }
+      // 3セットそろっていれば三色同刻
+      if (sanshokuColorCheck.type_1 === true && sanshokuColorCheck.type_2 === true && sanshokuColorCheck.type_3 === true) {
+        sanshokuFlag = true
+      }
+    }
+  })
+
+  return sanshokuFlag
+}
+
 // 一九字牌の判定
 const isYaochu = (hai: HaiInfoProp): boolean => {
   return hai.type === 4 || hai.num === 1 || hai.num === 9
