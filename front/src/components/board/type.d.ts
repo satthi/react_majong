@@ -16,7 +16,7 @@ export type PaiProp = {
 
 export type ShantenInfoProp = {
   shanten: number
-  machi: HaiInfoProp[]
+  machi: MachiInfoProp[]
   mentsuGroup: ShantenBaseInfo[]
 }
 
@@ -45,7 +45,17 @@ export type HaiInfoProp = {
   hai: string
   type: number
   num: number
+}
 
+export type MachiInfoProp = {
+  haiInfo: HaiInfoProp
+  ron: TensuInfoProp
+  tsumo: TensuInfoProp
+}
+
+export type TensuInfoProp = {
+  fu: number
+  han: number
 }
 
 export type HaiCountInfoProp = {
@@ -80,7 +90,7 @@ export type ShantenBaseInfo = {
   tatsu: HaiInfoProp[][]
   remain: HaiInfoProp[]
   shanten: number
-  machi:  HaiInfoProp[]
+  machi:  MachiInfoProp[]
 }
 
 export type AllNakiCheckProp = {

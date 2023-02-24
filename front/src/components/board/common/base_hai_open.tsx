@@ -1,11 +1,11 @@
 import style from './base_hai.module.css'
 import { getHaiSrc } from '../hai/hai_info'
-import type { HaiInfoProp } from '../type'
+import type { MachiInfoProp } from '../type'
 
 interface BaseHaiOpenProp {
   base: string[]
   shanten: number
-  machi: HaiInfoProp[]
+  machi: MachiInfoProp[]
 }
 
 export const BaseHaiOpen = ({ base, shanten, machi }: BaseHaiOpenProp): JSX.Element => {
@@ -21,7 +21,7 @@ export const BaseHaiOpen = ({ base, shanten, machi }: BaseHaiOpenProp): JSX.Elem
         <span className={style.machi}>
           待ち：
           {machi.map((m, k) => {
-            return <img src={getHaiSrc(m.hai, 1)} key={k} height='30px' />
+            return <img src={getHaiSrc(m.haiInfo.hai, 1)} key={k} height='30px' />
           })}
         </span>
       }

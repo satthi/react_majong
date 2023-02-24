@@ -1,25 +1,25 @@
-import type { HaiCountInfoProp, HaiInfoProp, PaiProp, ShantenBaseInfo, ShantenInfoProp } from '../board/type'
+import type { HaiCountInfoProp, HaiInfoProp, MachiInfoProp, PaiProp, ShantenBaseInfo, ShantenInfoProp } from '../board/type'
 
 export const shantenBase = (paiInfo: PaiProp): ShantenInfoProp => {
   const mentsuGroup = shantenMentsu(paiInfo)
 
   // 待ちの抽出
-  let machiSeiri: HaiInfoProp[] = []
+  let machiSeiri: MachiInfoProp[] = []
   mentsuGroup.forEach((m) => {
     machiSeiri = machiSeiri.concat(m.machi)
   })
 
   // ソート
   machiSeiri = machiSeiri.sort((a, b) => {
-    return (a.hai > b.hai) ? 1 : -1
+    return (a.haiInfo.hai > b.haiInfo.hai) ? 1 : -1
   })
 
   // 重複の排除
-  const machiSeiri2: HaiInfoProp[] = []
+  const machiSeiri2: MachiInfoProp[] = []
   machiSeiri.forEach((c) => {
     let doubleCheck = false
     machiSeiri2.forEach((d) => {
-      if (c.hai === d.hai) {
+      if (c.haiInfo.hai === d.haiInfo.hai) {
         doubleCheck = true
       }
     })
@@ -434,32 +434,65 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
         // カンチャン
         if (c.tatsu[0][0].num === c.tatsu[0][1].num - 2) {
           shantenComplete[k].machi = [{
-            // eslint-disable-next-line
-            hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num + 1),
-            type: c.tatsu[0][0].type,
-            // eslint-disable-next-line
-            num: c.tatsu[0][0].num + 1
+            haiInfo: {
+              // eslint-disable-next-line
+              hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num + 1),
+              type: c.tatsu[0][0].type,
+              // eslint-disable-next-line
+              num: c.tatsu[0][0].num + 1
+            },
+            // @todo: 点数計算
+            ron: {
+              fu: 0,
+              han: 0
+            },
+            tsumo: {
+              fu: 0,
+              han: 0
+            }
           }]
         }
         // 両面（ペンチャン込み)
         if (c.tatsu[0][0].num === c.tatsu[0][1].num - 1) {
-          const ryomen: HaiInfoProp[] = []
+          const ryomen: MachiInfoProp[] = []
           if (c.tatsu[0][0].num !== 1) {
             ryomen.push({
-              // eslint-disable-next-line
-              hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num - 1),
-              type: c.tatsu[0][0].type,
-              // eslint-disable-next-line
-              num: c.tatsu[0][0].num - 1
+              haiInfo: {
+                // eslint-disable-next-line
+                hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num - 1),
+                type: c.tatsu[0][0].type,
+                // eslint-disable-next-line
+                num: c.tatsu[0][0].num - 1
+              },
+              // @todo: 点数計算
+              ron: {
+                fu: 0,
+                han: 0
+              },
+              tsumo: {
+                fu: 0,
+                han: 0
+              }
             })
           }
           if (c.tatsu[0][0].num !== 8) {
             ryomen.push({
-              // eslint-disable-next-line
-              hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num + 2),
-              type: c.tatsu[0][0].type,
-              // eslint-disable-next-line
-              num: c.tatsu[0][0].num + 2
+              haiInfo: {
+                // eslint-disable-next-line
+                hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num + 2),
+                type: c.tatsu[0][0].type,
+                // eslint-disable-next-line
+                num: c.tatsu[0][0].num + 2
+              },
+              // @todo: 点数計算
+              ron: {
+                fu: 0,
+                han: 0
+              },
+              tsumo: {
+                fu: 0,
+                han: 0
+              }
             })
           }
           shantenComplete[k].machi = ryomen
@@ -469,26 +502,60 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
       // シャンポン
       if (c.mentsu.length === 3 && c.toitsu.length === 2) {
         shantenComplete[k].machi = [{
-          hai: 'hai_' + String(c.toitsu[0][0].type) + '_' + String(c.toitsu[0][0].num),
-          type: c.toitsu[0][0].type,
-          num: c.toitsu[0][0].num
+          haiInfo: {
+            hai: 'hai_' + String(c.toitsu[0][0].type) + '_' + String(c.toitsu[0][0].num),
+            type: c.toitsu[0][0].type,
+            num: c.toitsu[0][0].num
+          },
+          // @todo: 点数計算
+          ron: {
+            fu: 0,
+            han: 0
+          },
+          tsumo: {
+            fu: 0,
+            han: 0
+          }
         },
         {
-          hai: 'hai_' + String(c.toitsu[1][0].type) + '_' + String(c.toitsu[1][0].num),
-          type: c.toitsu[1][0].type,
-          num: c.toitsu[1][0].num
+          haiInfo: {
+            hai: 'hai_' + String(c.toitsu[1][0].type) + '_' + String(c.toitsu[1][0].num),
+            type: c.toitsu[1][0].type,
+            num: c.toitsu[1][0].num
+          },
+          // @todo: 点数計算
+          ron: {
+            fu: 0,
+            han: 0
+          },
+          tsumo: {
+            fu: 0,
+            han: 0
+          }
         }]
       }
 
       // 単騎/七対子
       if (c.mentsu.length === 4 || c.toitsu.length === 6) {
-        const tanki: HaiInfoProp[] = []
+        const tanki: MachiInfoProp[] = []
         c.remainHaiCountInfo.forEach((r) => {
           if (r.count === 1) {
             tanki.push({
-              hai: 'hai_' + String(r.type) + '_' + String(r.num),
-              type: r.type,
-              num: r.num
+              haiInfo: {
+                hai: 'hai_' + String(r.type) + '_' + String(r.num),
+                type: r.type,
+                num: r.num
+              },
+              // @todo: 点数計算
+              ron: {
+                fu: 0,
+                han: 0
+              },
+              tsumo: {
+                fu: 0,
+                han: 0
+              }
+
             })
           }
         })

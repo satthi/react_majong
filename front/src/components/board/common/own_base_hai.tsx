@@ -1,6 +1,6 @@
 import style from './base_hai.module.css'
 import { getHaiSrc } from '../hai/hai_info'
-import type { AllPaiProp, HaiInfoProp, PaiProp, SuteType } from '../type'
+import type { AllPaiProp, MachiInfoProp, PaiProp, SuteType } from '../type'
 import { execSuteru } from '../../game/exec_suteru'
 import { shantenBase } from '../../game/shanten_base'
 
@@ -12,7 +12,7 @@ interface OwnBaseHaiProp {
   setBoardStatus: React.Dispatch<React.SetStateAction<string>>
   yama: string[]
   shanten: number
-  machi: HaiInfoProp[]
+  machi: MachiInfoProp[]
   reachMode: boolean
   setReachMode: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -69,7 +69,7 @@ export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatu
         <span className={style.machi}>
           待ち：
           {machi.map((m, k) => {
-            return <img src={getHaiSrc(m.hai, 1)} key={k} height='30px' />
+            return <img src={getHaiSrc(m.haiInfo.hai, 1)} key={k} height='30px' />
           })}
         </span>
       }

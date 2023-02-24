@@ -12,10 +12,10 @@ export const isRonable = (hai: PaiProp, sutehai: string): boolean => {
   let machiExists = false
   let furitenCheck = false
   hai.shantenInfo.machi.forEach((m) => {
-    if (m.hai === sutehai) {
+    if (m.haiInfo.hai === sutehai) {
       machiExists = true
       hai.sutehai.forEach((s) => {
-        if (s.hai === m.hai) {
+        if (s.hai === m.haiInfo.hai) {
           furitenCheck = true
         }
       })
