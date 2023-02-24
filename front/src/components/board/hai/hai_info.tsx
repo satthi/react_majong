@@ -625,24 +625,23 @@ export const getInitialYama = (): string[] => {
 
   // ランダムにして山にする
   return shuffle(yama)
-
   // チート
-  yama[0] = 'hai_1_1'
-  yama[1] = 'hai_1_1'
-  yama[2] = 'hai_1_2'
-  yama[3] = 'hai_1_2'
-  yama[16] = 'hai_1_3'
-  yama[17] = 'hai_1_3'
-  yama[18] = 'hai_2_2'
-  yama[19] = 'hai_2_3'
-  yama[32] = 'hai_3_1'
-  yama[33] = 'hai_3_1'
-  yama[34] = 'hai_3_3'
-  yama[35] = 'hai_3_4'
-  yama[48] = 'hai_3_5'
-  yama[52] = 'hai_4_1'
-  yama[56] = 'hai_2_1'
-  return yama
+  // yama[0] = 'hai_1_1'
+  // yama[1] = 'hai_1_1'
+  // yama[2] = 'hai_1_2'
+  // yama[3] = 'hai_1_2'
+  // yama[16] = 'hai_1_3'
+  // yama[17] = 'hai_1_3'
+  // yama[18] = 'hai_2_2'
+  // yama[19] = 'hai_2_3'
+  // yama[32] = 'hai_3_1'
+  // yama[33] = 'hai_3_1'
+  // yama[34] = 'hai_3_3'
+  // yama[35] = 'hai_3_4'
+  // yama[48] = 'hai_3_5'
+  // yama[52] = 'hai_4_1'
+  // yama[56] = 'hai_2_1'
+  // return yama
 }
 
 // @todo: チート未起動時は不要にはなる

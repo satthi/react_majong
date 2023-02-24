@@ -1,6 +1,6 @@
 import type { HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
-import { chantaCheck, chinitsuCheck, doubleReachCheck, haiteiCheck, honitsuCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, pinfuCheck, reachCheck, ryanpekoCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, tanyaoCheck, toitoihoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
+import { chantaCheck, chinitsuCheck, chitoitsuCheck, doubleReachCheck, haiteiCheck, honitsuCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, pinfuCheck, reachCheck, ryanpekoCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, tanyaoCheck, toitoihoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
 export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): MachiTensuInfo => {
   // テンパイ以外は計算しない
@@ -120,6 +120,12 @@ const fuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInf
   // 符を最後切り上げ
   ronFu = Math.ceil(ronFu / 10) * 10
   tsumoFu = Math.ceil(tsumoFu / 10) * 10
+
+  // 七対子固有の判定
+  if (shantenInfo.toitsu.length === 6) {
+    ronFu = 25
+    tsumoFu = 25
+  }
 
   return [ronFu, tsumoFu]
 }
@@ -263,7 +269,13 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     ronYakuList.push('一気通貫')
   }
 
-  // @todo: 七対子
+  // 七対子
+  if (chitoitsuCheck(shantenInfo)) {
+    tsumoYaku += 2
+    ronYaku += 2
+    tsumoYakuList.push('七対子')
+    ronYakuList.push('七対子')
+  }
 
   // 対々和
   if (toitoihoCheck(shantenInfo)) {

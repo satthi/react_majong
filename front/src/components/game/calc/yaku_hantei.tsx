@@ -428,7 +428,7 @@ export const junchantaCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoPr
   })
   shantenInfo.toitsu.forEach((m) => {
     // 1/9でもない
-    if (m[0].type === 4 && (m[0].num !== 1 && m[0].num !== 9)) {
+    if (m[0].type === 4 || (m[0].num !== 1 && m[0].num !== 9)) {
       chantaFlag = false
     }
   })
@@ -485,6 +485,10 @@ export const honitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
   })
 
   return honitsuFlag
+}
+
+export const chitoitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  return shantenInfo.toitsu.length === 6
 }
 
 // 一九字牌の判定
