@@ -1,6 +1,6 @@
 import type { HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
-import { chantaCheck, doubleReachCheck, haiteiCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, pinfuCheck, reachCheck, ryanpekoCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, tanyaoCheck, toitoihoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
+import { chantaCheck, chinitsuCheck, doubleReachCheck, haiteiCheck, honitsuCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, pinfuCheck, reachCheck, ryanpekoCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, tanyaoCheck, toitoihoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
 export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): MachiTensuInfo => {
   // テンパイ以外は計算しない
@@ -304,6 +304,30 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     }
     tsumoYakuList.push('混全帯幺九')
     ronYakuList.push('混全帯幺九')
+  }
+
+  // 清一色
+  if (chinitsuCheck(shantenInfo)) {
+    if (isMemzen(paiInfo)) {
+      tsumoYaku += 6
+      ronYaku += 6
+    } else {
+      tsumoYaku += 5
+      ronYaku += 5
+    }
+    tsumoYakuList.push('清一色')
+    ronYakuList.push('清一色')
+  } else if (honitsuCheck(shantenInfo)) {
+    // 混一色
+    if (isMemzen(paiInfo)) {
+      tsumoYaku += 3
+      ronYaku += 3
+    } else {
+      tsumoYaku += 2
+      ronYaku += 2
+    }
+    tsumoYakuList.push('混一色')
+    ronYakuList.push('混一色')
   }
 
   // @todo: 三槓子

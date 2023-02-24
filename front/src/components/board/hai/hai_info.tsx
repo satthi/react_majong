@@ -624,7 +624,7 @@ export const getInitialYama = (): string[] => {
   const yama = haiList.concat(haiList).concat(haiList).concat(haiList)
 
   // ランダムにして山にする
-  // return shuffle(yama)
+  return shuffle(yama)
 
   // チート
   yama[0] = 'hai_1_1'

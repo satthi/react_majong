@@ -418,7 +418,6 @@ export const ryanpekoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, ma
     (shuntsuList[0][0].hai === shuntsuList[3][0].hai && shuntsuList[1][0].hai === shuntsuList[2][0].hai)
 }
 
-
 export const junchantaCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
   let chantaFlag = true
   shantenInfo.mentsu.forEach((m) => {
@@ -449,6 +448,43 @@ export const junchantaCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoPr
     }
   })
   return chantaFlag
+}
+
+export const chinitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  // すべての牌が一色
+  let isshokuColor = 0
+  let chinitsuFlag = true
+  shantenInfo.haiCountInfo.forEach((h) => {
+    if (h.count > 0) {
+      if (isshokuColor === 0) {
+        isshokuColor = h.type
+      } else if (isshokuColor !== h.type) {
+        console.log(isshokuColor)
+        console.log(h.type)
+        chinitsuFlag = false
+      }
+    }
+  })
+
+  return chinitsuFlag
+}
+
+export const honitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  // すべての牌が一色＋字牌
+  let isshokuColor = 0
+  let honitsuFlag = true
+  shantenInfo.haiCountInfo.forEach((h) => {
+    // 字牌はチェックからスキップ
+    if (h.count > 0 && h.type !== 4) {
+      if (isshokuColor === 0) {
+        isshokuColor = h.type
+      } else if (isshokuColor !== h.type) {
+        honitsuFlag = false
+      }
+    }
+  })
+
+  return honitsuFlag
 }
 
 // 一九字牌の判定
