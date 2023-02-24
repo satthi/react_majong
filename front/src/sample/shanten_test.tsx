@@ -47,11 +47,11 @@ export const ShantenTest = (): JSX.Element => {
       // 'hai_2_6',
       // 'hai_2_8'
       'hai_1_2',
+      'hai_1_2',
+      'hai_3_9',
       'hai_1_3',
       'hai_1_4',
       'hai_1_4',
-      'hai_1_5',
-      'hai_1_6',
       'hai_2_4',
       'hai_2_5',
       'hai_2_6',

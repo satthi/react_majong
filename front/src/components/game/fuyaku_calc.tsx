@@ -193,6 +193,14 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: 
     ronYakuList.push('平和')
   }
 
+  // 一盃口
+  if (ipekoCheck(shantenInfo, machiHai)) {
+    tsumoYaku += 1
+    ronYaku += 1
+    tsumoYakuList.push('一盃口')
+    ronYakuList.push('一盃口')
+  }
+
   return [tsumoYaku, ronYaku, tsumoYakuList, ronYakuList]
 }
 
@@ -308,4 +316,48 @@ const pinfuCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze:
   }
 
   return isPinfu
+}
+
+const ipekoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+  // 面前
+  if (!isMemzen(shantenInfo.haiInfo)) {
+    return false
+  }
+
+  // 同じ順子がいること
+  let ipekoCheck = false
+  shantenInfo.mentsu.forEach((m1, m1Key) => {
+    shantenInfo.mentsu.forEach((m2, m2Key) => {
+      if (
+        m1Key !== m2Key &&
+        m1[0].hai !== m1[1].hai && // 暗刻じゃない
+        m1[0].hai === m2[0].hai && // 一盃口チェック
+        m1[1].hai === m2[1].hai &&
+        m1[2].hai === m2[2].hai
+      ) {
+        ipekoCheck = true
+      }
+    })
+  })
+
+  // ターツがいる場合、ターツの組み合わせと合うものであれば一盃口
+  if (shantenInfo.tatsu.length > 0) {
+    const tatsuCopy: HaiInfoProp[] = JSON.parse(JSON.stringify(shantenInfo.tatsu[0]))
+    let kariMentsu = tatsuCopy.concat(machiHai)
+    kariMentsu = kariMentsu.sort((a, b) => {
+      return (a.hai > b.hai) ? 1 : -1
+    })
+
+    shantenInfo.mentsu.forEach((m3) => {
+      if (
+        kariMentsu[0].hai === m3[0].hai && // 一盃口チェック
+        kariMentsu[1].hai === m3[1].hai &&
+        kariMentsu[2].hai === m3[2].hai
+      ) {
+        ipekoCheck = true
+      }
+    })
+  }
+
+  return ipekoCheck
 }
