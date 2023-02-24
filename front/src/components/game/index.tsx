@@ -9,13 +9,13 @@ import { shantenCheck } from './shanten_check'
 interface GameProp {
   oya: UserProp
   ownAuto: boolean
-  ba: number
+  bakaze: number
   kyoku: number
   hon: number
   reach: number
 }
 
-export const Game = ({ oya, ownAuto, ba, kyoku, hon, reach }: GameProp): JSX.Element => {
+export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX.Element => {
   const userList: UserProp[] = ['own', 'player1', 'player2', 'player3']
 
   const initialSortPai: AllPaiProp = {
@@ -34,7 +34,8 @@ export const Game = ({ oya, ownAuto, ba, kyoku, hon, reach }: GameProp): JSX.Ele
         pon: false,
         ti: false,
         kan: false
-      }
+      },
+      jikaze: 0
     },
     player1: {
       base: [],
@@ -51,7 +52,8 @@ export const Game = ({ oya, ownAuto, ba, kyoku, hon, reach }: GameProp): JSX.Ele
         pon: false,
         ti: false,
         kan: false
-      }
+      },
+      jikaze: 0
     },
     player2: {
       base: [],
@@ -68,7 +70,8 @@ export const Game = ({ oya, ownAuto, ba, kyoku, hon, reach }: GameProp): JSX.Ele
         pon: false,
         ti: false,
         kan: false
-      }
+      },
+      jikaze: 0
     },
     player3: {
       base: [],
@@ -85,17 +88,20 @@ export const Game = ({ oya, ownAuto, ba, kyoku, hon, reach }: GameProp): JSX.Ele
         pon: false,
         ti: false,
         kan: false
-      }
+      },
+      jikaze: 0
     }
   }
 
   let setSortPaiFlag = false
+  let jikazeCount = 0
   userList.forEach((user) => {
     if (user === oya) {
       setSortPaiFlag = true
     }
 
     if (setSortPaiFlag) {
+      jikazeCount++
       initialSortPai[user] = {
         base: [],
         naki: [],
@@ -111,7 +117,8 @@ export const Game = ({ oya, ownAuto, ba, kyoku, hon, reach }: GameProp): JSX.Ele
           pon: false,
           ti: false,
           kan: false
-        }
+        },
+        jikaze: jikazeCount
       }
     }
   })
@@ -121,6 +128,7 @@ export const Game = ({ oya, ownAuto, ba, kyoku, hon, reach }: GameProp): JSX.Ele
     }
 
     if (setSortPaiFlag) {
+      jikazeCount++
       initialSortPai[user] = {
         base: [],
         naki: [],
@@ -136,7 +144,8 @@ export const Game = ({ oya, ownAuto, ba, kyoku, hon, reach }: GameProp): JSX.Ele
           pon: false,
           ti: false,
           kan: false
-        }
+        },
+        jikaze: jikazeCount
       }
     }
   })
@@ -163,12 +172,12 @@ export const Game = ({ oya, ownAuto, ba, kyoku, hon, reach }: GameProp): JSX.Ele
 
     // ターン
     if (boardStatus.match(/^turn_/) !== null) {
-      turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser, ownAuto)
+      turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser, ownAuto, bakaze)
     }
 
     // シャンテン判定(ひとまず全員分)
-    shantenCheck(allPai, setAllPai)
+    shantenCheck(allPai, setAllPai, bakaze)
   }
 
-  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} ba={ba} kyoku={kyoku} hon={hon} reach={reach} />
+  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} />
 }

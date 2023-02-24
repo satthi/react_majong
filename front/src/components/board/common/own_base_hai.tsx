@@ -15,9 +15,10 @@ interface OwnBaseHaiProp {
   machi: MachiInfoProp[]
   reachMode: boolean
   setReachMode: React.Dispatch<React.SetStateAction<boolean>>
+  bakaze: number
 }
 
-const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, haiKey: number, yama: string[], reachMode: boolean, setReachMode: React.Dispatch<React.SetStateAction<boolean>>): void => {
+const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, haiKey: number, yama: string[], reachMode: boolean, setReachMode: React.Dispatch<React.SetStateAction<boolean>>, bakaze: number): void => {
   const turnUserMatch = boardStatus.match(/^think_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (turnUserMatch === null) {
@@ -34,7 +35,7 @@ const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
       // その牌を切ったときにテンパイするか確認。しないときは反応なし
       const checkHaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[turnUser]))
       checkHaiInfo.base.splice(haiKey, 1)
-      const shantenInfo = shantenBase(checkHaiInfo)
+      const shantenInfo = shantenBase(checkHaiInfo, bakaze, checkHaiInfo.jikaze)
       // 切ったらテンパイが崩れる
       if (shantenInfo.shanten !== 0) {
         return
@@ -49,16 +50,16 @@ const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
     if (allPai.own.isReach && haiKey !== allPai.own.base.length - 1) {
       return
     }
-    execSuteru(allPai, setAllPai, 'own', boardStatus, setBoardStatus, haiKey, yama, suteType, false)
+    execSuteru(allPai, setAllPai, 'own', boardStatus, setBoardStatus, haiKey, yama, suteType, false, bakaze)
   }
 }
 
-export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatus, yama, shanten, machi, reachMode, setReachMode }: OwnBaseHaiProp): JSX.Element => {
+export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatus, yama, shanten, machi, reachMode, setReachMode, bakaze }: OwnBaseHaiProp): JSX.Element => {
   return <>
     {base.map((basePai, haiKey) => {
       return <div key={haiKey} className={style.basePai}>
         {/* eslint-disable-next-line */}
-        <img src={getHaiSrc(basePai, 0)} onClick={() => execOwnSuteru(allPai, setAllPai, boardStatus, setBoardStatus, haiKey, yama, reachMode, setReachMode)}/>
+        <img src={getHaiSrc(basePai, 0)} onClick={() => execOwnSuteru(allPai, setAllPai, boardStatus, setBoardStatus, haiKey, yama, reachMode, setReachMode, bakaze)}/>
       </div>
     })}
     <div className={style.shanten}>

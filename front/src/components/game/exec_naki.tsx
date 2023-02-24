@@ -3,7 +3,7 @@ import type { AllPaiProp, UserProp } from '../board/type'
 import { nextTurn } from './next_turn'
 import { shantenCheck } from './shanten_check'
 
-export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], suteruhai: string): void => {
+export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], suteruhai: string, bakaze: number): void => {
   // 判定順
   const sortUsers: UserProp[] = []
   let setUserFlag = false;
@@ -34,7 +34,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
       allPai[sortUser].base.push(suteruhai)
       setAllPai(allPai)
-      shantenCheck(allPai, setAllPai)
+      shantenCheck(allPai, setAllPai, bakaze)
       setRon(allPai, sortUser, setBoardStatus)
       ronExec = true
     }

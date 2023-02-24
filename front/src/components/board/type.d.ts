@@ -12,6 +12,7 @@ export type PaiProp = {
   shantenInfo: ShantenInfoProp
   isReach: boolean
   nakiCheck: NakiCheckProp
+  jikaze: number
 }
 
 export type ShantenInfoProp = {
@@ -61,6 +62,7 @@ export type TensuInfoProp = {
   fu: number
   han: number
   yakuman: number
+  yakuList: string[]
 }
 
 export type HaiCountInfoProp = {
@@ -96,6 +98,7 @@ export type ShantenBaseInfo = {
   remain: HaiInfoProp[]
   shanten: number
   machi:  MachiInfoProp[]
+  haiInfo: PaiProp
 }
 
 export type AllNakiCheckProp = {

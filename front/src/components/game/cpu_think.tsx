@@ -4,7 +4,7 @@ import { isReachable } from './detection/is_reachable'
 import { execSuteru } from './exec_suteru'
 import { shantenBase } from './shanten_base'
 
-export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
+export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean, bakaze: number): void => {
   const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (turnUserMatch === null) {
@@ -23,16 +23,16 @@ export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   // リーチ状態では考えることはなくツモ切り
   // eslint-disable-next-line
   if (allPai[turnUser].isReach) {
-    execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, allPai[turnUser].base.length - 1, yama, 'normal', ownAuto)
+    execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, allPai[turnUser].base.length - 1, yama, 'normal', ownAuto, bakaze)
   } else {
-    cpuThink1(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, turnUser, ownAuto)
+    cpuThink1(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, turnUser, ownAuto, bakaze)
   }
 
   setExecUser(turnUser)
 }
 
-const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, turnUser: UserProp, ownAuto: boolean): void => {
-  const minShantenList = minShantenPick(allPai[turnUser])
+const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, turnUser: UserProp, ownAuto: boolean, bakaze: number): void => {
+  const minShantenList = minShantenPick(allPai[turnUser], bakaze)
 
   // シャンテン数が少ないものをランダムで切るようにする
   const shuffleShanteList = shuffle(minShantenList)
@@ -40,10 +40,10 @@ const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
   // テンパイ即リーチする
   const suteType = tenpaiSokuReach(allPai[turnUser], boardStatus)
 
-  execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, suteType, ownAuto)
+  execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, suteType, ownAuto, bakaze)
 }
 
-const minShantenPick = (hai: PaiProp): ShantenListProp[] => {
+const minShantenPick = (hai: PaiProp, bakaze: number): ShantenListProp[] => {
   // とりあえずシャンテン数が減る方向に切ってみる
   const shantenList: ShantenListProp[] = []
   let minShanten = 99
@@ -52,7 +52,7 @@ const minShantenPick = (hai: PaiProp): ShantenListProp[] => {
     // 1個ずつずらしてみる
     paiInfoCopy.base.splice(k, 1)
 
-    const shantenInfo = shantenBase(paiInfoCopy)
+    const shantenInfo = shantenBase(paiInfoCopy, bakaze, hai.jikaze)
     shantenList.push({
       key: k,
       shantenInfo
