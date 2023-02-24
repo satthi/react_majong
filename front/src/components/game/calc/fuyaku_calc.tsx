@@ -1,5 +1,5 @@
-import type { HaiInfoProp, MachiTensuInfo, ShantenBaseInfo } from '../board/type'
-import { isMemzen } from './detection/is_menzen'
+import type { HaiInfoProp, MachiTensuInfo, ShantenBaseInfo } from '../../board/type'
+import { isMemzen } from '../detection/is_menzen'
 
 export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: number, jikaze: number): MachiTensuInfo => {
   console.log(shantenInfo)

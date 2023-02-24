@@ -1,5 +1,5 @@
 import type { HaiCountInfoProp, HaiInfoProp, MachiInfoProp, PaiProp, ShantenBaseInfo, ShantenInfoProp } from '../board/type'
-import { fuyakuCalc } from './fuyaku_calc'
+import { fuyakuCalc } from './calc/fuyaku_calc'
 
 export const shantenBase = (paiInfo: PaiProp, jikaze: number, bakaze: number): ShantenInfoProp => {
   const mentsuGroup = shantenMentsu(paiInfo, jikaze, bakaze)
