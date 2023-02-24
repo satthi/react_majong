@@ -159,7 +159,7 @@ const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: numbe
   return agariString
 }
 
-const getDora = (doraHyojiText: string): string => {
+export const getDora = (doraHyojiText: string): string => {
   const omoteDoraMatch = doraHyojiText.match(/^hai_([1-4])_([1-9])$/)
   // matchしないことはないはずなんだけどね
   if (omoteDoraMatch === null) {

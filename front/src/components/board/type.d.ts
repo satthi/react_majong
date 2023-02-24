@@ -138,3 +138,8 @@ export type SangenhaiFlagProp = {
 }
 
 export type SangenhaiTypeProp = 'num_5' | 'num_6' | 'num_7'
+
+export type SutehaiListWeightProp = {
+  key: number
+  weight: number
+}

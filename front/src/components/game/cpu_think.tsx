@@ -1,5 +1,6 @@
+import { getDora } from '../board'
 import { setTsumo } from '../board/common/set_tsumo'
-import type { AllPaiProp, PaiProp, ShantenListProp, SuteType, UserProp } from '../board/type'
+import type { AllPaiProp, PaiProp, ShantenListProp, SutehaiListWeightProp, SuteType, UserProp } from '../board/type'
 import { isReachable } from './detection/is_reachable'
 import { execSuteru } from './exec_suteru'
 import { shantenBase } from './shanten_base'
@@ -25,16 +26,102 @@ export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   if (allPai[turnUser].isReach) {
     execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, allPai[turnUser].base.length - 1, yama, 'normal', ownAuto, bakaze)
   } else {
-    cpuThink1(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, turnUser, ownAuto, bakaze)
+    // cpuThink1(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, turnUser, ownAuto, bakaze)
+    cpuThink2(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, turnUser, ownAuto, bakaze)
   }
 
   setExecUser(turnUser)
 }
 
+// eslint-disable-next-line
 const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, turnUser: UserProp, ownAuto: boolean, bakaze: number): void => {
   const minShantenList = minShantenPick(allPai[turnUser], yama, bakaze)
   // 牌のリストをコストで見るようにしてみる
   const shuffleShanteList = shuffle(minShantenList)
+
+  // テンパイ即リーチする
+  const suteType = tenpaiSokuReach(allPai[turnUser], boardStatus)
+
+  execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, suteType, ownAuto, bakaze)
+}
+
+const cpuThink2 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, turnUser: UserProp, ownAuto: boolean, bakaze: number): void => {
+  const minShantenList = minShantenPick(allPai[turnUser], yama, bakaze)
+  // 捨て方にも気持ちレベルを設定したい
+  let maxGroupWeight = 0
+  const sutehaiListWeight: SutehaiListWeightProp[] = []
+  minShantenList.forEach((s) => {
+    let groupWeight = 0
+    s.shantenInfo.mentsuGroup.forEach((m) => {
+      let weight = 0
+      // メンツはとても大事
+      weight += m.mentsu.length * 200
+
+      // 雀頭は一つはとても大事
+      // それ以外の対子はまぁぼちぼち
+      if (m.toitsu.length > 0) {
+        weight += 200 + (m.toitsu.length - 1) * 50
+      }
+
+      // ターツは
+      // 両面は結構大事
+      // カンチャンよりペンチャンがいらない
+      m.tatsu.forEach((t) => {
+        if (t[0].num === t[0].num - 2) {
+          weight += 60
+        } else if (t[0].num === 1 || t[0].num === 8) {
+          weight += 30
+        } else {
+          weight += 100
+        }
+      })
+
+      // 孤立牌について
+      // 優先度は3~7の数字牌＞2/8の数字牌＞1/9の数字牌＞役牌＞へかぜの牌とする
+      // ドラは優先度を高く見る
+      const doraText = getDora(yama[yama.length - 6])
+      m.remainHaiCountInfo.forEach((r) => {
+        if (r.count > 0) {
+          if ((r.type === 1 || r.type === 2 || r.type === 3) && (r.num >= 3 && r.num <= 7)) {
+            weight += 10
+          }
+          if ((r.type === 1 || r.type === 2 || r.type === 3) && (r.num === 2 || r.num === 8)) {
+            weight += 8
+          }
+          if ((r.type === 1 || r.type === 2 || r.type === 3) && (r.num === 1 || r.num === 9)) {
+            weight += 5
+          }
+          if (r.type === 4 && (r.num === 5 || r.num === 6 || r.num === 7 || r.num === bakaze || r.num === allPai[turnUser].jikaze)) {
+            weight += 3
+          }
+        }
+
+        if (r.hai === doraText) {
+          weight += 13
+        }
+      })
+
+      weight += (m.toitsu.length - 1) * 5
+
+      if (groupWeight < weight) {
+        groupWeight = weight
+      }
+    })
+    sutehaiListWeight.push({
+      key: s.key,
+      weight: groupWeight
+    })
+    if (maxGroupWeight < groupWeight) {
+      maxGroupWeight = groupWeight
+    }
+  })
+
+  const filterSutehaiListWeight = sutehaiListWeight.filter((s) => {
+    return s.weight === maxGroupWeight
+  })
+
+  // 牌のリストをコストで見るようにしてみる
+  const shuffleShanteList = shuffle(filterSutehaiListWeight)
 
   // テンパイ即リーチする
   const suteType = tenpaiSokuReach(allPai[turnUser], boardStatus)
