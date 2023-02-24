@@ -38,6 +38,17 @@
     left: 400px;
 }
 
+.ownMessageField {
+    position: absolute;
+    top: 820px;
+    left: 400px;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    font-size: 3em;
+    color: white;
+}
+
 /* player1 */
 .player1PaiBaseField {
     position: absolute;
@@ -68,6 +79,18 @@
     position: absolute;
     top: 430px;
     left: 620px;
+}
+
+.player1MessageField {
+    position: absolute;
+    top: 350px;
+    left: 760px;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    font-size: 3em;
+    color: white;
+    transform:rotate(-90deg);
 }
 
 /* player2 */
@@ -102,6 +125,19 @@
     left: 400px;
 }
 
+.player2MessageField {
+    position: absolute;
+    top: 120px;
+    left: 400px;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    font-size: 3em;
+    color: white;
+    transform:rotate(180deg);
+}
+
+
 /* player3 */
 .player3PaiBaseField {
     position: absolute;
@@ -132,6 +168,18 @@
     position: absolute;
     top: 435px;
     left: 340px;
+}
+
+.player3MessageField {
+    position: absolute;
+    top: 420px;
+    left: 60px;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    font-size: 3em;
+    color: white;
+    transform:rotate(90deg);
 }
 
 .info {
@@ -167,4 +215,10 @@
 .controlGray {
     background-color: gray;
     cursor: no-drop;
+}
+
+.honInfo {
+    position: absolute;
+    right: 0;
+    top: 0;
 }

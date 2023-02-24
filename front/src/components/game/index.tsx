@@ -6,7 +6,16 @@ import { initialSet } from './initial_set'
 import { turn } from './turn'
 import { shantenCheck } from './shanten_check'
 
-export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX.Element => {
+interface GameProp {
+  oya: UserProp
+  ownAuto: boolean
+  ba: number
+  kyoku: number
+  hon: number
+  reach: number
+}
+
+export const Game = ({ oya, ownAuto, ba, kyoku, hon, reach }: GameProp): JSX.Element => {
   const userList: UserProp[] = ['own', 'player1', 'player2', 'player3']
 
   const initialSortPai: AllPaiProp = {
@@ -161,5 +170,5 @@ export const Game = ({ oya, ownAuto }: { oya: UserProp, ownAuto: boolean }): JSX
     shantenCheck(allPai, setAllPai)
   }
 
-  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} />
+  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} ba={ba} kyoku={kyoku} hon={hon} reach={reach} />
 }

@@ -9,6 +9,7 @@ import { BaseHaiOpen } from './common/base_hai_open'
 import { setTsumo } from './common/set_tsumo'
 import b_1_1 from './parts/b_1_1.gif'
 import b_1_2 from './parts/b_1_2.gif'
+import b_8_2 from './parts/b_8_2.gif'
 import { isReachable } from '../game/detection/is_reachable'
 import { shantenCheck } from '../game/shanten_check'
 import { execNaki } from '../game/exec_naki'
@@ -21,6 +22,10 @@ interface BoardProp {
   boardStatus: string
   setBoardStatus: React.Dispatch<React.SetStateAction<string>>
   yama: string[]
+  ba: number
+  kyoku: number
+  hon: number
+  reach: number
 }
 
 const execHaiOpen = (haiOpen: boolean, setHaiOpen: React.Dispatch<React.SetStateAction<boolean>>): void => {
@@ -78,7 +83,7 @@ const execOwnCancel = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
   execNaki(allPai, setAllPai, nakiUser, setBoardStatus, yama, suteruhai)
 }
 
-export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: BoardProp): JSX.Element => {
+export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, ba, kyoku, hon, reach }: BoardProp): JSX.Element => {
   const ownPai = allPai.own
   const player1Pai = allPai.player1
   const player2Pai = allPai.player2
@@ -119,6 +124,12 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             </div>
           }
 
+          {/* メッセージ枠 */}
+          <div className={style.ownMessageField}>
+            {boardStatus === 'agari_tsumo_own' && <>ツモ</>}
+            {boardStatus === 'agari_ron_own' && <>ロン</>}
+          </div>
+
           {/* player1 */}
           {(!haiOpen && boardStatus !== 'agari_ron_player1' && boardStatus !== 'agari_tsumo_player1')
             ? <div className={style.player1PaiBaseField}>
@@ -146,6 +157,12 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
               <img src={b_1_1} />
             </div>
           }
+
+          {/* メッセージ枠 */}
+          <div className={style.player1MessageField}>
+            {boardStatus === 'agari_tsumo_player1' && <>player1 ツモ</>}
+            {boardStatus === 'agari_ron_player1' && <>player1 ロン</>}
+          </div>
 
           {/* player2 */}
           {(!haiOpen && boardStatus !== 'agari_ron_player2' && boardStatus !== 'agari_tsumo_player2')
@@ -175,6 +192,12 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             </div>
           }
 
+          {/* メッセージ枠 */}
+          <div className={style.player2MessageField}>
+            {boardStatus === 'agari_tsumo_player2' && <>player2 ツモ</>}
+            {boardStatus === 'agari_ron_player2' && <>player2 ロン</>}
+          </div>
+
           {/* player3 */}
           {(!haiOpen && boardStatus !== 'agari_ron_player3' && boardStatus !== 'agari_tsumo_player3')
             ? <div className={style.player3PaiBaseField}>
@@ -203,17 +226,30 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama }: 
             </div>
           }
 
-          <div className={style.info}>
-            残り：{yama.length - 14} 枚
-            {boardStatus === 'ryukyoku' && <>流局</>}
-            {boardStatus === 'agari_tsumo_own' && <>own ツモ</>}
-            {boardStatus === 'agari_ron_own' && <>own ロン</>}
-            {boardStatus === 'agari_tsumo_player1' && <>player1 ツモ</>}
-            {boardStatus === 'agari_ron_player1' && <>player1 ロン</>}
-            {boardStatus === 'agari_tsumo_player2' && <>player2 ツモ</>}
-            {boardStatus === 'agari_ron_player2' && <>player2 ロン</>}
+          {/* メッセージ枠 */}
+          <div className={style.player3MessageField}>
             {boardStatus === 'agari_tsumo_player3' && <>player3 ツモ</>}
             {boardStatus === 'agari_ron_player3' && <>player3 ロン</>}
+          </div>
+
+          <div className={style.info}>
+            <div>
+              {ba === 1 && '東'}
+              {ba === 2 && '南'}
+              {ba === 3 && '西'}
+              {ba === 4 && '北'}
+              {kyoku === 1 && '一'}
+              {kyoku === 2 && '二'}
+              {kyoku === 3 && '三'}
+              {kyoku === 4 && '四'}
+              局
+              <div className={style.honInfo}>
+                <img src={b_1_2} /> × {reach}<br />
+                <img src={b_8_2} /> × {hon}
+              </div>
+            </div>
+            <div>残り：{yama.length - 14} 枚</div>
+            {boardStatus === 'ryukyoku' && <>流局</>}
             {/* ドラ */}
             <div className={style.doraField}>
               {
