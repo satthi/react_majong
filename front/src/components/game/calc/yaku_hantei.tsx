@@ -330,6 +330,12 @@ export const chantaCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp)
     }
   }
 
+  // 単騎のパターン
+  shantenInfo.remainHaiCountInfo.forEach((r) => {
+    if (r.count > 0 && (r.type !== 4 && r.num !== 1 && r.num !== 9)) {
+      chantaFlag = false
+    }
+  })
   return chantaFlag
 }
 
@@ -355,12 +361,27 @@ export const shosangenCheck = (shantenInfo: ShantenBaseInfo): boolean => {
   })
 
   shantenInfo.remainHaiCountInfo.forEach((r) => {
-    if (r.hai === 'hai_4_5' || r.hai === 'hai_4_6' || r.hai === 'hai_4_7') {
+    if (r.count > 0 && (r.hai === 'hai_4_5' || r.hai === 'hai_4_6' || r.hai === 'hai_4_7')) {
       SangenhaiCheck['num_' + String(r.num) as SangenhaiTypeProp] = true
     }
   })
 
   return SangenhaiCheck.num_5 === true && SangenhaiCheck.num_6 === true && SangenhaiCheck.num_7 === true
+}
+
+export const honrotoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+  // すべての牌が19字牌
+  let honrotoFlag = true
+  shantenInfo.haiCountInfo.forEach((h) => {
+    if (h.count > 0 && (h.type !== 4 && h.num !== 1 && h.num !== 9)) {
+      honrotoFlag = false
+    }
+  })
+  if (!isYaochu(machiHai)) {
+    honrotoFlag = false
+  }
+
+  return honrotoFlag
 }
 
 // 一九字牌の判定
