@@ -1,6 +1,6 @@
-import type { MachiTensuInfo } from '../board/type'
+import type { HaiInfoProp, MachiTensuInfo, ShantenBaseInfo } from '../board/type'
 
-export const fuyakuCalc = (): MachiTensuInfo => {
+export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): MachiTensuInfo => {
   return {
     ron: {
       fu: 0,

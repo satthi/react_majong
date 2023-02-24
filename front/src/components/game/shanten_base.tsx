@@ -434,45 +434,51 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
         // ターツの待ち
         // カンチャン
         if (c.tatsu[0][0].num === c.tatsu[0][1].num - 2) {
+          const machiHai1: HaiInfoProp = {
+            // eslint-disable-next-line
+            hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num + 1),
+            type: c.tatsu[0][0].type,
+            // eslint-disable-next-line
+            num: c.tatsu[0][0].num + 1
+          }
+
           shantenComplete[k].machi = [{
-            haiInfo: {
-              // eslint-disable-next-line
-              hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num + 1),
-              type: c.tatsu[0][0].type,
-              // eslint-disable-next-line
-              num: c.tatsu[0][0].num + 1
-            },
+            haiInfo: machiHai1,
             // @todo: 点数計算
-            tensu: fuyakuCalc()
+            tensu: fuyakuCalc(c, machiHai1)
           }]
         }
         // 両面（ペンチャン込み)
         if (c.tatsu[0][0].num === c.tatsu[0][1].num - 1) {
           const ryomen: MachiInfoProp[] = []
           if (c.tatsu[0][0].num !== 1) {
+            const machiHai2: HaiInfoProp = {
+              // eslint-disable-next-line
+              hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num - 1),
+              type: c.tatsu[0][0].type,
+              // eslint-disable-next-line
+              num: c.tatsu[0][0].num - 1
+            }
+
             ryomen.push({
-              haiInfo: {
-                // eslint-disable-next-line
-                hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num - 1),
-                type: c.tatsu[0][0].type,
-                // eslint-disable-next-line
-                num: c.tatsu[0][0].num - 1
-              },
+              haiInfo: machiHai2,
               // @todo: 点数計算
-              tensu: fuyakuCalc()
+              tensu: fuyakuCalc(c, machiHai2)
             })
           }
           if (c.tatsu[0][0].num !== 8) {
+            const machiHai3: HaiInfoProp = {
+              // eslint-disable-next-line
+              hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num + 2),
+              type: c.tatsu[0][0].type,
+              // eslint-disable-next-line
+              num: c.tatsu[0][0].num + 2
+            }
+
             ryomen.push({
-              haiInfo: {
-                // eslint-disable-next-line
-                hai: 'hai_' + String(c.tatsu[0][0].type) + '_' + String(c.tatsu[0][0].num + 2),
-                type: c.tatsu[0][0].type,
-                // eslint-disable-next-line
-                num: c.tatsu[0][0].num + 2
-              },
+              haiInfo: machiHai3,
               // @todo: 点数計算
-              tensu: fuyakuCalc()
+              tensu: fuyakuCalc(c, machiHai3)
             })
           }
           shantenComplete[k].machi = ryomen
@@ -481,23 +487,27 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
 
       // シャンポン
       if (c.mentsu.length === 3 && c.toitsu.length === 2) {
+        const machiHai4: HaiInfoProp = {
+          hai: 'hai_' + String(c.toitsu[0][0].type) + '_' + String(c.toitsu[0][0].num),
+          type: c.toitsu[0][0].type,
+          num: c.toitsu[0][0].num
+        }
+
+        const machiHai5: HaiInfoProp = {
+          hai: 'hai_' + String(c.toitsu[1][0].type) + '_' + String(c.toitsu[1][0].num),
+          type: c.toitsu[1][0].type,
+          num: c.toitsu[1][0].num
+        }
+
         shantenComplete[k].machi = [{
-          haiInfo: {
-            hai: 'hai_' + String(c.toitsu[0][0].type) + '_' + String(c.toitsu[0][0].num),
-            type: c.toitsu[0][0].type,
-            num: c.toitsu[0][0].num
-          },
+          haiInfo: machiHai4,
           // @todo: 点数計算
-          tensu: fuyakuCalc()
+          tensu: fuyakuCalc(c, machiHai4)
         },
         {
-          haiInfo: {
-            hai: 'hai_' + String(c.toitsu[1][0].type) + '_' + String(c.toitsu[1][0].num),
-            type: c.toitsu[1][0].type,
-            num: c.toitsu[1][0].num
-          },
+          haiInfo: machiHai5,
           // @todo: 点数計算
-          tensu: fuyakuCalc()
+          tensu: fuyakuCalc(c, machiHai5)
         }]
       }
 
@@ -506,14 +516,16 @@ export const shantenMentsu = (paiInfo: PaiProp): ShantenBaseInfo[] => {
         const tanki: MachiInfoProp[] = []
         c.remainHaiCountInfo.forEach((r) => {
           if (r.count === 1) {
+            const machiHai6: HaiInfoProp = {
+              hai: 'hai_' + String(r.type) + '_' + String(r.num),
+              type: r.type,
+              num: r.num
+            }
+
             tanki.push({
-              haiInfo: {
-                hai: 'hai_' + String(r.type) + '_' + String(r.num),
-                type: r.type,
-                num: r.num
-              },
+              haiInfo: machiHai6,
               // @todo: 点数計算
-              tensu: fuyakuCalc()
+              tensu: fuyakuCalc(c, machiHai6)
             })
           }
         })
