@@ -64,7 +64,7 @@ export const yakuhaiCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp
 }
 
 // タンヤオ
-export const tanyaoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+export const tanyaoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
   let tanyaoFlag = true
   shantenInfo.haiCountInfo.forEach((h) => {
     if (h.count > 0 && (h.type === 4 || h.num === 1 || h.num === 9)) {
@@ -74,6 +74,19 @@ export const tanyaoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp)
   if (isYaochu(machiHai)) {
     tanyaoFlag = false
   }
+
+  // 鳴きの中身も見る
+  paiInfo.naki.forEach((n) => {
+    if (isYaochu(n.keyHai.haiInfo)) {
+      tanyaoFlag = false
+    }
+
+    n.hai.forEach((nh) => {
+      if (isYaochu(nh)) {
+        tanyaoFlag = false
+      }
+    })
+  })
 
   return tanyaoFlag
 }
@@ -191,6 +204,7 @@ export const sanshokuDoujunCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiI
         }
       }
       // 3セットそろっていれば三色同順
+      // eslint-disable-next-line
       if (sanshokuColorCheck.type_1 === true && sanshokuColorCheck.type_2 === true && sanshokuColorCheck.type_3 === true) {
         sanshokuFlag = true
       }
@@ -233,6 +247,7 @@ export const sanshokuDoukokuCheck = (shantenInfo: ShantenBaseInfo, machiHai: Hai
         }
       }
       // 3セットそろっていれば三色同刻
+      // eslint-disable-next-line
       if (sanshokuColorCheck.type_1 === true && sanshokuColorCheck.type_2 === true && sanshokuColorCheck.type_3 === true) {
         sanshokuFlag = true
       }
@@ -285,6 +300,7 @@ export const ikkitsukanCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoP
         }
       }
       // 3セットそろっていれば一気通貫
+      // eslint-disable-next-line
       if (ikkiTsukanCheck.num_1 === true && ikkiTsukanCheck.num_4 === true && ikkiTsukanCheck.num_7 === true) {
         ikkitsukanFlag = true
       }
@@ -366,6 +382,7 @@ export const shosangenCheck = (shantenInfo: ShantenBaseInfo): boolean => {
     }
   })
 
+  // eslint-disable-next-line
   return SangenhaiCheck.num_5 === true && SangenhaiCheck.num_6 === true && SangenhaiCheck.num_7 === true
 }
 
@@ -450,7 +467,7 @@ export const junchantaCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoPr
   return chantaFlag
 }
 
-export const chinitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+export const chinitsuCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp): boolean => {
   // すべての牌が一色
   let isshokuColor = 0
   let chinitsuFlag = true
@@ -464,10 +481,19 @@ export const chinitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
     }
   })
 
+  // 鳴きの中身も見る
+  paiInfo.naki.forEach((n) => {
+    if (isshokuColor === 0) {
+      isshokuColor = n.keyHai.haiInfo.type
+    } else if (isshokuColor !== n.keyHai.haiInfo.type) {
+      chinitsuFlag = false
+    }
+  })
+
   return chinitsuFlag
 }
 
-export const honitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+export const honitsuCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp): boolean => {
   // すべての牌が一色＋字牌
   let isshokuColor = 0
   let honitsuFlag = true
@@ -477,6 +503,18 @@ export const honitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
       if (isshokuColor === 0) {
         isshokuColor = h.type
       } else if (isshokuColor !== h.type) {
+        honitsuFlag = false
+      }
+    }
+  })
+
+  // 鳴きの中身も見る
+  paiInfo.naki.forEach((n) => {
+    // 字牌はチェックからスキップ
+    if (n.keyHai.haiInfo.type !== 4) {
+      if (isshokuColor === 0) {
+        isshokuColor = n.keyHai.haiInfo.type
+      } else if (isshokuColor !== n.keyHai.haiInfo.type) {
         honitsuFlag = false
       }
     }

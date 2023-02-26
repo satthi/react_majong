@@ -1,5 +1,6 @@
 import React from 'react'
 import { BaseHaiOpen } from '../components/board/common/base_hai_open'
+import { Naki } from '../components/board/common/naki'
 import { getHaiSrc } from '../components/board/hai/hai_info'
 import type { PaiProp } from '../components/board/type'
 import { shantenBase, shantenMentsu } from '../components/game/shanten_base'
@@ -46,21 +47,102 @@ export const ShantenTest = (): JSX.Element => {
       // 'hai_2_5',
       // 'hai_2_6',
       // 'hai_2_8'
-      'hai_1_1',
-      'hai_1_1',
-      'hai_1_1',
-      'hai_1_2',
-      'hai_1_3',
-      'hai_1_4',
-      'hai_1_5',
-      'hai_1_5',
-      'hai_1_6',
-      'hai_1_7',
-      'hai_1_8',
-      'hai_1_8',
       'hai_1_8'
     ],
-    naki: [],
+    naki: [
+      {
+        type: 'pon',
+        keyHai: {
+          haiInfo: {
+            hai: 'hai_4_1',
+            type: 4,
+            num: 1
+          },
+          position: 'left'
+        },
+        hai: [
+          {
+            hai: 'hai_4_1',
+            type: 4,
+            num: 1
+          },
+          {
+            hai: 'hai_4_1',
+            type: 4,
+            num: 1
+          }
+        ]
+      },
+      {
+        type: 'pon',
+        keyHai: {
+          haiInfo: {
+            hai: 'hai_4_2',
+            type: 4,
+            num: 1
+          },
+          position: 'left'
+        },
+        hai: [
+          {
+            hai: 'hai_4_2',
+            type: 4,
+            num: 1
+          },
+          {
+            hai: 'hai_4_2',
+            type: 4,
+            num: 1
+          }
+        ]
+      },
+      {
+        type: 'pon',
+        keyHai: {
+          haiInfo: {
+            hai: 'hai_4_1',
+            type: 4,
+            num: 1
+          },
+          position: 'left'
+        },
+        hai: [
+          {
+            hai: 'hai_4_1',
+            type: 4,
+            num: 1
+          },
+          {
+            hai: 'hai_4_1',
+            type: 4,
+            num: 1
+          }
+        ]
+      },
+      {
+        type: 'pon',
+        keyHai: {
+          haiInfo: {
+            hai: 'hai_4_2',
+            type: 4,
+            num: 1
+          },
+          position: 'left'
+        },
+        hai: [
+          {
+            hai: 'hai_4_2',
+            type: 4,
+            num: 1
+          },
+          {
+            hai: 'hai_4_2',
+            type: 4,
+            num: 1
+          }
+        ]
+      }
+    ],
     sutehai: [],
     shantenInfo: {
       shanten: 99,
@@ -97,10 +179,12 @@ export const ShantenTest = (): JSX.Element => {
   const bakaze = 2
   const a = shantenBase(hai, yama, jikaze, bakaze)
   const shantenMentsuData = shantenMentsu(hai, yama, jikaze, bakaze)
-
   return <>
     <div style={{ position: 'absolute', top: '40px' }}>
       <BaseHaiOpen base={hai.base} shanten={a.shanten} machi={a.machi} />
+      <div style={{ position: 'absolute', left: '400px', top: '200px' }}>
+        <Naki naki={hai.naki} />
+      </div>
     </div>
 
     <div style={{ position: 'absolute', top: '200px' }}>

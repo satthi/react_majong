@@ -430,7 +430,7 @@ export const shantenMentsu = (paiInfo: PaiProp, yama: string[], jikaze: number, 
 
   shantenComplete.forEach((c, k) => {
     if (c.shanten === 0) {
-      if (c.mentsu.length === 3 && c.toitsu.length === 1 && c.tatsu.length === 1) {
+      if ((c.mentsu.length + paiInfo.naki.length) === 3 && c.toitsu.length === 1 && c.tatsu.length === 1) {
         // ターツの待ち
         // カンチャン
         if (c.tatsu[0][0].num === c.tatsu[0][1].num - 2) {
@@ -486,7 +486,7 @@ export const shantenMentsu = (paiInfo: PaiProp, yama: string[], jikaze: number, 
       }
 
       // シャンポン
-      if (c.mentsu.length === 3 && c.toitsu.length === 2) {
+      if ((c.mentsu.length + paiInfo.naki.length) === 3 && c.toitsu.length === 2) {
         const machiHai4: HaiInfoProp = {
           hai: 'hai_' + String(c.toitsu[0][0].type) + '_' + String(c.toitsu[0][0].num),
           type: c.toitsu[0][0].type,
@@ -512,7 +512,7 @@ export const shantenMentsu = (paiInfo: PaiProp, yama: string[], jikaze: number, 
       }
 
       // 単騎/七対子
-      if (c.mentsu.length === 4 || c.toitsu.length === 6) {
+      if ((c.mentsu.length + paiInfo.naki.length) === 4 || c.toitsu.length === 6) {
         const tanki: MachiInfoProp[] = []
         c.remainHaiCountInfo.forEach((r) => {
           if (r.count === 1) {

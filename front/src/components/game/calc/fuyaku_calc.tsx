@@ -183,7 +183,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
   }
 
   // タンヤオ
-  if (tanyaoCheck(shantenInfo, machiHai)) {
+  if (tanyaoCheck(shantenInfo, paiInfo, machiHai)) {
     tsumoYaku += 1
     ronYaku += 1
     tsumoYakuList.push('断么九')
@@ -319,7 +319,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
   }
 
   // 清一色
-  if (chinitsuCheck(shantenInfo)) {
+  if (chinitsuCheck(shantenInfo, paiInfo)) {
     if (isMemzen(paiInfo)) {
       tsumoYaku += 6
       ronYaku += 6
@@ -329,7 +329,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     }
     tsumoYakuList.push('清一色')
     ronYakuList.push('清一色')
-  } else if (honitsuCheck(shantenInfo)) {
+  } else if (honitsuCheck(shantenInfo, paiInfo)) {
     // 混一色
     if (isMemzen(paiInfo)) {
       tsumoYaku += 3
