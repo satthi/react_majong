@@ -5,8 +5,6 @@ import { cpuNakiThink, cpuThink } from './cpu_think'
 import { shantenCheck } from './shanten_check'
 
 export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, suteruhai: string, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
-  console.log('execNaki')
-  console.log(allPai)
   // 判定順
   const userList = (Object.keys(allPai) as UserProp[])
 

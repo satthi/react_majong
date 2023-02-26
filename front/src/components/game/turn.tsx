@@ -18,7 +18,6 @@ export const turn = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStat
 
   // 2回実行されることがあるので牌の数が足りてるときは何もしないようにする
   if (allPai[turnUser].base.length + allPai[turnUser].naki.length * 3 >= 14) {
-    console.log('CCC')
     return
   }
   // 牌をツモる
@@ -27,9 +26,6 @@ export const turn = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStat
 
   // 1枚もらう
   allPai[turnUser].base = allPai[turnUser].base.concat(catYama)
-  console.log('turnUser')
-  console.log(turnUser)
-  console.log(allPai[turnUser].base.length)
   setAllPai(allPai)
 
   shantenCheck(allPai, setAllPai, yama, bakaze, turnUser)

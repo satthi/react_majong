@@ -124,7 +124,7 @@ const cpuThink2 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
 
 export const cpuNakiThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, checkUser: UserProp, yama: string[], suteruHaiKaiseki: HaiInfoProp, ownAuto: boolean, bakaze: number): void => {
   // 自身で操作中の場合は何もしない
-  if (checkUser === 'own' && ownAuto) {
+  if (checkUser === 'own' && !ownAuto) {
     return
   }
 
