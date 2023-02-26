@@ -1,19 +1,12 @@
 import { getDora } from '../board'
 import { setTsumo } from '../board/common/set_tsumo'
-import type { AllPaiProp, PaiProp, ShantenListProp, SutehaiListWeightProp, SuteType, UserProp } from '../board/type'
+import type { AllPaiProp, HaiInfoProp, PaiProp, ShantenListProp, SutehaiListWeightProp, SuteType, UserProp } from '../board/type'
+import { isMemzen } from './detection/is_menzen'
 import { isReachable } from './detection/is_reachable'
 import { execSuteru } from './exec_suteru'
 import { shantenBase } from './shanten_base'
 
-export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean, bakaze: number): void => {
-  const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)$/)
-  // マッチしないときは何もしない
-  if (turnUserMatch === null) {
-    return
-  }
-
-  const turnUser = turnUserMatch[1] as UserProp
-
+export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, turnUser: UserProp, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean, bakaze: number): void => {
   // 上がり
   if (allPai[turnUser].shantenInfo.shanten === -1) {
     setTsumo(allPai, turnUser, setBoardStatus)
@@ -24,7 +17,7 @@ export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   // リーチ状態では考えることはなくツモ切り
   // eslint-disable-next-line
   if (allPai[turnUser].isReach) {
-    execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, allPai[turnUser].base.length - 1, yama, 'normal', ownAuto, bakaze)
+    execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, allPai[turnUser].base.length - 1, yama, setYama, 'normal', ownAuto, bakaze, setExecUser)
   } else {
     // cpuThink1(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, turnUser, ownAuto, bakaze)
     cpuThink2(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, turnUser, ownAuto, bakaze)
@@ -42,7 +35,7 @@ const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
   // テンパイ即リーチする
   const suteType = tenpaiSokuReach(allPai[turnUser], boardStatus)
 
-  execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, suteType, ownAuto, bakaze)
+  execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, setYama, suteType, ownAuto, bakaze, setExecUser)
 }
 
 const cpuThink2 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, turnUser: UserProp, ownAuto: boolean, bakaze: number): void => {
@@ -126,7 +119,85 @@ const cpuThink2 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
   // テンパイ即リーチする
   const suteType = tenpaiSokuReach(allPai[turnUser], boardStatus)
 
-  execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, suteType, ownAuto, bakaze)
+  execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, setYama, suteType, ownAuto, bakaze, setExecUser)
+}
+
+export const cpuNakiThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, checkUser: UserProp, yama: string[], suteruHaiKaiseki: HaiInfoProp, ownAuto: boolean, bakaze: number): void => {
+  // 自身で操作中の場合は何もしない
+  if (checkUser === 'own' && !ownAuto) {
+    return
+  }
+
+  // ロンは無条件で実行する
+  // @todo: ロンを行わない条件を入れる？？？本格的には？
+  if (allPai[checkUser].nakiCheck.ron) {
+    allPai[checkUser].nakiCheck.pon = false
+    allPai[checkUser].nakiCheck.ti = false
+    allPai[checkUser].nakiCheck.kan = false
+  } else {
+    // @todo: ポンとチーは同時の判定が必要か
+    if (allPai[checkUser].nakiCheck.pon) {
+      let ponExec = false
+      // 鳴いた仮定の形の作成
+      const paiInfoCopy: PaiProp = JSON.parse(JSON.stringify(allPai[checkUser]))
+
+      // keyがずれる関係で一気に実行せずに2回実行する
+      let cutHaiExec = false
+      paiInfoCopy.base.forEach((b, bk) => {
+        // eslint-disable-next-line
+        if (b === suteruHaiKaiseki.hai && cutHaiExec === false) {
+          paiInfoCopy.base.splice(bk, 1)
+          cutHaiExec = true
+        }
+      })
+      cutHaiExec = false
+      paiInfoCopy.base.forEach((b, bk) => {
+        // eslint-disable-next-line
+        if (b === suteruHaiKaiseki.hai && cutHaiExec === false) {
+          paiInfoCopy.base.splice(bk, 1)
+          cutHaiExec = true
+        }
+      })
+
+      // nakiHai情報にセットする
+      paiInfoCopy.naki.push({
+        type: 'pon',
+        keyHai: {
+          haiInfo: suteruHaiKaiseki,
+          position: 'left' // 向きは判定には関係ないので適当に
+        },
+        hai: [
+          suteruHaiKaiseki,
+          suteruHaiKaiseki
+        ]
+      })
+
+      const nakiShantenCheck = shantenBase(paiInfoCopy, yama, bakaze, paiInfoCopy.jikaze)
+      // まず前提としてシャンテン数が下がらないなら実行しない
+      if (allPai[checkUser].shantenInfo.shanten > nakiShantenCheck.shanten) {
+        // まだ面前の場合
+        // ポンは役牌であれば、シャンテン数が下がるなら実行する
+        // 役牌でない場合は実行しない
+        if (isMemzen(allPai[checkUser])) {
+          if (suteruHaiKaiseki.type === 4 && (
+            suteruHaiKaiseki.num === 5 ||
+            suteruHaiKaiseki.num === 6 ||
+            suteruHaiKaiseki.num === 7 ||
+            suteruHaiKaiseki.num === bakaze ||
+            suteruHaiKaiseki.num === allPai[checkUser].jikaze
+          )) {
+            ponExec = true
+          }
+        } else {
+          ponExec = true
+        }
+      }
+
+      allPai[checkUser].nakiCheck.pon = ponExec
+    }
+
+    setAllPai(allPai)
+  }
 }
 
 // これ処理が重いので見直し

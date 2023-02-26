@@ -166,7 +166,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
   if (checkBoardStatus !== boardStatus) {
     setCheckBoardStatus(boardStatus)
     if (boardStatus === 'initial') {
-      initialSet(allPai, setAllPai, yama, setYama, setBoardStatus, setExecUser)
+      initialSet(allPai, setAllPai, yama, setYama, setBoardStatus, bakaze)
     }
 
     // ターン
@@ -175,5 +175,5 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
     }
   }
 
-  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} />
+  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} />
 }

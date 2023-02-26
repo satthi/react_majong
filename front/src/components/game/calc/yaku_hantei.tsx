@@ -24,7 +24,7 @@ export const tsumoCheck = (paiInfo: PaiProp): boolean => {
 }
 
 // 役牌チェック
-export const yakuhaiCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp, bakaze: number, jikaze: number): number => {
+export const yakuhaiCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, bakaze: number, jikaze: number): number => {
   let yakuhaiCheck = 0
   shantenInfo.mentsu.forEach((m) => {
     if (m[0].type === 4 && (m[0].num === 5 || m[0].num === 6 || m[0].num === 7)) {
@@ -37,6 +37,22 @@ export const yakuhaiCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp
     }
 
     if (m[0].type === 4 && (m[0].num === jikaze)) {
+      yakuhaiCheck++
+    }
+  })
+
+  // 鳴きの中身も見る
+  paiInfo.naki.forEach((n) => {
+    if (n.keyHai.haiInfo.type === 4 && (n.keyHai.haiInfo.num === 5 || n.keyHai.haiInfo.num === 6 || n.keyHai.haiInfo.num === 7)) {
+      yakuhaiCheck++
+    }
+
+    // 場風と自風をダブルでカウントできるように
+    if (n.keyHai.haiInfo.type === 4 && (n.keyHai.haiInfo.num === bakaze)) {
+      yakuhaiCheck++
+    }
+
+    if (n.keyHai.haiInfo.type === 4 && (n.keyHai.haiInfo.num === jikaze)) {
       yakuhaiCheck++
     }
   })
@@ -64,7 +80,7 @@ export const yakuhaiCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp
 }
 
 // タンヤオ
-export const tanyaoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+export const tanyaoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
   let tanyaoFlag = true
   shantenInfo.haiCountInfo.forEach((h) => {
     if (h.count > 0 && (h.type === 4 || h.num === 1 || h.num === 9)) {
@@ -74,6 +90,19 @@ export const tanyaoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp)
   if (isYaochu(machiHai)) {
     tanyaoFlag = false
   }
+
+  // 鳴きの中身も見る
+  paiInfo.naki.forEach((n) => {
+    if (isYaochu(n.keyHai.haiInfo)) {
+      tanyaoFlag = false
+    }
+
+    n.hai.forEach((nh) => {
+      if (isYaochu(nh)) {
+        tanyaoFlag = false
+      }
+    })
+  })
 
   return tanyaoFlag
 }
@@ -164,9 +193,11 @@ export const haiteiCheck = (yama: string[]): boolean => {
 }
 
 // 三色同順
-export const sanshokuDoujunCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+export const sanshokuDoujunCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
   let sanshokuFlag = false
-  shantenInfo.mentsu.forEach((m1, m1Key) => {
+  const mentsuSet = mentsuPlusNaki(shantenInfo.mentsu, paiInfo)
+
+  mentsuSet.forEach((m1, m1Key) => {
     if (m1[0].num !== m1[1].num) {
       // 自身が順子前提
       const sanshokuColorCheck: ColorFlagProp = {
@@ -191,6 +222,7 @@ export const sanshokuDoujunCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiI
         }
       }
       // 3セットそろっていれば三色同順
+      // eslint-disable-next-line
       if (sanshokuColorCheck.type_1 === true && sanshokuColorCheck.type_2 === true && sanshokuColorCheck.type_3 === true) {
         sanshokuFlag = true
       }
@@ -201,9 +233,11 @@ export const sanshokuDoujunCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiI
 }
 
 // 三色同刻
-export const sanshokuDoukokuCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+export const sanshokuDoukokuCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
   let sanshokuFlag = false
-  shantenInfo.mentsu.forEach((m1, m1Key) => {
+  const mentsuSet = mentsuPlusNaki(shantenInfo.mentsu, paiInfo)
+
+  mentsuSet.forEach((m1, m1Key) => {
     if (m1[0].num === m1[1].num) {
       // 自身が暗刻前提
       const sanshokuColorCheck: ColorFlagProp = {
@@ -233,6 +267,7 @@ export const sanshokuDoukokuCheck = (shantenInfo: ShantenBaseInfo, machiHai: Hai
         }
       }
       // 3セットそろっていれば三色同刻
+      // eslint-disable-next-line
       if (sanshokuColorCheck.type_1 === true && sanshokuColorCheck.type_2 === true && sanshokuColorCheck.type_3 === true) {
         sanshokuFlag = true
       }
@@ -259,9 +294,11 @@ export const sanankoCheck = (shantenInfo: ShantenBaseInfo, isTsumo: boolean): bo
   return ankoCount === 3
 }
 
-export const ikkitsukanCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+export const ikkitsukanCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
   let ikkitsukanFlag = false
-  shantenInfo.mentsu.forEach((m1, m1Key) => {
+  const mentsuSet = mentsuPlusNaki(shantenInfo.mentsu, paiInfo)
+
+  mentsuSet.forEach((m1, m1Key) => {
     if (m1[0].num !== m1[1].num && (m1[0].num === 1 || m1[0].num === 4 || m1[0].num === 7)) {
       // 自身が順子前提
       const ikkiTsukanCheck: IkkiTsukanFlagProp = {
@@ -285,6 +322,7 @@ export const ikkitsukanCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoP
         }
       }
       // 3セットそろっていれば一気通貫
+      // eslint-disable-next-line
       if (ikkiTsukanCheck.num_1 === true && ikkiTsukanCheck.num_4 === true && ikkiTsukanCheck.num_7 === true) {
         ikkitsukanFlag = true
       }
@@ -307,9 +345,11 @@ export const toitoihoCheck = (shantenInfo: ShantenBaseInfo): boolean => {
   return shuntsuCount === 0 && shantenInfo.tatsu.length === 0 && shantenInfo.toitsu.length <= 2
 }
 
-export const chantaCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+export const chantaCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
   let chantaFlag = true
-  shantenInfo.mentsu.forEach((m) => {
+  const mentsuSet = mentsuPlusNaki(shantenInfo.mentsu, paiInfo)
+
+  mentsuSet.forEach((m) => {
     // 字牌でなく 数字で並べた一番小さいものが1でも大きいものが9でもない
     if (m[0].type !== 4 && m[0].num !== 1 && m[2].num !== 9) {
       chantaFlag = false
@@ -339,7 +379,7 @@ export const chantaCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp)
   return chantaFlag
 }
 
-export const shosangenCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+export const shosangenCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp): boolean => {
   // 七対子については判定をしないようにする
   if (shantenInfo.toitsu.length >= 6) {
     return false
@@ -349,7 +389,8 @@ export const shosangenCheck = (shantenInfo: ShantenBaseInfo): boolean => {
     num_6: false,
     num_7: false
   }
-  shantenInfo.mentsu.forEach((m) => {
+  const mentsuSet = mentsuPlusNaki(shantenInfo.mentsu, paiInfo)
+  mentsuSet.forEach((m) => {
     if (m[0].hai === 'hai_4_5' || m[0].hai === 'hai_4_6' || m[0].hai === 'hai_4_7') {
       SangenhaiCheck['num_' + String(m[0].num) as SangenhaiTypeProp] = true
     }
@@ -366,10 +407,11 @@ export const shosangenCheck = (shantenInfo: ShantenBaseInfo): boolean => {
     }
   })
 
+  // eslint-disable-next-line
   return SangenhaiCheck.num_5 === true && SangenhaiCheck.num_6 === true && SangenhaiCheck.num_7 === true
 }
 
-export const honrotoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+export const honrotoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
   // すべての牌が19字牌
   let honrotoFlag = true
   shantenInfo.haiCountInfo.forEach((h) => {
@@ -380,6 +422,19 @@ export const honrotoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp
   if (!isYaochu(machiHai)) {
     honrotoFlag = false
   }
+
+  // 鳴きの中身も見る
+  paiInfo.naki.forEach((n) => {
+    if (!isYaochu(n.keyHai.haiInfo)) {
+      honrotoFlag = false
+    }
+
+    n.hai.forEach((nh) => {
+      if (!isYaochu(nh)) {
+        honrotoFlag = false
+      }
+    })
+  })
 
   return honrotoFlag
 }
@@ -418,9 +473,11 @@ export const ryanpekoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, ma
     (shuntsuList[0][0].hai === shuntsuList[3][0].hai && shuntsuList[1][0].hai === shuntsuList[2][0].hai)
 }
 
-export const junchantaCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+export const junchantaCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
   let chantaFlag = true
-  shantenInfo.mentsu.forEach((m) => {
+  const mentsuSet = mentsuPlusNaki(shantenInfo.mentsu, paiInfo)
+
+  mentsuSet.forEach((m) => {
     // 数字で並べた一番小さいものが1でも大きいものが9でもない
     if (m[0].type === 4 || (m[0].num !== 1 && m[2].num !== 9)) {
       chantaFlag = false
@@ -450,7 +507,7 @@ export const junchantaCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoPr
   return chantaFlag
 }
 
-export const chinitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+export const chinitsuCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp): boolean => {
   // すべての牌が一色
   let isshokuColor = 0
   let chinitsuFlag = true
@@ -464,10 +521,19 @@ export const chinitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
     }
   })
 
+  // 鳴きの中身も見る
+  paiInfo.naki.forEach((n) => {
+    if (isshokuColor === 0) {
+      isshokuColor = n.keyHai.haiInfo.type
+    } else if (isshokuColor !== n.keyHai.haiInfo.type) {
+      chinitsuFlag = false
+    }
+  })
+
   return chinitsuFlag
 }
 
-export const honitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+export const honitsuCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp): boolean => {
   // すべての牌が一色＋字牌
   let isshokuColor = 0
   let honitsuFlag = true
@@ -477,6 +543,18 @@ export const honitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
       if (isshokuColor === 0) {
         isshokuColor = h.type
       } else if (isshokuColor !== h.type) {
+        honitsuFlag = false
+      }
+    }
+  })
+
+  // 鳴きの中身も見る
+  paiInfo.naki.forEach((n) => {
+    // 字牌はチェックからスキップ
+    if (n.keyHai.haiInfo.type !== 4) {
+      if (isshokuColor === 0) {
+        isshokuColor = n.keyHai.haiInfo.type
+      } else if (isshokuColor !== n.keyHai.haiInfo.type) {
         honitsuFlag = false
       }
     }
@@ -505,4 +583,13 @@ const makeKariMentsu = (tatsuToitsu: HaiInfoProp[], machiHai: HaiInfoProp): HaiI
   return kariMentsu.sort((a, b) => {
     return (a.hai > b.hai) ? 1 : -1
   })
+}
+
+const mentsuPlusNaki = (mentsu: HaiInfoProp[][], paiInfo: PaiProp): HaiInfoProp[][] => {
+  const mentsuPlusNaki: HaiInfoProp[][] = JSON.parse(JSON.stringify(mentsu))
+  paiInfo.naki.forEach((n) => {
+    mentsuPlusNaki.push(makeKariMentsu(n.hai, n.keyHai.haiInfo))
+  })
+
+  return mentsuPlusNaki
 }

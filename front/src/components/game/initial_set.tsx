@@ -1,6 +1,7 @@
 import type { AllPaiProp, UserProp } from '../board/type'
+import { shantenCheck } from './shanten_check'
 
-export const initialSet = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
+export const initialSet = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, bakaze: number): void => {
   // とりあえず4枚ずつ配布
 
   for (let i = 1; i <= 3; i += 1) {
@@ -22,10 +23,11 @@ export const initialSet = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
     // 1枚もらってから配列をソート
     allPai[user].base = allPai[user].base.concat(catYama).sort()
     setAllPai(allPai)
+    // シャンテン計算はしよう
+    shantenCheck(allPai, setAllPai, yama, bakaze, user)
   })
 
   setTimeout(() => {
-    // setExecUser(Object.keys(allPai)[0])
-    setBoardStatus('turn_' + Object.keys(allPai)[0])
+    setBoardStatus('turn_' + Object.keys(allPai)[0] + '_1')
   }, 500)
 }

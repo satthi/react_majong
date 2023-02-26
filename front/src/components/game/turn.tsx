@@ -4,7 +4,7 @@ import { cpuThink } from './cpu_think'
 import { shantenCheck } from './shanten_check'
 
 export const turn = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, execUser: string, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean, bakaze: number): void => {
-  const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)$/)
+  const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)_[0-9]+$/)
   // マッチしないときは何もしない
   if (turnUserMatch === null) {
     return
@@ -35,7 +35,7 @@ export const turn = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStat
       setExecUser(turnUser)
       setBoardStatus('think_'.concat(turnUser))
     } else {
-      cpuThink(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
+      cpuThink(allPai, setAllPai, turnUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
     }
   }, 250)
 }
