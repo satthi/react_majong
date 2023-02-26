@@ -186,11 +186,9 @@ export const cpuNakiThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React
             suteruHaiKaiseki.num === bakaze ||
             suteruHaiKaiseki.num === allPai[checkUser].jikaze
           )) {
-            console.log('B')
             ponExec = true
           }
         } else {
-          console.log('A')
           ponExec = true
         }
       }
