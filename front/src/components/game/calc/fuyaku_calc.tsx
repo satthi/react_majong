@@ -174,7 +174,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
   }
 
   // 役牌
-  const yakuhaiCount = yakuhaiCheck(shantenInfo, machiHai, bakaze, jikaze)
+  const yakuhaiCount = yakuhaiCheck(shantenInfo, paiInfo, machiHai, bakaze, jikaze)
   if (yakuhaiCount > 0) {
     tsumoYaku += yakuhaiCount
     ronYaku += yakuhaiCount
@@ -223,7 +223,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
   // @todo: 嶺上開花/槍槓 は後
 
   // 三色同順
-  if (sanshokuDoujunCheck(shantenInfo, machiHai)) {
+  if (sanshokuDoujunCheck(shantenInfo, paiInfo, machiHai)) {
     // 食い下がりあり
     if (isMemzen(paiInfo)) {
       tsumoYaku += 2
@@ -237,7 +237,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
   }
 
   // 三色同刻
-  if (sanshokuDoukokuCheck(shantenInfo, machiHai)) {
+  if (sanshokuDoukokuCheck(shantenInfo, paiInfo, machiHai)) {
     tsumoYaku += 2
     ronYaku += 2
     tsumoYakuList.push('三色同刻')
@@ -256,7 +256,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
   }
 
   // 一気通貫
-  if (ikkitsukanCheck(shantenInfo, machiHai)) {
+  if (ikkitsukanCheck(shantenInfo, paiInfo, machiHai)) {
     // 食い下がりあり
     if (isMemzen(paiInfo)) {
       tsumoYaku += 2
@@ -287,7 +287,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
 
   // 純全帯公九
   // eslint-disable-next-line
-  if (junchantaCheck(shantenInfo, machiHai)) {
+  if (junchantaCheck(shantenInfo, paiInfo, machiHai)) {
     // 食い下がりあり
     if (isMemzen(paiInfo)) {
       tsumoYaku += 3
@@ -298,13 +298,13 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     }
     tsumoYakuList.push('純全帯公九')
     ronYakuList.push('純全帯公九')
-  } else if (honrotoCheck(shantenInfo, machiHai)) {
+  } else if (honrotoCheck(shantenInfo, paiInfo, machiHai)) {
     // 混老頭
     tsumoYaku += 2
     ronYaku += 2
     tsumoYakuList.push('混老頭')
     ronYakuList.push('混老頭')
-  } else if (chantaCheck(shantenInfo, machiHai)) {
+  } else if (chantaCheck(shantenInfo, paiInfo, machiHai)) {
     // 混全帯幺九
     // 食い下がりあり
     if (isMemzen(paiInfo)) {
@@ -345,7 +345,7 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
   // @todo: 三槓子
 
   // 小三元
-  if (shosangenCheck(shantenInfo)) {
+  if (shosangenCheck(shantenInfo, paiInfo)) {
     tsumoYaku += 2
     ronYaku += 2
     tsumoYakuList.push('小三元')

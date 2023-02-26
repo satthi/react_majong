@@ -47,98 +47,38 @@ export const ShantenTest = (): JSX.Element => {
       // 'hai_2_5',
       // 'hai_2_6',
       // 'hai_2_8'
-      'hai_1_8'
+      'hai_4_5',
+      'hai_4_5',
+      'hai_4_5',
+      'hai_4_6',
+      'hai_2_1',
+      'hai_2_1',
+      'hai_2_1',
+      'hai_2_9',
+      'hai_2_9',
+      'hai_2_9'
     ],
     naki: [
       {
         type: 'pon',
         keyHai: {
           haiInfo: {
-            hai: 'hai_4_1',
+            hai: 'hai_4_7',
             type: 4,
-            num: 1
+            num: 7
           },
           position: 'left'
         },
         hai: [
           {
-            hai: 'hai_4_1',
+            hai: 'hai_4_7',
             type: 4,
-            num: 1
+            num: 7
           },
           {
-            hai: 'hai_4_1',
+            hai: 'hai_4_7',
             type: 4,
-            num: 1
-          }
-        ]
-      },
-      {
-        type: 'pon',
-        keyHai: {
-          haiInfo: {
-            hai: 'hai_4_2',
-            type: 4,
-            num: 1
-          },
-          position: 'left'
-        },
-        hai: [
-          {
-            hai: 'hai_4_2',
-            type: 4,
-            num: 1
-          },
-          {
-            hai: 'hai_4_2',
-            type: 4,
-            num: 1
-          }
-        ]
-      },
-      {
-        type: 'pon',
-        keyHai: {
-          haiInfo: {
-            hai: 'hai_4_1',
-            type: 4,
-            num: 1
-          },
-          position: 'left'
-        },
-        hai: [
-          {
-            hai: 'hai_4_1',
-            type: 4,
-            num: 1
-          },
-          {
-            hai: 'hai_4_1',
-            type: 4,
-            num: 1
-          }
-        ]
-      },
-      {
-        type: 'pon',
-        keyHai: {
-          haiInfo: {
-            hai: 'hai_4_2',
-            type: 4,
-            num: 1
-          },
-          position: 'left'
-        },
-        hai: [
-          {
-            hai: 'hai_4_2',
-            type: 4,
-            num: 1
-          },
-          {
-            hai: 'hai_4_2',
-            type: 4,
-            num: 1
+            num: 7
           }
         ]
       }
