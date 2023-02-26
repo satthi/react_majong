@@ -27,13 +27,16 @@ export type ShantenListProp = {
 }
 
 type nakiPositionProp = {
-  type: 'pon' | 'ti' | 'minkan' | 'ankan'
+  type: NakiTypeProp
   keyHai: {
     haiInfo: HaiInfoProp,
-    position: 'left' | 'center' | 'right' | 'none'
+    position: NakiPositionProp
   }
   hai: HaiInfoProp[]
 }
+
+export type NakiTypeProp = 'pon' | 'ti' | 'minkan' | 'ankan'
+export type NakiPositionProp = 'left' | 'center' | 'right' | 'none'
 
 export type SutehaiProp = {
   hai: string
