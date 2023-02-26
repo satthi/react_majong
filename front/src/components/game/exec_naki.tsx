@@ -1,7 +1,7 @@
 import { setRon } from '../board/common/set_ron'
 import type { AllPaiProp, HaiInfoProp, NakiPositionProp, UserProp } from '../board/type'
 import { nextTurn } from './next_turn'
-import { cpuThink } from './cpu_think'
+import { cpuNakiThink, cpuThink } from './cpu_think'
 import { shantenCheck } from './shanten_check'
 
 export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, suteruhai: string, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
@@ -29,6 +29,22 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   const suteruUserKey = userList.findIndex((u) => u === user)
 
   // @todo: CPUにおいてロン・ポン・チー・カンを行うかの判定を追加
+  // 捨て牌の解析をしておく
+  const suteruhaiMatch = suteruhai.match(/^hai_([1-4])_([1-9])$/)
+  // 解析ができないことはないけどとりあえず
+  if (suteruhaiMatch === null) {
+    nextTurn(allPai, user, setBoardStatus, yama)
+    return
+  }
+  const suteruHaiKaiseki: HaiInfoProp = {
+    hai: suteruhai,
+    type: Number(suteruhaiMatch[1]),
+    num: Number(suteruhaiMatch[2])
+  }
+
+  userList.forEach((checkUser: UserProp) => {
+    cpuNakiThink(allPai, setAllPai, checkUser, yama, suteruHaiKaiseki, ownAuto, bakaze)
+  })
 
   // 優先順位で判定
   // ロン
@@ -47,19 +63,6 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   if (ronExec) {
     allNakiCheckReset(allPai, setAllPai)
     return
-  }
-
-  // 捨て牌の解析をしておく
-  const suteruhaiMatch = suteruhai.match(/^hai_([1-4])_([1-9])$/)
-  // 解析ができないことはないけどとりあえず
-  if (suteruhaiMatch === null) {
-    nextTurn(allPai, user, setBoardStatus, yama)
-    return
-  }
-  const suteruHaiKaiseki: HaiInfoProp = {
-    hai: suteruhai,
-    type: Number(suteruhaiMatch[1]),
-    num: Number(suteruhaiMatch[2])
   }
 
   // ポン
