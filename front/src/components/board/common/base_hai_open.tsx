@@ -9,7 +9,6 @@ interface BaseHaiOpenProp {
 }
 
 export const BaseHaiOpen = ({ base, shanten, machi }: BaseHaiOpenProp): JSX.Element => {
-  console.log(shanten)
   return <>
     {base.map((basePai, basePaiI) => {
       return <div className={style.basePai} key={basePaiI}><img src={getHaiSrc(basePai, 1)} /></div>

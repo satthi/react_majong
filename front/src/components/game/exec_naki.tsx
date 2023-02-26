@@ -108,6 +108,8 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
       ponExec = true
       setTimeout(() => {
+        allNakiCheckReset(allPai, setAllPai)
+
         // ポンを実行してる人の捨てるフェーズ
         if (sortUser === 'own' && !ownAuto) {
           setBoardStatus('think_' + sortUser)
@@ -119,7 +121,6 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   })
 
   if (ponExec) {
-    allNakiCheckReset(allPai, setAllPai)
     return
   }
 
