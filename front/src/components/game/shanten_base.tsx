@@ -405,7 +405,7 @@ export const shantenMentsu = (paiInfo: PaiProp, yama: string[], jikaze: number, 
       tatsu -= (mentsu + toitsu + tatsu - 5)
     }
 
-    let shantenCount = 8 - mentsu * 2 - toitsu - tatsu
+    let shantenCount = 8 - (mentsu + paiInfo.naki.length) * 2 - toitsu - tatsu
     // メンツとターツの組み合わせが5セットあって対子がない時は1シャンテンプラス
     if ((mentsu + tatsu) === 5 && toitsu === 0) {
       shantenCount += 1

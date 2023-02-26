@@ -166,7 +166,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
   if (checkBoardStatus !== boardStatus) {
     setCheckBoardStatus(boardStatus)
     if (boardStatus === 'initial') {
-      initialSet(allPai, setAllPai, yama, setYama, setBoardStatus, setExecUser)
+      initialSet(allPai, setAllPai, yama, setYama, setBoardStatus, bakaze)
     }
 
     // ターン
