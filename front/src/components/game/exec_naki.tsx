@@ -5,6 +5,8 @@ import { cpuNakiThink, cpuThink } from './cpu_think'
 import { shantenCheck } from './shanten_check'
 
 export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, suteruhai: string, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
+  console.log('execNaki')
+  console.log(allPai)
   // 判定順
   const userList = (Object.keys(allPai) as UserProp[])
 
@@ -33,7 +35,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   const suteruhaiMatch = suteruhai.match(/^hai_([1-4])_([1-9])$/)
   // 解析ができないことはないけどとりあえず
   if (suteruhaiMatch === null) {
-    nextTurn(allPai, user, setBoardStatus, yama)
+    nextTurn(allPai, user, boardStatus, setBoardStatus, yama)
     return
   }
   const suteruHaiKaiseki: HaiInfoProp = {
@@ -109,6 +111,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
       ponExec = true
       setTimeout(() => {
         allNakiCheckReset(allPai, setAllPai)
+        setExecUser(user) // 捨てる人にセットしないと次の人が積もってくれないことがある
 
         // ポンを実行してる人の捨てるフェーズ
         if (sortUser === 'own' && !ownAuto) {
@@ -124,7 +127,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
     return
   }
 
-  nextTurn(allPai, user, setBoardStatus, yama)
+  nextTurn(allPai, user, boardStatus, setBoardStatus, yama)
 }
 
 const allNakiCheckReset = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>): void => {

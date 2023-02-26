@@ -1,6 +1,6 @@
 import type { AllPaiProp, UserProp } from '../board/type'
 
-export const nextTurn = (allPai: AllPaiProp, user: UserProp, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[]): void => {
+export const nextTurn = (allPai: AllPaiProp, user: UserProp, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[]): void => {
   const userKey = (Object.keys(allPai) as UserProp[]).findIndex((e) => e === user)
   let nextKey = userKey + 1
   if (typeof Object.keys(allPai)[nextKey] === 'undefined') {
@@ -28,7 +28,13 @@ export const nextTurn = (allPai: AllPaiProp, user: UserProp, setBoardStatus: Rea
   // 次の人にターンを回す
   setTimeout(() => {
     if (yama.length > 14) {
-      setBoardStatus('turn_' + Object.keys(allPai)[nextKey])
+      const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)_([0-9])+$/)
+      if (turnUserMatch === null) {
+        setBoardStatus('turn_' + Object.keys(allPai)[nextKey] + '_1')
+      } else {
+        // 鳴いたときは別ターン扱いしてみる。うまくいくかな？
+        setBoardStatus('turn_' + Object.keys(allPai)[nextKey] + '_' + String(Number(turnUserMatch[2]) + 1))
+      }
     } else {
       // 14マイに到達したら流局
       setBoardStatus('ryukyoku')

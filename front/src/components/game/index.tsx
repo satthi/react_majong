@@ -163,6 +163,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
   // initial時の処理
   // 下記の自動イベントはステータスが変更されたときだけ
 
+  console.log(boardStatus)
   if (checkBoardStatus !== boardStatus) {
     setCheckBoardStatus(boardStatus)
     if (boardStatus === 'initial') {

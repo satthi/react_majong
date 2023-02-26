@@ -28,6 +28,6 @@ export const initialSet = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
   })
 
   setTimeout(() => {
-    setBoardStatus('turn_' + Object.keys(allPai)[0])
+    setBoardStatus('turn_' + Object.keys(allPai)[0] + '_1')
   }, 500)
 }
