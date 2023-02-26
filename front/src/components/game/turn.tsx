@@ -35,7 +35,7 @@ export const turn = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStat
       setExecUser(turnUser)
       setBoardStatus('think_'.concat(turnUser))
     } else {
-      cpuThink(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
+      cpuThink(allPai, setAllPai, turnUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
     }
   }, 250)
 }

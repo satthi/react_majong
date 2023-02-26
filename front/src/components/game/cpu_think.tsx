@@ -5,15 +5,7 @@ import { isReachable } from './detection/is_reachable'
 import { execSuteru } from './exec_suteru'
 import { shantenBase } from './shanten_base'
 
-export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean, bakaze: number): void => {
-  const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)$/)
-  // マッチしないときは何もしない
-  if (turnUserMatch === null) {
-    return
-  }
-
-  const turnUser = turnUserMatch[1] as UserProp
-
+export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, turnUser: UserProp, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean, bakaze: number): void => {
   // 上がり
   if (allPai[turnUser].shantenInfo.shanten === -1) {
     setTsumo(allPai, turnUser, setBoardStatus)
@@ -24,7 +16,7 @@ export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   // リーチ状態では考えることはなくツモ切り
   // eslint-disable-next-line
   if (allPai[turnUser].isReach) {
-    execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, allPai[turnUser].base.length - 1, yama, 'normal', ownAuto, bakaze)
+    execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, allPai[turnUser].base.length - 1, yama, setYama, 'normal', ownAuto, bakaze, setExecUser)
   } else {
     // cpuThink1(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, turnUser, ownAuto, bakaze)
     cpuThink2(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, setExecUser, turnUser, ownAuto, bakaze)
@@ -42,7 +34,7 @@ const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
   // テンパイ即リーチする
   const suteType = tenpaiSokuReach(allPai[turnUser], boardStatus)
 
-  execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, suteType, ownAuto, bakaze)
+  execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, setYama, suteType, ownAuto, bakaze, setExecUser)
 }
 
 const cpuThink2 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, turnUser: UserProp, ownAuto: boolean, bakaze: number): void => {
@@ -126,7 +118,7 @@ const cpuThink2 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
   // テンパイ即リーチする
   const suteType = tenpaiSokuReach(allPai[turnUser], boardStatus)
 
-  execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, suteType, ownAuto, bakaze)
+  execSuteru(allPai, setAllPai, turnUser, boardStatus, setBoardStatus, shuffleShanteList[0].key, yama, setYama, suteType, ownAuto, bakaze, setExecUser)
 }
 
 // これ処理が重いので見直し

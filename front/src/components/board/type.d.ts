@@ -27,17 +27,18 @@ export type ShantenListProp = {
 }
 
 type nakiPositionProp = {
-  type: string
-  key: {
-      hai: string
-      type: string
+  type: 'pon' | 'ti' | 'minkan' | 'ankan'
+  keyHai: {
+    haiInfo: HaiInfoProp,
+    position: 'left' | 'center' | 'right' | 'none'
   }
-  hai: string[]
+  hai: HaiInfoProp[]
 }
 
 export type SutehaiProp = {
   hai: string
-  type: string
+  type: 'normal' | 'reach'
+  naki: boolean
 }
 
 export type SuteType = 'normal' | 'reach'
