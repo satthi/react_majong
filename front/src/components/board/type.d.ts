@@ -115,7 +115,9 @@ export type AllNakiCheckProp = {
 export type NakiCheckProp = {
   ron: boolean
   pon: boolean
-  ti: boolean
+  ti1: boolean // 3 12
+  ti2: boolean // 2 13
+  ti3: boolean // 1 23
   kan: boolean
 }
 

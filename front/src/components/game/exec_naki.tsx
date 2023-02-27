@@ -125,6 +125,216 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
     return
   }
 
+  // チー1
+  let ti1Exec = false
+  sortUsers.forEach((sortUser) => {
+    // eslint-disable-next-line
+    if (ti1Exec === false && allPai[sortUser].nakiCheck.ti1) {
+      const constTi1Hai = {
+        hai: 'hai_' + String(suteruHaiKaiseki.type) + '_' + String(suteruHaiKaiseki.num - 2),
+        type: suteruHaiKaiseki.type,
+        num: suteruHaiKaiseki.num - 2
+      }
+      const constTi2Hai = {
+        hai: 'hai_' + String(suteruHaiKaiseki.type) + '_' + String(suteruHaiKaiseki.num - 1),
+        type: suteruHaiKaiseki.type,
+        num: suteruHaiKaiseki.num - 1
+      }
+      // keyがずれる関係で一気に実行せずに2回実行する
+      let cutHaiExec = false
+      allPai[sortUser].base.forEach((b, bk) => {
+        // eslint-disable-next-line
+        if (b === constTi1Hai.hai && cutHaiExec === false) {
+          allPai[sortUser].base.splice(bk, 1)
+          cutHaiExec = true
+        }
+      })
+      cutHaiExec = false
+      allPai[sortUser].base.forEach((b, bk) => {
+        // eslint-disable-next-line
+        if (b === constTi2Hai.hai && cutHaiExec === false) {
+          allPai[sortUser].base.splice(bk, 1)
+          cutHaiExec = true
+        }
+      })
+
+      const tiExecUserKey = userList.findIndex((u) => u === sortUser)
+
+      // nakiHai情報にセットする
+      allPai[sortUser].naki.push({
+        type: 'ti',
+        keyHai: {
+          haiInfo: suteruHaiKaiseki,
+          position: getPosition(suteruUserKey, tiExecUserKey)
+        },
+        hai: [
+          constTi1Hai,
+          constTi2Hai
+        ]
+      })
+
+      // 鳴き実行のチェック
+      allPai[user].sutehai[allPai[user].sutehai.length - 1].naki = true
+
+      ti1Exec = true
+      setTimeout(() => {
+        allNakiCheckReset(allPai, setAllPai)
+        setExecUser(user) // 捨てる人にセットしないと次の人が積もってくれないことがある
+
+        // ポンを実行してる人の捨てるフェーズ
+        if (sortUser === 'own' && !ownAuto) {
+          setBoardStatus('think_' + sortUser)
+        } else {
+          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
+        }
+      }, 250)
+    }
+  })
+
+  if (ti1Exec) {
+    return
+  }
+
+  // チー2
+  let ti2Exec = false
+  sortUsers.forEach((sortUser) => {
+    // eslint-disable-next-line
+    if (ti1Exec === false && allPai[sortUser].nakiCheck.ti2) {
+      const constTi1Hai = {
+        hai: 'hai_' + String(suteruHaiKaiseki.type) + '_' + String(suteruHaiKaiseki.num - 1),
+        type: suteruHaiKaiseki.type,
+        num: suteruHaiKaiseki.num - 2
+      }
+      const constTi2Hai = {
+        hai: 'hai_' + String(suteruHaiKaiseki.type) + '_' + String(suteruHaiKaiseki.num + 1),
+        type: suteruHaiKaiseki.type,
+        num: suteruHaiKaiseki.num - 1
+      }
+      // keyがずれる関係で一気に実行せずに2回実行する
+      let cutHaiExec = false
+      allPai[sortUser].base.forEach((b, bk) => {
+        // eslint-disable-next-line
+        if (b === constTi1Hai.hai && cutHaiExec === false) {
+          allPai[sortUser].base.splice(bk, 1)
+          cutHaiExec = true
+        }
+      })
+      cutHaiExec = false
+      allPai[sortUser].base.forEach((b, bk) => {
+        // eslint-disable-next-line
+        if (b === constTi2Hai.hai && cutHaiExec === false) {
+          allPai[sortUser].base.splice(bk, 1)
+          cutHaiExec = true
+        }
+      })
+
+      const tiExecUserKey = userList.findIndex((u) => u === sortUser)
+
+      // nakiHai情報にセットする
+      allPai[sortUser].naki.push({
+        type: 'ti',
+        keyHai: {
+          haiInfo: suteruHaiKaiseki,
+          position: getPosition(suteruUserKey, tiExecUserKey)
+        },
+        hai: [
+          constTi1Hai,
+          constTi2Hai
+        ]
+      })
+
+      // 鳴き実行のチェック
+      allPai[user].sutehai[allPai[user].sutehai.length - 1].naki = true
+
+      ti2Exec = true
+      setTimeout(() => {
+        allNakiCheckReset(allPai, setAllPai)
+        setExecUser(user) // 捨てる人にセットしないと次の人が積もってくれないことがある
+
+        // ポンを実行してる人の捨てるフェーズ
+        if (sortUser === 'own' && !ownAuto) {
+          setBoardStatus('think_' + sortUser)
+        } else {
+          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
+        }
+      }, 250)
+    }
+  })
+
+  if (ti2Exec) {
+    return
+  }
+
+  // チー3
+  let ti3Exec = false
+  sortUsers.forEach((sortUser) => {
+    // eslint-disable-next-line
+    if (ti1Exec === false && allPai[sortUser].nakiCheck.ti3) {
+      const constTi1Hai = {
+        hai: 'hai_' + String(suteruHaiKaiseki.type) + '_' + String(suteruHaiKaiseki.num + 1),
+        type: suteruHaiKaiseki.type,
+        num: suteruHaiKaiseki.num - 2
+      }
+      const constTi2Hai = {
+        hai: 'hai_' + String(suteruHaiKaiseki.type) + '_' + String(suteruHaiKaiseki.num + 2),
+        type: suteruHaiKaiseki.type,
+        num: suteruHaiKaiseki.num - 1
+      }
+      // keyがずれる関係で一気に実行せずに2回実行する
+      let cutHaiExec = false
+      allPai[sortUser].base.forEach((b, bk) => {
+        // eslint-disable-next-line
+        if (b === constTi1Hai.hai && cutHaiExec === false) {
+          allPai[sortUser].base.splice(bk, 1)
+          cutHaiExec = true
+        }
+      })
+      cutHaiExec = false
+      allPai[sortUser].base.forEach((b, bk) => {
+        // eslint-disable-next-line
+        if (b === constTi2Hai.hai && cutHaiExec === false) {
+          allPai[sortUser].base.splice(bk, 1)
+          cutHaiExec = true
+        }
+      })
+
+      const tiExecUserKey = userList.findIndex((u) => u === sortUser)
+
+      // nakiHai情報にセットする
+      allPai[sortUser].naki.push({
+        type: 'ti',
+        keyHai: {
+          haiInfo: suteruHaiKaiseki,
+          position: getPosition(suteruUserKey, tiExecUserKey)
+        },
+        hai: [
+          constTi1Hai,
+          constTi2Hai
+        ]
+      })
+
+      // 鳴き実行のチェック
+      allPai[user].sutehai[allPai[user].sutehai.length - 1].naki = true
+
+      ti3Exec = true
+      setTimeout(() => {
+        allNakiCheckReset(allPai, setAllPai)
+        setExecUser(user) // 捨てる人にセットしないと次の人が積もってくれないことがある
+
+        // ポンを実行してる人の捨てるフェーズ
+        if (sortUser === 'own' && !ownAuto) {
+          setBoardStatus('think_' + sortUser)
+        } else {
+          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
+        }
+      }, 250)
+    }
+  })
+
+  if (ti3Exec) {
+    return
+  }
+
   nextTurn(allPai, user, boardStatus, setBoardStatus, yama)
 }
 
@@ -132,7 +342,9 @@ const allNakiCheckReset = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
   (Object.keys(allPai) as UserProp[]).forEach((user: UserProp) => {
     allPai[user].nakiCheck.pon = false
     allPai[user].nakiCheck.ron = false
-    allPai[user].nakiCheck.ti = false
+    allPai[user].nakiCheck.ti1 = false
+    allPai[user].nakiCheck.ti2 = false
+    allPai[user].nakiCheck.ti3 = false
     allPai[user].nakiCheck.kan = false
   })
 

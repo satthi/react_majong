@@ -31,7 +31,9 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
       nakiCheck: {
         ron: false,
         pon: false,
-        ti: false,
+        ti1: false,
+        ti2: false,
+        ti3: false,
         kan: false
       },
       jikaze: 0
@@ -49,7 +51,9 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
       nakiCheck: {
         ron: false,
         pon: false,
-        ti: false,
+        ti1: false,
+        ti2: false,
+        ti3: false,
         kan: false
       },
       jikaze: 0
@@ -67,7 +71,9 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
       nakiCheck: {
         ron: false,
         pon: false,
-        ti: false,
+        ti1: false,
+        ti2: false,
+        ti3: false,
         kan: false
       },
       jikaze: 0
@@ -85,7 +91,9 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
       nakiCheck: {
         ron: false,
         pon: false,
-        ti: false,
+        ti1: false,
+        ti2: false,
+        ti3: false,
         kan: false
       },
       jikaze: 0
@@ -114,7 +122,9 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
         nakiCheck: {
           ron: false,
           pon: false,
-          ti: false,
+          ti1: false,
+          ti2: false,
+          ti3: false,
           kan: false
         },
         jikaze: jikazeCount
@@ -141,7 +151,9 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
         nakiCheck: {
           ron: false,
           pon: false,
-          ti: false,
+          ti1: false,
+          ti2: false,
+          ti3: false,
           kan: false
         },
         jikaze: jikazeCount

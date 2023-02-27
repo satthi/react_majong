@@ -113,7 +113,9 @@ export const ShantenTest = (): JSX.Element => {
     nakiCheck: {
       ron: false,
       pon: false,
-      ti: false,
+      ti1: false,
+      ti2: false,
+      ti3: false,
       kan: false
     },
     jikaze: 2

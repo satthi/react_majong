@@ -2,6 +2,7 @@
 import type { AllPaiProp, SuteType, UserProp } from '../board/type'
 import { isPonable } from './detection/is_ponable'
 import { isRonable } from './detection/is_ronable'
+import { isTi1able, isTi2able, isTi3able } from './detection/is_tiable'
 import { execNaki } from './exec_naki'
 import { shantenCheck } from './shanten_check'
 
@@ -17,14 +18,28 @@ export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
     allPai[user].isReach = true
   }
 
+  const userList = (Object.keys(allPai) as UserProp[])
   // ロン/ポン/チー/カンが存在するかの確認(順番含めていったん無視が正解ぽ)
-  (Object.keys(allPai) as UserProp[]).forEach((checkUser: UserProp) => {
-    // @todo: ポン/チー/カンの制御
+  userList.forEach((checkUser: UserProp, checkUserKey) => {
+    // @todo: カンの制御
     if (checkUser !== user && isRonable(allPai[checkUser], suteruHai[0])) {
       allPai[checkUser].nakiCheck.ron = true
     }
     if (checkUser !== user && isPonable(allPai[checkUser], suteruHai[0])) {
       allPai[checkUser].nakiCheck.pon = true
+    }
+    // チーについては下家のみ
+    if (checkUser === user) {
+      const tiUser = userList[checkUserKey + 1] ?? userList[0]
+      if (isTi1able(allPai[tiUser], suteruHai[0])) {
+        allPai[tiUser].nakiCheck.ti1 = true
+      }
+      if (isTi2able(allPai[tiUser], suteruHai[0])) {
+        allPai[tiUser].nakiCheck.ti2 = true
+      }
+      if (isTi3able(allPai[tiUser], suteruHai[0])) {
+        allPai[tiUser].nakiCheck.ti3 = true
+      }
     }
   })
 
@@ -33,7 +48,7 @@ export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
 
   // 操作者に鳴きがない場合は
   // eslint-disable-next-line
-  if (ownAuto || (!allPai.own.nakiCheck.ron && !allPai.own.nakiCheck.pon && !allPai.own.nakiCheck.ti && !allPai.own.nakiCheck.kan)) {
+  if (ownAuto || (!allPai.own.nakiCheck.ron && !allPai.own.nakiCheck.pon && !allPai.own.nakiCheck.ti1 && !allPai.own.nakiCheck.ti2 && !allPai.own.nakiCheck.ti3 && !allPai.own.nakiCheck.kan)) {
     // 自動で判定を進めてよい
     execNaki(allPai, setAllPai, user, boardStatus, setBoardStatus, yama, setYama, suteruHai[0], bakaze, setExecUser, ownAuto)
   } else {

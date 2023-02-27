@@ -10,19 +10,27 @@ export const nextTurn = (allPai: AllPaiProp, user: UserProp, boardStatus: string
   // 次のターンに進む前にロンフラグなどはすべてリセットする
   allPai.own.nakiCheck.ron = false
   allPai.own.nakiCheck.pon = false
-  allPai.own.nakiCheck.ti = false
+  allPai.own.nakiCheck.ti1 = false
+  allPai.own.nakiCheck.ti2 = false
+  allPai.own.nakiCheck.ti3 = false
   allPai.own.nakiCheck.kan = false
   allPai.player1.nakiCheck.ron = false
   allPai.player1.nakiCheck.pon = false
-  allPai.player1.nakiCheck.ti = false
+  allPai.player1.nakiCheck.ti1 = false
+  allPai.player1.nakiCheck.ti2 = false
+  allPai.player1.nakiCheck.ti3 = false
   allPai.player1.nakiCheck.kan = false
   allPai.player2.nakiCheck.ron = false
   allPai.player2.nakiCheck.pon = false
-  allPai.player2.nakiCheck.ti = false
+  allPai.player2.nakiCheck.ti1 = false
+  allPai.player2.nakiCheck.ti2 = false
+  allPai.player2.nakiCheck.ti3 = false
   allPai.player2.nakiCheck.kan = false
   allPai.player3.nakiCheck.ron = false
   allPai.player3.nakiCheck.pon = false
-  allPai.player3.nakiCheck.ti = false
+  allPai.player3.nakiCheck.ti1 = false
+  allPai.player3.nakiCheck.ti2 = false
+  allPai.player3.nakiCheck.ti3 = false
   allPai.player3.nakiCheck.kan = false
 
   // 次の人にターンを回す

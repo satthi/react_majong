@@ -57,7 +57,9 @@ const execOwnRon = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetState
   // ロンだけ判定をonに
   allPai.own.nakiCheck.ron = true
   allPai.own.nakiCheck.pon = false
-  allPai.own.nakiCheck.ti = false
+  allPai.own.nakiCheck.ti1 = false
+  allPai.own.nakiCheck.ti2 = false
+  allPai.own.nakiCheck.ti3 = false
   allPai.own.nakiCheck.kan = false
   setAllPai(allPai)
   shantenCheck(allPai, setAllPai, yama, bakaze, 'own')
@@ -67,7 +69,31 @@ const execOwnRon = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetState
 }
 
 const execOwnPon = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
-  // ロン牌をセットして実行
+  // ポン牌をセットして実行
+  const nakiUserMatch = boardStatus.match(/^naki_(own|player1|player2|player3)$/)
+  // マッチしないときは何もしない
+  if (nakiUserMatch === null) {
+    return
+  }
+  const nakiUser = nakiUserMatch[1] as UserProp
+  const suteruhai = allPai[nakiUser].sutehai[allPai[nakiUser].sutehai.length - 1].hai
+
+  // ポンだけ判定をonに
+  allPai.own.nakiCheck.ron = false
+  allPai.own.nakiCheck.pon = true
+  allPai.own.nakiCheck.ti1 = false
+  allPai.own.nakiCheck.ti2 = false
+  allPai.own.nakiCheck.ti3 = false
+  allPai.own.nakiCheck.kan = false
+  setAllPai(allPai)
+  shantenCheck(allPai, setAllPai, yama, bakaze, 'own')
+
+  // 判定を進める
+  execNaki(allPai, setAllPai, nakiUser, boardStatus, setBoardStatus, yama, setYama, suteruhai, bakaze, setExecUser, ownAuto)
+}
+
+const execOwnTi1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
+  // チー牌をセットして実行
   const nakiUserMatch = boardStatus.match(/^naki_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (nakiUserMatch === null) {
@@ -78,8 +104,58 @@ const execOwnPon = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetState
 
   // ロンだけ判定をonに
   allPai.own.nakiCheck.ron = false
-  allPai.own.nakiCheck.pon = true
-  allPai.own.nakiCheck.ti = false
+  allPai.own.nakiCheck.pon = false
+  allPai.own.nakiCheck.ti1 = true
+  allPai.own.nakiCheck.ti2 = false
+  allPai.own.nakiCheck.ti3 = false
+  allPai.own.nakiCheck.kan = false
+  setAllPai(allPai)
+  shantenCheck(allPai, setAllPai, yama, bakaze, 'own')
+
+  // 判定を進める
+  execNaki(allPai, setAllPai, nakiUser, boardStatus, setBoardStatus, yama, setYama, suteruhai, bakaze, setExecUser, ownAuto)
+}
+
+const execOwnTi2 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
+  // チー牌をセットして実行
+  const nakiUserMatch = boardStatus.match(/^naki_(own|player1|player2|player3)$/)
+  // マッチしないときは何もしない
+  if (nakiUserMatch === null) {
+    return
+  }
+  const nakiUser = nakiUserMatch[1] as UserProp
+  const suteruhai = allPai[nakiUser].sutehai[allPai[nakiUser].sutehai.length - 1].hai
+
+  // ロンだけ判定をonに
+  allPai.own.nakiCheck.ron = false
+  allPai.own.nakiCheck.pon = false
+  allPai.own.nakiCheck.ti1 = false
+  allPai.own.nakiCheck.ti2 = true
+  allPai.own.nakiCheck.ti3 = false
+  allPai.own.nakiCheck.kan = false
+  setAllPai(allPai)
+  shantenCheck(allPai, setAllPai, yama, bakaze, 'own')
+
+  // 判定を進める
+  execNaki(allPai, setAllPai, nakiUser, boardStatus, setBoardStatus, yama, setYama, suteruhai, bakaze, setExecUser, ownAuto)
+}
+
+const execOwnTi3 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
+  // チー牌をセットして実行
+  const nakiUserMatch = boardStatus.match(/^naki_(own|player1|player2|player3)$/)
+  // マッチしないときは何もしない
+  if (nakiUserMatch === null) {
+    return
+  }
+  const nakiUser = nakiUserMatch[1] as UserProp
+  const suteruhai = allPai[nakiUser].sutehai[allPai[nakiUser].sutehai.length - 1].hai
+
+  // ロンだけ判定をonに
+  allPai.own.nakiCheck.ron = false
+  allPai.own.nakiCheck.pon = false
+  allPai.own.nakiCheck.ti1 = false
+  allPai.own.nakiCheck.ti2 = false
+  allPai.own.nakiCheck.ti3 = true
   allPai.own.nakiCheck.kan = false
   setAllPai(allPai)
   shantenCheck(allPai, setAllPai, yama, bakaze, 'own')
@@ -100,7 +176,9 @@ const execOwnCancel = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
   // ロンなどのフラグを全部offにして次のターンに
   allPai.own.nakiCheck.ron = false
   allPai.own.nakiCheck.pon = false
-  allPai.own.nakiCheck.ti = false
+  allPai.own.nakiCheck.ti1 = false
+  allPai.own.nakiCheck.ti2 = false
+  allPai.own.nakiCheck.ti3 = false
   allPai.own.nakiCheck.kan = false
   setAllPai(allPai)
   shantenCheck(allPai, setAllPai, yama, bakaze, 'own')
@@ -435,9 +513,27 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           </tr>
           <tr>
             {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || (!ownPai.nakiCheck.ron && !ownPai.nakiCheck.pon && !ownPai.nakiCheck.ti && !ownPai.nakiCheck.kan)) && <td className={style.controlGray}>キャンセル</td>}
+            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.ti1) && <td className={style.controlGray}>チー1</td>}
             {/* eslint-disable-next-line */}
-            {boardStatus.match(/^agari_/) === null && ((ownPai.nakiCheck.ron || ownPai.nakiCheck.pon || ownPai.nakiCheck.ti || ownPai.nakiCheck.kan)) && <td className={style.controlRed} onClick={() => execOwnCancel(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>キャンセル</td>}
+            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti1) && <td className={style.controlGreen} onClick={() => execOwnTi1(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー1</td>}
+          </tr>
+          <tr>
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.ti2) && <td className={style.controlGray}>チー2</td>}
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti2) && <td className={style.controlGreen} onClick={() => execOwnTi2(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー2</td>}
+          </tr>
+          <tr>
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.ti3) && <td className={style.controlGray}>チー3</td>}
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti3) && <td className={style.controlGreen} onClick={() => execOwnTi3(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー3</td>}
+          </tr>
+          <tr>
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) !== null || (!ownPai.nakiCheck.ron && !ownPai.nakiCheck.pon && !ownPai.nakiCheck.ti1 && !ownPai.nakiCheck.ti2 && !ownPai.nakiCheck.ti3 && !ownPai.nakiCheck.kan)) && <td className={style.controlGray}>キャンセル</td>}
+            {/* eslint-disable-next-line */}
+            {boardStatus.match(/^agari_/) === null && ((ownPai.nakiCheck.ron || ownPai.nakiCheck.pon || ownPai.nakiCheck.ti1 || ownPai.nakiCheck.ti2 || ownPai.nakiCheck.ti3 || ownPai.nakiCheck.kan)) && <td className={style.controlRed} onClick={() => execOwnCancel(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>キャンセル</td>}
           </tr>
         </tbody>
       </table>
