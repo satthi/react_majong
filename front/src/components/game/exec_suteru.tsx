@@ -1,5 +1,6 @@
 
 import type { AllPaiProp, SuteType, UserProp } from '../board/type'
+import { isMinkanable } from './detection/is_minkanable'
 import { isPonable } from './detection/is_ponable'
 import { isRonable } from './detection/is_ronable'
 import { isTi1able, isTi2able, isTi3able } from './detection/is_tiable'
@@ -27,6 +28,9 @@ export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
     }
     if (checkUser !== user && isPonable(allPai[checkUser], suteruHai[0])) {
       allPai[checkUser].nakiCheck.pon = true
+    }
+    if (checkUser !== user && isMinkanable(allPai[checkUser], suteruHai[0])) {
+      allPai[checkUser].nakiCheck.kan = true
     }
     // チーについては下家のみ
     if (checkUser === user) {

@@ -65,6 +65,87 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
     return
   }
 
+  // ミンカン
+  let minkanExec = false
+  sortUsers.forEach((sortUser) => {
+    // eslint-disable-next-line
+    if (minkanExec === false && allPai[sortUser].nakiCheck.kan) {
+      // keyがずれる関係で一気に実行せずに2回実行する
+      let cutHaiExec = false
+      allPai[sortUser].base.forEach((b, bk) => {
+        // eslint-disable-next-line
+        if (b === suteruhai && cutHaiExec === false) {
+          allPai[sortUser].base.splice(bk, 1)
+          cutHaiExec = true
+        }
+      })
+      cutHaiExec = false
+      allPai[sortUser].base.forEach((b, bk) => {
+        // eslint-disable-next-line
+        if (b === suteruhai && cutHaiExec === false) {
+          allPai[sortUser].base.splice(bk, 1)
+          cutHaiExec = true
+        }
+      })
+      cutHaiExec = false
+      allPai[sortUser].base.forEach((b, bk) => {
+        // eslint-disable-next-line
+        if (b === suteruhai && cutHaiExec === false) {
+          allPai[sortUser].base.splice(bk, 1)
+          cutHaiExec = true
+        }
+      })
+
+      const minkanExecUserKey = userList.findIndex((u) => u === sortUser)
+
+      // nakiHai情報にセットする
+      allPai[sortUser].naki.push({
+        type: 'minkan',
+        keyHai: {
+          haiInfo: suteruHaiKaiseki,
+          position: getPosition(suteruUserKey, minkanExecUserKey)
+        },
+        hai: [
+          suteruHaiKaiseki,
+          suteruHaiKaiseki,
+          suteruHaiKaiseki
+        ]
+      })
+
+      // 鳴き実行のチェック
+      allPai[user].sutehai[allPai[user].sutehai.length - 1].naki = true
+
+      minkanExec = true
+      setTimeout(() => {
+        allNakiCheckReset(allPai, setAllPai)
+        setExecUser(user) // 捨てる人にセットしないと次の人が積もってくれないことがある
+
+        // @todo: カンの数のカウントからの流局チェック
+        // カンの分のツモ
+        const catYama = yama.splice(0, 1)
+        setYama(yama)
+
+        // 1枚もらう
+        allPai[sortUser].base = allPai[sortUser].base.concat(catYama)
+        setAllPai(allPai)
+
+        shantenCheck(allPai, setAllPai, yama, bakaze, sortUser)
+
+        // カンドラめくり
+        // カンを実行してる人の捨てるフェーズ
+        if (sortUser === 'own' && !ownAuto) {
+          setBoardStatus('think_' + sortUser)
+        } else {
+          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
+        }
+      }, 250)
+    }
+  })
+
+  if (minkanExec) {
+    return
+  }
+
   // ポン
   let ponExec = false
   sortUsers.forEach((sortUser) => {

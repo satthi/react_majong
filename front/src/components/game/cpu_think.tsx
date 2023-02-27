@@ -137,6 +137,11 @@ export const cpuNakiThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React
     allPai[checkUser].nakiCheck.ti3 = false
     allPai[checkUser].nakiCheck.kan = false
   } else {
+    // CPUにはミンカンはさせない/ミンカン可能な手ではポンも必要なし
+    if (allPai[checkUser].nakiCheck.kan) {
+      allPai[checkUser].nakiCheck.kan = false
+      allPai[checkUser].nakiCheck.pon = false
+    }
     // ポン
     let ponExec = false
     if (allPai[checkUser].nakiCheck.pon) {
