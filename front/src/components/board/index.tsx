@@ -16,6 +16,8 @@ import { execNaki } from '../game/exec_naki'
 import { DoraNormal } from './common/dora_normal'
 import { DoraReach } from './common/dora_reach'
 import { shantenBase } from '../game/shanten_base'
+import { isAnkanableList } from '../game/detection/is_ankanable_list'
+import { execAnkan } from '../game/exec_ankan'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -114,6 +116,11 @@ const execOwnMinkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
 
   // 判定を進める
   execNaki(allPai, setAllPai, nakiUser, boardStatus, setBoardStatus, yama, setYama, suteruhai, bakaze, setExecUser, ownAuto)
+}
+
+const execOwnAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, kanPai: string, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number): void => {
+  // @todo: 直実行だと画面の再描画がされないのでやり方を考える必要あり
+  execAnkan(allPai, setAllPai, 'own', kanPai, yama, setYama, bakaze)
 }
 
 const execOwnTi1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
@@ -537,9 +544,15 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           </tr>
           <tr>
             {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.kan) && <td className={style.controlGray}>カン</td>}
+            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.kan) && <td className={style.controlGray}>ミンカン</td>}
             {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.kan) && <td className={style.controlGreen} onClick={() => execOwnMinkan(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>カン</td>}
+            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.kan) && <td className={style.controlGreen} onClick={() => execOwnMinkan(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>ミンカン</td>}
+          </tr>
+          <tr>
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) !== null || typeof isAnkanableList(ownPai)[0] === 'undefined') && <td className={style.controlGray}>アンカン1</td>}
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) === null && typeof isAnkanableList(ownPai)[0] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[0], yama, setYama, bakaze)}>アンカン1</td>}
           </tr>
           <tr>
             {/* eslint-disable-next-line */}

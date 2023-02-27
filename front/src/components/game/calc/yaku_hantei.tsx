@@ -440,8 +440,8 @@ export const honrotoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, mac
 }
 
 export const ryanpekoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
-  // 面前
-  if (!isMemzen(paiInfo)) {
+  // 面前/アンカンも含めて鳴きなし
+  if (paiInfo.naki.length > 0) {
     return false
   }
 
