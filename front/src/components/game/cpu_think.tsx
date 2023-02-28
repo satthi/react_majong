@@ -7,6 +7,8 @@ import { isReachable } from './detection/is_reachable'
 import { execSuteru } from './exec_suteru'
 import { shantenBase } from './shanten_base'
 import { execAnkan } from './exec_ankan'
+import { isAddMinkanabkeList } from './detection/is_add_minkanable_list'
+import { execAddMinkan } from './exec_add_minkan'
 
 export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, turnUser: UserProp, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean, bakaze: number): void => {
   // 上がり
@@ -116,6 +118,56 @@ const cpuThink2 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
 
   // カン実行後
   if (kanExec) {
+    return
+  }
+
+  // 追加ミンカン判定
+  let addMinkanExec = false
+  const addMinkanabkeList = isAddMinkanabkeList(allPai[turnUser])
+  addMinkanabkeList.forEach((ah) => {
+    // eslint-disable-next-line
+    if (addMinkanExec === true) {
+      return
+    }
+    const kanhaiMatch = ah.match(/^hai_([1-4])_([1-9])$/)
+    if (kanhaiMatch === null) {
+      return
+    }
+    const kanhaiKaiseki: HaiInfoProp = {
+      hai: ah,
+      type: Number(kanhaiMatch[1]),
+      num: Number(kanhaiMatch[2])
+    }
+
+    const addminkanCheckPaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[turnUser]))
+    let cutHaiExec = false
+    addminkanCheckPaiInfo.base.forEach((b, bk) => {
+      // eslint-disable-next-line
+      if (b === ah && cutHaiExec === false) {
+        addminkanCheckPaiInfo.base.splice(bk, 1)
+        cutHaiExec = true
+      }
+    })
+
+    // nakiHai情報にセットする
+    addminkanCheckPaiInfo.naki.forEach((n) => {
+      if (n.type === 'pon' && n.keyHai.haiInfo.hai === ah) {
+        n.type = 'minkan'
+        n.hai.push(kanhaiKaiseki)
+      }
+    })
+
+    // シャンテン数の確認
+    const kanShantenCheck = shantenBase(addminkanCheckPaiInfo, yama, bakaze, addminkanCheckPaiInfo.jikaze)
+    // シャンテン数が変わらないならカンを実行する
+    if (kanShantenCheck.shanten === allPai[turnUser].shantenInfo.shanten) {
+      execAddMinkan(allPai, setAllPai, turnUser, ah, boardStatus, setBoardStatus, setExecUser)
+      addMinkanExec = true
+    }
+  })
+
+  // カン実行後
+  if (addMinkanExec) {
     return
   }
 
