@@ -118,9 +118,9 @@ const execOwnMinkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
   execNaki(allPai, setAllPai, nakiUser, boardStatus, setBoardStatus, yama, setYama, suteruhai, bakaze, setExecUser, ownAuto)
 }
 
-const execOwnAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, kanPai: string, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number): void => {
+const execOwnAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, kanPai: string, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
   // @todo: 直実行だと画面の再描画がされないのでやり方を考える必要あり
-  execAnkan(allPai, setAllPai, 'own', kanPai, yama, setYama, bakaze)
+  execAnkan(allPai, setAllPai, 'own', kanPai, boardStatus, setBoardStatus, setExecUser)
 }
 
 const execOwnTi1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
@@ -552,7 +552,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
             {/* eslint-disable-next-line */}
             {(boardStatus.match(/^agari_/) !== null || typeof isAnkanableList(ownPai)[0] === 'undefined') && <td className={style.controlGray}>アンカン1</td>}
             {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && typeof isAnkanableList(ownPai)[0] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[0], yama, setYama, bakaze)}>アンカン1</td>}
+            {(boardStatus.match(/^agari_/) === null && typeof isAnkanableList(ownPai)[0] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[0], boardStatus, setBoardStatus, setExecUser)}>アンカン1</td>}
           </tr>
           <tr>
             {/* eslint-disable-next-line */}

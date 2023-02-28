@@ -1,7 +1,7 @@
 import type { AllPaiProp, HaiInfoProp, UserProp } from '../board/type'
-import { shantenCheck } from './shanten_check'
+// import { shantenCheck } from './shanten_check'
 
-export const execAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, kanPai: string, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number): void => {
+export const execAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, kanPai: string, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
   const kanhaiMatch = kanPai.match(/^hai_([1-4])_([1-9])$/)
   if (kanhaiMatch === null) {
     return
@@ -61,15 +61,12 @@ export const execAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Se
     ]
   })
   setAllPai(allPai)
-  console.log(allPai)
 
-  // カンの分のツモ
-  const catYama = yama.splice(0, 1)
-  setYama(yama)
-
-  // 1枚もらう
-  allPai[user].base = allPai[user].base.concat(catYama)
-  setAllPai(allPai)
-
-  shantenCheck(allPai, setAllPai, yama, bakaze, user)
+  // もう一度ターンを回す
+  setExecUser('dummy')
+  const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)_([0-9])+$/)
+  if (turnUserMatch === null) {
+    return
+  }
+  setBoardStatus('turn_' + user + '_' + String(Number(turnUserMatch[2]) + 1))
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Board } from '../board'
 import { getInitialYama } from '../board/hai/hai_info'
 import type { AllPaiProp, UserProp } from '../board/type'
@@ -12,6 +12,25 @@ interface GameProp {
   kyoku: number
   hon: number
   reach: number
+}
+
+interface GetElementProp {
+  allPai: AllPaiProp
+  setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>
+  boardStatus: string
+  setBoardStatus: React.Dispatch<React.SetStateAction<string>>
+  yama: string[]
+  setYama: React.Dispatch<React.SetStateAction<string[]>>
+  bakaze: number
+  kyoku: number
+  hon: number
+  reach: number
+  setExecUser: React.Dispatch<React.SetStateAction<string>>
+  ownAuto: boolean
+}
+
+const GetElement = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto }: GetElementProp): JSX.Element => {
+  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} />
 }
 
 export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX.Element => {
@@ -172,8 +191,16 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
 
   const [execUser, setExecUser] = useState('')
 
+  const [boardElement, setBoardElement] = useState(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} />)
   // initial時の処理
   // 下記の自動イベントはステータスが変更されたときだけ
+
+  // objectの変更を取得
+  const allPaiJson = JSON.stringify(allPai)
+  const yamaJson = JSON.stringify(yama)
+  useEffect(() => {
+    setBoardElement(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} />)
+  }, [allPai, setAllPai, boardStatus, setBoardStatus, yama, bakaze, kyoku, hon, reach, setYama, setExecUser, ownAuto, setBoardElement, allPaiJson, yamaJson])
 
   if (checkBoardStatus !== boardStatus) {
     setCheckBoardStatus(boardStatus)
@@ -187,5 +214,5 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
     }
   }
 
-  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} />
+  return boardElement
 }
