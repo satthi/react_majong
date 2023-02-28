@@ -120,7 +120,6 @@ const execOwnMinkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
 }
 
 const execOwnAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, kanPai: string, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
-  // @todo: 直実行だと画面の再描画がされないのでやり方を考える必要あり
   execAnkan(allPai, setAllPai, 'own', kanPai, boardStatus, setBoardStatus, setExecUser)
 }
 

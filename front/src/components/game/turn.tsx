@@ -20,6 +20,7 @@ export const turn = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStat
   if (allPai[turnUser].base.length + allPai[turnUser].naki.length * 3 >= 14) {
     return
   }
+
   // 牌をツモる
   const catYama = yama.splice(0, 1)
   setYama(yama)
