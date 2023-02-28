@@ -13,6 +13,7 @@ export type PaiProp = {
   isReach: boolean
   nakiCheck: NakiCheckProp
   jikaze: number
+  kantsumo: boolean // カンを自模ってきた判定(嶺上開花に使用)
 }
 
 export type ShantenInfoProp = {

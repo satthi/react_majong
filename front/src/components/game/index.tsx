@@ -55,7 +55,8 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
         ti3: false,
         kan: false
       },
-      jikaze: 0
+      jikaze: 0,
+      kantsumo: false
     },
     player1: {
       base: [],
@@ -75,7 +76,8 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
         ti3: false,
         kan: false
       },
-      jikaze: 0
+      jikaze: 0,
+      kantsumo: false
     },
     player2: {
       base: [],
@@ -95,7 +97,8 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
         ti3: false,
         kan: false
       },
-      jikaze: 0
+      jikaze: 0,
+      kantsumo: false
     },
     player3: {
       base: [],
@@ -115,7 +118,8 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
         ti3: false,
         kan: false
       },
-      jikaze: 0
+      jikaze: 0,
+      kantsumo: false
     }
   }
 
@@ -146,7 +150,8 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
           ti3: false,
           kan: false
         },
-        jikaze: jikazeCount
+        jikaze: jikazeCount,
+        kantsumo: false
       }
     }
   })
@@ -175,7 +180,8 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
           ti3: false,
           kan: false
         },
-        jikaze: jikazeCount
+        jikaze: jikazeCount,
+        kantsumo: false
       }
     }
   })

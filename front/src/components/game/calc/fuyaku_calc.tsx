@@ -1,6 +1,6 @@
 import type { HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
-import { chantaCheck, chinitsuCheck, chitoitsuCheck, doubleReachCheck, haiteiCheck, honitsuCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, pinfuCheck, reachCheck, ryanpekoCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, tanyaoCheck, toitoihoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
+import { chantaCheck, chinitsuCheck, chitoitsuCheck, doubleReachCheck, haiteiCheck, honitsuCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, pinfuCheck, reachCheck, rinshanKaihoCheck, ryanpekoCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, tanyaoCheck, toitoihoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
 export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): MachiTensuInfo => {
   // テンパイ以外は計算しない
@@ -220,6 +220,11 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     ronYakuList.push('河底撈魚')
   }
 
+  // 嶺上開花
+  if (rinshanKaihoCheck(paiInfo)) {
+    tsumoYaku += 1
+    tsumoYakuList.push('嶺上開花')
+  }
   // @todo: 嶺上開花/槍槓 は後
 
   // 三色同順

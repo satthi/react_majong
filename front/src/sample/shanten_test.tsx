@@ -118,7 +118,8 @@ export const ShantenTest = (): JSX.Element => {
       ti3: false,
       kan: false
     },
-    jikaze: 2
+    jikaze: 2,
+    kantsumo: false
   }
   // ハイテイチェック用
   const yama = [

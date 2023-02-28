@@ -60,6 +60,8 @@ export const execAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Se
       kanhaiKaiseki
     ]
   })
+  allPai[user].kantsumo = true
+  allPai[user].base = allPai[user].base.sort() // 最後ソートして配置
   setAllPai(allPai)
 
   // もう一度ターンを回す

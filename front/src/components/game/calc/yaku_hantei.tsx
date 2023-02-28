@@ -567,6 +567,10 @@ export const chitoitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
   return shantenInfo.toitsu.length === 6
 }
 
+export const rinshanKaihoCheck = (paiInfo: PaiProp): boolean => {
+  return paiInfo.kantsumo === true
+}
+
 // 一九字牌の判定
 const isYaochu = (hai: HaiInfoProp): boolean => {
   return hai.type === 4 || hai.num === 1 || hai.num === 9
