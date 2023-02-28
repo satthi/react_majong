@@ -21,6 +21,7 @@ import { execAnkan } from '../game/exec_ankan'
 import { getKanCount } from '../game/detection/get_kan_count'
 import { isAddMinkanabkeList } from '../game/detection/is_add_minkanable_list'
 import { execAddMinkan } from '../game/exec_add_minkan'
+import { isTsumoable } from '../game/detection/is_tsumoable'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -566,94 +567,93 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
             {/* eslint-disable-next-line */}
             {!haiOpen && <td onClick={() => execHaiOpen(haiOpen, setHaiOpen)} className={style.controlGreen}>牌を開ける</td>}
           </tr>
-          <tr>
-            <>
-              {/* @todo: リーチ可能かどうかの判定 */}
-              {!isReachable(ownPai, boardStatus) && <td className={style.controlGray}>リーチ</td>}
+          {isReachable(ownPai, boardStatus) &&
+            <tr>
+              {reachMode
+                // eslint-disable-next-line
+                ? <td className={style.controlRed} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>
+                // eslint-disable-next-line
+                : <td className={style.controlGreen} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
+            </tr>
+          }
+          {isTsumoable(ownPai, boardStatus) &&
+            <tr>
               {/* eslint-disable-next-line */}
-              {isReachable(ownPai, boardStatus) && reachMode && <td className={style.controlRed} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
+              <td className={style.controlGreen} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</td>
+            </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ron) &&
+            <tr>
               {/* eslint-disable-next-line */}
-              {isReachable(ownPai, boardStatus) && !reachMode && <td className={style.controlGreen} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
-            </>
-          </tr>
-          <tr>
-            {(ownPai.shantenInfo.shanten !== -1 || boardStatus.match(/^agari_/) !== null) && <td className={style.controlGray}>ツモ</td>}
-            {/* eslint-disable-next-line */}
-            {ownPai.shantenInfo.shanten === -1 && boardStatus.match(/^agari_/) === null && <td className={style.controlGreen} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</td>}
-          </tr>
-          <tr>
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.ron) && <td className={style.controlGray}>ロン</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ron) && <td className={style.controlGreen} onClick={() => execOwnRon(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>ロン</td>}
-          </tr>
+              <td className={style.controlGreen} onClick={() => execOwnRon(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>ロン</td>
+            </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.pon) &&
+            <tr>
+              {/* eslint-disable-next-line */}
+              <td className={style.controlGreen} onClick={() => execOwnPon(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>ポン</td>
+            </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.kan) &&
           <tr>
             {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.pon) && <td className={style.controlGray}>ポン</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.pon) && <td className={style.controlGreen} onClick={() => execOwnPon(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>ポン</td>}
+            <td className={style.controlGreen} onClick={() => execOwnMinkan(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>ミンカン</td>
           </tr>
-          <tr>
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.kan) && <td className={style.controlGray}>ミンカン</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.kan) && <td className={style.controlGreen} onClick={() => execOwnMinkan(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>ミンカン</td>}
-          </tr>
-          <tr>
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAnkanableList(ownPai)[0] === 'undefined') && <td className={style.controlGray}>アンカン1</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[0] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[0], boardStatus, setBoardStatus, setExecUser)}>アンカン1</td>}
-          </tr>
-          <tr>
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAnkanableList(ownPai)[1] === 'undefined') && <td className={style.controlGray}>アンカン2</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[1] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[1], boardStatus, setBoardStatus, setExecUser)}>アンカン2</td>}
-          </tr>
-          <tr>
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAnkanableList(ownPai)[2] === 'undefined') && <td className={style.controlGray}>アンカン3</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[2] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[2], boardStatus, setBoardStatus, setExecUser)}>アンカン3</td>}
-          </tr>
-          <tr>
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAddMinkanabkeList(ownPai)[0] === 'undefined') && <td className={style.controlGray}>追加ミンカン1</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[0] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[0], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン1</td>}
-          </tr>
-          <tr>
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAddMinkanabkeList(ownPai)[1] === 'undefined') && <td className={style.controlGray}>追加ミンカン2</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[1] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[1], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン2</td>}
-          </tr>
-          <tr>
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAddMinkanabkeList(ownPai)[2] === 'undefined') && <td className={style.controlGray}>追加ミンカン3</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[2] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[2], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン3</td>}
-          </tr>
-
-          <tr>
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.ti1) && <td className={style.controlGray}>チー1</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti1) && <td className={style.controlGreen} onClick={() => execOwnTi1(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー1</td>}
-          </tr>
-          <tr>
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.ti2) && <td className={style.controlGray}>チー2</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti2) && <td className={style.controlGreen} onClick={() => execOwnTi2(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー2</td>}
-          </tr>
-          <tr>
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.ti3) && <td className={style.controlGray}>チー3</td>}
-            {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti3) && <td className={style.controlGreen} onClick={() => execOwnTi3(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー3</td>}
-          </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[0] !== 'undefined') &&
+            <tr>
+              {/* eslint-disable-next-line */}
+              <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[0], boardStatus, setBoardStatus, setExecUser)}>アンカン1</td>
+            </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[1] !== 'undefined') &&
+            <tr>
+              {/* eslint-disable-next-line */}
+              <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[1], boardStatus, setBoardStatus, setExecUser)}>アンカン2</td>
+            </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[2] !== 'undefined') &&
+            <tr>
+              {/* eslint-disable-next-line */}
+              <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[2], boardStatus, setBoardStatus, setExecUser)}>アンカン3</td>
+            </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[0] !== 'undefined') &&
+            <tr>
+              {/* eslint-disable-next-line */}
+              <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[0], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン1</td>
+            </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[1] !== 'undefined') &&
+            <tr>
+              {/* eslint-disable-next-line */}
+              <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[1], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン2</td>
+            </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[2] !== 'undefined') &&
+            <tr>
+              {/* eslint-disable-next-line */}
+              <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[2], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン3</td>
+            </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti1) &&
+            <tr>
+              {/* eslint-disable-next-line */}
+              <td className={style.controlGreen} onClick={() => execOwnTi1(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー1</td>
+            </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti2) &&
+            <tr>
+              {/* eslint-disable-next-line */}
+              <td className={style.controlGreen} onClick={() => execOwnTi2(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー2</td>
+            </tr>
+          }
+          {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti3) &&
+            <tr>
+              {/* eslint-disable-next-line */}
+              <td className={style.controlGreen} onClick={() => execOwnTi3(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー3</td>
+            </tr>
+          }
           <tr>
             {/* eslint-disable-next-line */}
             {(boardStatus.match(/^agari_/) !== null || (!ownPai.nakiCheck.ron && !ownPai.nakiCheck.pon && !ownPai.nakiCheck.ti1 && !ownPai.nakiCheck.ti2 && !ownPai.nakiCheck.ti3 && !ownPai.nakiCheck.kan)) && <td className={style.controlGray}>キャンセル</td>}
