@@ -626,14 +626,14 @@ export const getInitialYama = (): string[] => {
   // ランダムにして山にする
   // return shuffle(yama)
   // チート
-  yama[0] = 'hai_2_3'
-  yama[1] = 'hai_2_3'
-  yama[2] = 'hai_2_3'
-  yama[3] = 'hai_2_4'
-  yama[16] = 'hai_2_5'
-  yama[17] = 'hai_3_4'
-  yama[18] = 'hai_1_5'
-  yama[19] = 'hai_1_6'
+  yama[0] = 'hai_1_1'
+  yama[1] = 'hai_1_1'
+  yama[2] = 'hai_1_1'
+  yama[3] = 'hai_1_1'
+  yama[16] = 'hai_2_2'
+  yama[17] = 'hai_2_2'
+  yama[18] = 'hai_2_2'
+  yama[19] = 'hai_2_2'
   yama[32] = 'hai_1_7'
   yama[33] = 'hai_1_8'
   yama[34] = 'hai_1_9'

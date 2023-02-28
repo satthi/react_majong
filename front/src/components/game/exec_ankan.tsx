@@ -66,7 +66,8 @@ export const execAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Se
   setExecUser('dummy')
   const turnUserMatch = boardStatus.match(/^turn_(own|player1|player2|player3)_([0-9])+$/)
   if (turnUserMatch === null) {
-    return
+    setBoardStatus('turn_' + user + '_1')
+  } else {
+    setBoardStatus('turn_' + user + '_' + String(Number(turnUserMatch[2]) + 1))
   }
-  setBoardStatus('turn_' + user + '_' + String(Number(turnUserMatch[2]) + 1))
 }
