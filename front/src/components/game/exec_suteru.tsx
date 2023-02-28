@@ -10,6 +10,7 @@ import { shantenCheck } from './shanten_check'
 export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, suteType: SuteType, ownAuto: boolean, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
   const suteruHai = allPai[user].base.splice(suteruKey, 1)
 
+  allPai[user].kantsumo = false // 捨てた時点でfalseにする
   allPai[user].base = allPai[user].base.sort() // 最後ソートして配置
   allPai[user].sutehai = allPai[user].sutehai.concat({ hai: suteruHai[0], type: suteType, naki: false }) // type は後で調整が必要
 

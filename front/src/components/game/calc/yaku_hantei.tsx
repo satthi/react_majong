@@ -440,8 +440,8 @@ export const honrotoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, mac
 }
 
 export const ryanpekoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
-  // 面前
-  if (!isMemzen(paiInfo)) {
+  // 面前/アンカンも含めて鳴きなし
+  if (paiInfo.naki.length > 0) {
     return false
   }
 
@@ -565,6 +565,10 @@ export const honitsuCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp): bo
 
 export const chitoitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
   return shantenInfo.toitsu.length === 6
+}
+
+export const rinshanKaihoCheck = (paiInfo: PaiProp): boolean => {
+  return paiInfo.kantsumo === true
 }
 
 // 一九字牌の判定

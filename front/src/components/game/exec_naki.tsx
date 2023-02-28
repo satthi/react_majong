@@ -114,6 +114,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
       // 鳴き実行のチェック
       allPai[user].sutehai[allPai[user].sutehai.length - 1].naki = true
+      setAllPai(allPai)
 
       minkanExec = true
       setTimeout(() => {
@@ -126,6 +127,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
         setYama(yama)
 
         // 1枚もらう
+        allPai[sortUser].kantsumo = true
         allPai[sortUser].base = allPai[sortUser].base.concat(catYama)
         setAllPai(allPai)
 

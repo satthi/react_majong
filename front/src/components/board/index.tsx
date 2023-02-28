@@ -16,6 +16,9 @@ import { execNaki } from '../game/exec_naki'
 import { DoraNormal } from './common/dora_normal'
 import { DoraReach } from './common/dora_reach'
 import { shantenBase } from '../game/shanten_base'
+import { isAnkanableList } from '../game/detection/is_ankanable_list'
+import { execAnkan } from '../game/exec_ankan'
+import { getKanCount } from '../game/detection/get_kan_count'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -114,6 +117,10 @@ const execOwnMinkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
 
   // 判定を進める
   execNaki(allPai, setAllPai, nakiUser, boardStatus, setBoardStatus, yama, setYama, suteruhai, bakaze, setExecUser, ownAuto)
+}
+
+const execOwnAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, kanPai: string, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
+  execAnkan(allPai, setAllPai, 'own', kanPai, boardStatus, setBoardStatus, setExecUser)
 }
 
 const execOwnTi1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
@@ -252,22 +259,67 @@ const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: numbe
   })
 
   // ここにドラ判定を追加する
-  // @todo: カンドラ
   let omoteDoraCount = 0
   let uraDoraCount = 0
   const omoteDora = getDora(yama[yama.length - 6])
+  const kanDoras: string[] = []
+  const kanCount = getKanCount(allPai)
+  if (kanCount >= 1) {
+    kanDoras.push(getDora(yama[yama.length - 8]))
+  }
+  if (kanCount >= 2) {
+    kanDoras.push(getDora(yama[yama.length - 10]))
+  }
+  if (kanCount >= 3) {
+    kanDoras.push(getDora(yama[yama.length - 12]))
+  }
+  if (kanCount >= 4) {
+    kanDoras.push(getDora(yama[yama.length - 14]))
+  }
   let uraDora = ''
+  const uraKanDoras: string[] = []
   if (agariPaiInfo.isReach) {
     uraDora = getDora(yama[yama.length - 5])
+    if (kanCount >= 1) {
+      uraKanDoras.push(getDora(yama[yama.length - 7]))
+    }
+    if (kanCount >= 2) {
+      uraKanDoras.push(getDora(yama[yama.length - 9]))
+    }
+    if (kanCount >= 3) {
+      uraKanDoras.push(getDora(yama[yama.length - 11]))
+    }
+    if (kanCount >= 4) {
+      uraKanDoras.push(getDora(yama[yama.length - 13]))
+    }
   }
-  // @todo: 鳴いた牌のドラ判定
-  agariPaiInfo.base.forEach((b) => {
+
+  const checkHaiList: string[] = []
+  checkHaiList.concat(agariPaiInfo.base)
+  agariPaiInfo.naki.forEach((n) => {
+    checkHaiList.push(n.keyHai.haiInfo.hai)
+    n.hai.forEach((nh) => {
+      checkHaiList.push(nh.hai)
+    })
+  })
+
+  checkHaiList.forEach((b) => {
     if (b === omoteDora) {
       omoteDoraCount++
     }
+    kanDoras.forEach((k) => {
+      if (b === k) {
+        omoteDoraCount++
+      }
+    })
     if (b === uraDora) {
       uraDoraCount++
     }
+    uraKanDoras.forEach((k) => {
+      if (b === k) {
+        uraDoraCount++
+      }
+    })
   })
 
   agariInfo.han += omoteDoraCount + uraDoraCount
@@ -537,9 +589,27 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           </tr>
           <tr>
             {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.kan) && <td className={style.controlGray}>カン</td>}
+            {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.kan) && <td className={style.controlGray}>ミンカン</td>}
             {/* eslint-disable-next-line */}
-            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.kan) && <td className={style.controlGreen} onClick={() => execOwnMinkan(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>カン</td>}
+            {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.kan) && <td className={style.controlGreen} onClick={() => execOwnMinkan(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>ミンカン</td>}
+          </tr>
+          <tr>
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAnkanableList(ownPai)[0] === 'undefined') && <td className={style.controlGray}>アンカン1</td>}
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[0] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[0], boardStatus, setBoardStatus, setExecUser)}>アンカン1</td>}
+          </tr>
+          <tr>
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAnkanableList(ownPai)[1] === 'undefined') && <td className={style.controlGray}>アンカン2</td>}
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[1] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[1], boardStatus, setBoardStatus, setExecUser)}>アンカン2</td>}
+          </tr>
+          <tr>
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAnkanableList(ownPai)[2] === 'undefined') && <td className={style.controlGray}>アンカン3</td>}
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[2] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[2], boardStatus, setBoardStatus, setExecUser)}>アンカン3</td>}
           </tr>
           <tr>
             {/* eslint-disable-next-line */}
