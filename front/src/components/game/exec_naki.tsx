@@ -127,6 +127,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
         setYama(yama)
 
         // 1枚もらう
+        allPai[sortUser].kantsumo = true
         allPai[sortUser].base = allPai[sortUser].base.concat(catYama)
         setAllPai(allPai)
 
