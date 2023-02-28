@@ -19,6 +19,8 @@ import { shantenBase } from '../game/shanten_base'
 import { isAnkanableList } from '../game/detection/is_ankanable_list'
 import { execAnkan } from '../game/exec_ankan'
 import { getKanCount } from '../game/detection/get_kan_count'
+import { isAddMinkanabkeList } from '../game/detection/is_add_minkanable_list'
+import { execAddMinkan } from '../game/exec_add_minkan'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -121,6 +123,10 @@ const execOwnMinkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
 
 const execOwnAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, kanPai: string, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
   execAnkan(allPai, setAllPai, 'own', kanPai, boardStatus, setBoardStatus, setExecUser)
+}
+
+const execOwnAddMinkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, kanPai: string, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
+  execAddMinkan(allPai, setAllPai, 'own', kanPai, boardStatus, setBoardStatus, setExecUser)
 }
 
 const execOwnTi1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
@@ -611,6 +617,25 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
             {/* eslint-disable-next-line */}
             {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[2] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[2], boardStatus, setBoardStatus, setExecUser)}>アンカン3</td>}
           </tr>
+          <tr>
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAddMinkanabkeList(ownPai)[0] === 'undefined') && <td className={style.controlGray}>追加ミンカン1</td>}
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[0] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[0], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン1</td>}
+          </tr>
+          <tr>
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAddMinkanabkeList(ownPai)[1] === 'undefined') && <td className={style.controlGray}>追加ミンカン2</td>}
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[1] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[1], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン2</td>}
+          </tr>
+          <tr>
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) !== null || boardStatus !== 'think_own' || typeof isAddMinkanabkeList(ownPai)[2] === 'undefined') && <td className={style.controlGray}>追加ミンカン3</td>}
+            {/* eslint-disable-next-line */}
+            {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[2] !== 'undefined') && <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[2], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン3</td>}
+          </tr>
+
           <tr>
             {/* eslint-disable-next-line */}
             {(boardStatus.match(/^agari_/) !== null || !ownPai.nakiCheck.ti1) && <td className={style.controlGray}>チー1</td>}

@@ -656,7 +656,7 @@ export const getInitialYama = (): string[] => {
   yama[39] = 'hai_1_9'
   yama[49] = 'hai_1_9'
   yama[53] = 'hai_4_1'
-  yama[57] = 'hai_2_1'
+  yama[57] = 'hai_4_1'
 
   // yama[8] = 'hai_1_1'
   // yama[9] = 'hai_1_1'
