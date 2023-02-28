@@ -22,6 +22,7 @@ import { getKanCount } from '../game/detection/get_kan_count'
 import { isAddMinkanabkeList } from '../game/detection/is_add_minkanable_list'
 import { execAddMinkan } from '../game/exec_add_minkan'
 import { isTsumoable } from '../game/detection/is_tsumoable'
+import { getHaiSrc } from './hai/hai_info'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -128,6 +129,66 @@ const execOwnAnkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSta
 
 const execOwnAddMinkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, kanPai: string, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
   execAddMinkan(allPai, setAllPai, 'own', kanPai, boardStatus, setBoardStatus, setExecUser)
+}
+
+const DisplayOwnTi1 = ({ allPai, boardStatus }: { allPai: AllPaiProp, boardStatus: string }): JSX.Element => {
+  // チー牌をセットして実行
+  const nakiUserMatch = boardStatus.match(/^naki_(own|player1|player2|player3)$/)
+  // マッチしないときは何もしない
+  if (nakiUserMatch === null) {
+    return <></>
+  }
+  const nakiUser = nakiUserMatch[1] as UserProp
+  const suteruhai = allPai[nakiUser].sutehai[allPai[nakiUser].sutehai.length - 1].hai
+  const suteruHaiMatch = suteruhai.match(/^hai_([1-4])_([1-9])$/)
+  if (suteruHaiMatch === null) {
+    return <></>
+  }
+
+  return <>
+    <img src={getHaiSrc('hai_' + suteruHaiMatch[1] + '_' + String(Number(suteruHaiMatch[2]) - 2), 1)} />
+    <img src={getHaiSrc('hai_' + suteruHaiMatch[1] + '_' + String(Number(suteruHaiMatch[2]) - 1), 1)} />
+  </>
+}
+
+const DisplayOwnTi2 = ({ allPai, boardStatus }: { allPai: AllPaiProp, boardStatus: string }): JSX.Element => {
+  // チー牌をセットして実行
+  const nakiUserMatch = boardStatus.match(/^naki_(own|player1|player2|player3)$/)
+  // マッチしないときは何もしない
+  if (nakiUserMatch === null) {
+    return <></>
+  }
+  const nakiUser = nakiUserMatch[1] as UserProp
+  const suteruhai = allPai[nakiUser].sutehai[allPai[nakiUser].sutehai.length - 1].hai
+  const suteruHaiMatch = suteruhai.match(/^hai_([1-4])_([1-9])$/)
+  if (suteruHaiMatch === null) {
+    return <></>
+  }
+
+  return <>
+    <img src={getHaiSrc('hai_' + suteruHaiMatch[1] + '_' + String(Number(suteruHaiMatch[2]) - 1), 1)} />
+    <img src={getHaiSrc('hai_' + suteruHaiMatch[1] + '_' + String(Number(suteruHaiMatch[2]) + 1), 1)} />
+  </>
+}
+
+const DisplayOwnTi3 = ({ allPai, boardStatus }: { allPai: AllPaiProp, boardStatus: string }): JSX.Element => {
+  // チー牌をセットして実行
+  const nakiUserMatch = boardStatus.match(/^naki_(own|player1|player2|player3)$/)
+  // マッチしないときは何もしない
+  if (nakiUserMatch === null) {
+    return <></>
+  }
+  const nakiUser = nakiUserMatch[1] as UserProp
+  const suteruhai = allPai[nakiUser].sutehai[allPai[nakiUser].sutehai.length - 1].hai
+  const suteruHaiMatch = suteruhai.match(/^hai_([1-4])_([1-9])$/)
+  if (suteruHaiMatch === null) {
+    return <></>
+  }
+
+  return <>
+    <img src={getHaiSrc('hai_' + suteruHaiMatch[1] + '_' + String(Number(suteruHaiMatch[2]) + 1), 1)} />
+    <img src={getHaiSrc('hai_' + suteruHaiMatch[1] + '_' + String(Number(suteruHaiMatch[2]) + 2), 1)} />
+  </>
 }
 
 const execOwnTi1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
@@ -603,55 +664,55 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[0] !== 'undefined') &&
             <tr>
               {/* eslint-disable-next-line */}
-              <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[0], boardStatus, setBoardStatus, setExecUser)}>アンカン1</td>
+              <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[0], boardStatus, setBoardStatus, setExecUser)}>カン<img src={getHaiSrc(isAnkanableList(ownPai)[0], 1)} /></td>
             </tr>
           }
           {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[1] !== 'undefined') &&
             <tr>
               {/* eslint-disable-next-line */}
-              <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[1], boardStatus, setBoardStatus, setExecUser)}>アンカン2</td>
+              <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[1], boardStatus, setBoardStatus, setExecUser)}>カン<img src={getHaiSrc(isAnkanableList(ownPai)[1], 1)} /></td>
             </tr>
           }
           {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAnkanableList(ownPai)[2] !== 'undefined') &&
             <tr>
               {/* eslint-disable-next-line */}
-              <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[2], boardStatus, setBoardStatus, setExecUser)}>アンカン3</td>
+              <td className={style.controlGreen} onClick={() => execOwnAnkan(allPai, setAllPai, isAnkanableList(ownPai)[2], boardStatus, setBoardStatus, setExecUser)}>カン<img src={getHaiSrc(isAnkanableList(ownPai)[2], 1)} /></td>
             </tr>
           }
           {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[0] !== 'undefined') &&
             <tr>
               {/* eslint-disable-next-line */}
-              <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[0], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン1</td>
+              <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[0], boardStatus, setBoardStatus, setExecUser)}>カン<img src={getHaiSrc(isAddMinkanabkeList(ownPai)[0], 1)} /></td>
             </tr>
           }
           {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[1] !== 'undefined') &&
             <tr>
               {/* eslint-disable-next-line */}
-              <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[1], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン2</td>
+              <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[1], boardStatus, setBoardStatus, setExecUser)}>カン<img src={getHaiSrc(isAddMinkanabkeList(ownPai)[1], 1)} /></td>
             </tr>
           }
           {(boardStatus.match(/^agari_/) === null && boardStatus === 'think_own' && typeof isAddMinkanabkeList(ownPai)[2] !== 'undefined') &&
             <tr>
               {/* eslint-disable-next-line */}
-              <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[2], boardStatus, setBoardStatus, setExecUser)}>追加ミンカン3</td>
+              <td className={style.controlGreen} onClick={() => execOwnAddMinkan(allPai, setAllPai, isAddMinkanabkeList(ownPai)[2], boardStatus, setBoardStatus, setExecUser)}>カン<img src={getHaiSrc(isAddMinkanabkeList(ownPai)[2], 1)} /></td>
             </tr>
           }
           {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti1) &&
             <tr>
               {/* eslint-disable-next-line */}
-              <td className={style.controlGreen} onClick={() => execOwnTi1(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー1</td>
+              <td className={style.controlGreen} onClick={() => execOwnTi1(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー<DisplayOwnTi1 allPai={allPai} boardStatus={boardStatus} /></td>
             </tr>
           }
           {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti2) &&
             <tr>
               {/* eslint-disable-next-line */}
-              <td className={style.controlGreen} onClick={() => execOwnTi2(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー2</td>
+              <td className={style.controlGreen} onClick={() => execOwnTi2(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー<DisplayOwnTi2 allPai={allPai} boardStatus={boardStatus} /></td>
             </tr>
           }
           {(boardStatus.match(/^agari_/) === null && ownPai.nakiCheck.ti3) &&
             <tr>
               {/* eslint-disable-next-line */}
-              <td className={style.controlGreen} onClick={() => execOwnTi3(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー3</td>
+              <td className={style.controlGreen} onClick={() => execOwnTi3(allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, setExecUser, ownAuto)}>チー<DisplayOwnTi3 allPai={allPai} boardStatus={boardStatus} /></td>
             </tr>
           }
           <tr>
