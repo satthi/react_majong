@@ -640,7 +640,7 @@ export const getInitialYama = (): string[] => {
   yama[35] = 'hai_1_9'
   yama[48] = 'hai_1_9'
   yama[52] = 'hai_1_9'
-  yama[56] = 'hai_2_1'
+  yama[53] = 'hai_1_6'
 
   // yama[4] = 'hai_1_1'
   // yama[5] = 'hai_1_1'
@@ -688,6 +688,9 @@ export const getInitialYama = (): string[] => {
   yama[51] = 'hai_4_3'
   yama[54] = 'hai_2_3'
   yama[55] = 'hai_2_3'
+
+  yama[130] = 'hai_1_8'
+
   return yama
 }
 

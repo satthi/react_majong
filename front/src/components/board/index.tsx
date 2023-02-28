@@ -18,6 +18,7 @@ import { DoraReach } from './common/dora_reach'
 import { shantenBase } from '../game/shanten_base'
 import { isAnkanableList } from '../game/detection/is_ankanable_list'
 import { execAnkan } from '../game/exec_ankan'
+import { getKanCount } from '../game/detection/get_kan_count'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -259,22 +260,67 @@ const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: numbe
   })
 
   // ここにドラ判定を追加する
-  // @todo: カンドラ
   let omoteDoraCount = 0
   let uraDoraCount = 0
   const omoteDora = getDora(yama[yama.length - 6])
+  const kanDoras: string[] = []
+  const kanCount = getKanCount(allPai)
+  if (kanCount >= 1) {
+    kanDoras.push(getDora(yama[yama.length - 8]))
+  }
+  if (kanCount >= 2) {
+    kanDoras.push(getDora(yama[yama.length - 10]))
+  }
+  if (kanCount >= 3) {
+    kanDoras.push(getDora(yama[yama.length - 12]))
+  }
+  if (kanCount >= 4) {
+    kanDoras.push(getDora(yama[yama.length - 14]))
+  }
   let uraDora = ''
+  const uraKanDoras: string[] = []
   if (agariPaiInfo.isReach) {
     uraDora = getDora(yama[yama.length - 5])
+    if (kanCount >= 1) {
+      uraKanDoras.push(getDora(yama[yama.length - 7]))
+    }
+    if (kanCount >= 2) {
+      uraKanDoras.push(getDora(yama[yama.length - 9]))
+    }
+    if (kanCount >= 3) {
+      uraKanDoras.push(getDora(yama[yama.length - 11]))
+    }
+    if (kanCount >= 4) {
+      uraKanDoras.push(getDora(yama[yama.length - 13]))
+    }
   }
-  // @todo: 鳴いた牌のドラ判定
-  agariPaiInfo.base.forEach((b) => {
+
+  const checkHaiList: string[] = []
+  checkHaiList.concat(agariPaiInfo.base)
+  agariPaiInfo.naki.forEach((n) => {
+    checkHaiList.push(n.keyHai.haiInfo.hai)
+    n.hai.forEach((nh) => {
+      checkHaiList.push(nh.hai)
+    })
+  })
+
+  checkHaiList.forEach((b) => {
     if (b === omoteDora) {
       omoteDoraCount++
     }
+    kanDoras.forEach((k) => {
+      if (b === k) {
+        omoteDoraCount++
+      }
+    })
     if (b === uraDora) {
       uraDoraCount++
     }
+    uraKanDoras.forEach((k) => {
+      if (b === k) {
+        uraDoraCount++
+      }
+    })
   })
 
   agariInfo.han += omoteDoraCount + uraDoraCount
