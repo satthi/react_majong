@@ -192,7 +192,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
       ponExec = true
       setTimeout(() => {
         allNakiCheckReset(allPai, setAllPai)
-        setExecUser(user) // 捨てる人にセットしないと次の人が積もってくれないことがある
+        setExecUser(sortUser) // 捨てる人にセットしないと次の人が積もってくれないことがある
 
         // ポンを実行してる人の捨てるフェーズ
         if (sortUser === 'own' && !ownAuto) {
@@ -262,7 +262,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
       ti1Exec = true
       setTimeout(() => {
         allNakiCheckReset(allPai, setAllPai)
-        setExecUser(user) // 捨てる人にセットしないと次の人が積もってくれないことがある
+        setExecUser(sortUser) // 捨てる人にセットしないと次の人が積もってくれないことがある
 
         // ポンを実行してる人の捨てるフェーズ
         if (sortUser === 'own' && !ownAuto) {
@@ -332,7 +332,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
       ti2Exec = true
       setTimeout(() => {
         allNakiCheckReset(allPai, setAllPai)
-        setExecUser(user) // 捨てる人にセットしないと次の人が積もってくれないことがある
+        setExecUser(sortUser) // 捨てる人にセットしないと次の人が積もってくれないことがある
 
         // ポンを実行してる人の捨てるフェーズ
         if (sortUser === 'own' && !ownAuto) {
@@ -402,7 +402,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
       ti3Exec = true
       setTimeout(() => {
         allNakiCheckReset(allPai, setAllPai)
-        setExecUser(user) // 捨てる人にセットしないと次の人が積もってくれないことがある
+        setExecUser(sortUser) // 捨てる人にセットしないと次の人が積もってくれないことがある
 
         // ポンを実行してる人の捨てるフェーズ
         if (sortUser === 'own' && !ownAuto) {
