@@ -278,10 +278,17 @@ export const sanshokuDoukokuCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiP
 }
 
 // 三暗刻(ツモ)
-export const sanankoCheck = (shantenInfo: ShantenBaseInfo, isTsumo: boolean): boolean => {
+export const sanankoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, isTsumo: boolean): boolean => {
   let ankoCount = 0
   shantenInfo.mentsu.forEach((m) => {
     if (m[0].num === m[1].num) {
+      ankoCount++
+    }
+  })
+
+  // アンカンはカウントする
+  paiInfo.naki.forEach((n) => {
+    if (n.type === 'ankan') {
       ankoCount++
     }
   })
@@ -571,6 +578,164 @@ export const chitoitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
 export const rinshanKaihoCheck = (paiInfo: PaiProp): boolean => {
   // eslint-disable-next-line
   return paiInfo.kantsumo === true
+}
+
+// 四暗刻/ツモのみ
+export const suankoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp): boolean => {
+  let ankoCount = 0
+  shantenInfo.mentsu.forEach((m) => {
+    if (m[0].num === m[1].num) {
+      ankoCount++
+    }
+  })
+
+  // アンカンはカウントする
+  paiInfo.naki.forEach((n) => {
+    if (n.type === 'ankan') {
+      ankoCount++
+    }
+  })
+
+  return ankoCount === 3 && shantenInfo.toitsu.length === 2
+}
+
+// 四暗刻単騎
+export const suankoTankiCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp): boolean => {
+  let ankoCount = 0
+  shantenInfo.mentsu.forEach((m) => {
+    if (m[0].num === m[1].num) {
+      ankoCount++
+    }
+  })
+
+  // アンカンはカウントする
+  paiInfo.naki.forEach((n) => {
+    if (n.type === 'ankan') {
+      ankoCount++
+    }
+  })
+
+  return ankoCount === 4
+}
+
+// 国士無双
+export const kokushimusouCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  if (shantenInfo.kokushi.length !== 13) {
+    return false
+  }
+
+  // 重複牌がある
+  let doubleCheck = false
+  shantenInfo.haiCountInfo.forEach((h) => {
+    if (h.count > 1) {
+      doubleCheck = true
+    }
+  })
+
+  return doubleCheck
+}
+
+// 国士無双13面
+export const kokushimusou13Check = (shantenInfo: ShantenBaseInfo): boolean => {
+  if (shantenInfo.kokushi.length !== 13) {
+    return false
+  }
+
+  // 重複牌がある
+  let doubleCheck = false
+  shantenInfo.haiCountInfo.forEach((h) => {
+    if (h.count > 1) {
+      doubleCheck = true
+    }
+  })
+
+  return !doubleCheck
+}
+
+// 大三元
+export const daisangenCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
+  let hakuFlag = false
+  let hatsuFlag = false
+  let tyunFlag = false
+  const mentsuSet = mentsuPlusNaki(shantenInfo.mentsu, paiInfo)
+
+  mentsuSet.forEach((m) => {
+    if (m[0].type === 4 && m[0].num === 5) {
+      hakuFlag = true
+    }
+    if (m[0].type === 4 && m[0].num === 6) {
+      hatsuFlag = true
+    }
+    if (m[0].type === 4 && m[0].num === 7) {
+      tyunFlag = true
+    }
+  })
+
+  // ツモ予定もチェック
+  if (shantenInfo.toitsu.length === 2) {
+    if (machiHai.type === 4 && machiHai.num === 5) {
+      hakuFlag = true
+    }
+    if (machiHai.type === 4 && machiHai.num === 6) {
+      hatsuFlag = true
+    }
+    if (machiHai.type === 4 && machiHai.num === 7) {
+      tyunFlag = true
+    }
+  }
+
+  return hakuFlag && hatsuFlag && tyunFlag
+}
+
+// 緑一色
+export const ryuisoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
+  let ryuisoFlag = true
+  // base
+  shantenInfo.haiCountInfo.forEach((h) => {
+    if (h.count > 0 && (
+      h.type === 1 ||
+      h.type === 2 ||
+      (h.type === 3 && (h.num === 1 || h.num === 5 || h.num === 7 || h.num === 9)) ||
+      (h.type === 4 && h.num !== 6)
+    )) {
+      ryuisoFlag = false
+    }
+  })
+
+  // naki牌
+  paiInfo.naki.forEach((n) => {
+    if (
+      n.keyHai.haiInfo.type === 1 ||
+      n.keyHai.haiInfo.type === 2 ||
+      (n.keyHai.haiInfo.type === 3 && (n.keyHai.haiInfo.num === 1 || n.keyHai.haiInfo.num === 5 || n.keyHai.haiInfo.num === 7 || n.keyHai.haiInfo.num === 9)) ||
+      (n.keyHai.haiInfo.type === 4 && n.keyHai.haiInfo.num !== 6)
+    ) {
+      ryuisoFlag = false
+    }
+
+    n.hai.forEach((h) => {
+      if (
+        h.type === 1 ||
+        h.type === 2 ||
+        (h.type === 3 && (h.num === 1 || h.num === 5 || h.num === 7 || h.num === 9)) ||
+        (h.type === 4 && h.num !== 6)
+      ) {
+        ryuisoFlag = false
+      }
+    })
+
+    // 待ち牌
+    if (
+      machiHai.type === 1 ||
+      machiHai.type === 2 ||
+      (machiHai.type === 3 && (machiHai.num === 1 || machiHai.num === 5 || machiHai.num === 7 || machiHai.num === 9)) ||
+      (machiHai.type === 4 && machiHai.num !== 6)
+    ) {
+      ryuisoFlag = false
+    }
+  })
+
+  return ryuisoFlag
 }
 
 // 一九字牌の判定

@@ -47,17 +47,17 @@ export const ShantenTest = (): JSX.Element => {
       // 'hai_2_5',
       // 'hai_2_6',
       // 'hai_2_8'
-      'hai_1_1',
-      'hai_1_9',
-      'hai_2_1',
-      'hai_2_9',
-      'hai_3_1',
-      'hai_3_9',
-      'hai_4_1',
-      'hai_4_2',
-      'hai_4_3',
-      'hai_4_4',
-      'hai_4_5',
+      'hai_3_2',
+      'hai_3_2',
+      'hai_3_3',
+      'hai_3_3',
+      'hai_3_4',
+      'hai_3_6',
+      'hai_3_6',
+      'hai_3_8',
+      'hai_3_8',
+      'hai_3_8',
+      'hai_4_6',
       'hai_4_6',
       'hai_4_7'
     ],
@@ -198,8 +198,18 @@ export const ShantenTest = (): JSX.Element => {
             return <div key={mkey}>
               <>待ち： </>
               <img src={getHaiSrc(m.haiInfo.hai, 1)} key={mkey} /><br />
-              <>ロン： { m.tensu.ron.fu }符 { m.tensu.ron.han } 翻 {m.tensu.ron.yakuList.join('/')}</><br />
-              <>ツモ： { m.tensu.tsumo.fu }符 { m.tensu.tsumo.han } 翻 {m.tensu.tsumo.yakuList.join('/')}</>
+              <>ロン： {m.tensu.ron.yakuman > 0
+                // eslint-disable-next-line
+                ? <>{ m.tensu.ron.yakuman > 1 && m.tensu.ron.yakuman + '倍' }役満 {m.tensu.ron.yakumanYakuList.join('/')}</>
+                : <>{ m.tensu.ron.fu }符 { m.tensu.ron.han } 翻 {m.tensu.ron.yakuList.join('/')}</>
+              }
+              </><br />
+              <>ツモ： {m.tensu.tsumo.yakuman > 0
+                // eslint-disable-next-line
+                ? <>{ m.tensu.tsumo.yakuman > 1 && m.tensu.tsumo.yakuman + '倍' }役満 {m.tensu.tsumo.yakumanYakuList.join('/')}</>
+                : <>{ m.tensu.tsumo.fu }符 { m.tensu.tsumo.han } 翻 {m.tensu.tsumo.yakuList.join('/')}</>
+                }
+              </>
             </div>
           })}
         </div>

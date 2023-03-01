@@ -68,6 +68,7 @@ export type TensuInfoProp = {
   han: number
   yakuman: number
   yakuList: string[]
+  yakumanYakuList: string[]
 }
 
 export type HaiCountInfoProp = {

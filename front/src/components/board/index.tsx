@@ -308,7 +308,8 @@ const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: numbe
     fu: 0,
     han: 0,
     yakuman: 0,
-    yakuList: []
+    yakuList: [],
+    yakumanYakuList: []
   }
   shantenInfoMentsu.mentsuGroup.forEach((g) => {
     g.machi.forEach((m) => {

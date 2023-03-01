@@ -421,15 +421,15 @@ export const shantenMentsu = (paiInfo: PaiProp, yama: string[], jikaze: number, 
     }
 
     // 七対子の判定を
+    let titoitsuShanten = 99
     if (isMenzenHantei) {
-      let titoitsuShanten = 6 - toitsu
+      titoitsuShanten = 6 - toitsu
       // 種類が7つ未満のときはその分だけシャンテン数を足す
       if (uniqueBase.length < 7) {
         titoitsuShanten += (7 - uniqueBase.length)
       }
-
-      c.shanten = Math.min(shantenCount, titoitsuShanten)
     }
+    c.shanten = Math.min(shantenCount, titoitsuShanten)
 
     if (c.shanten < minShanten) {
       minShanten = c.shanten

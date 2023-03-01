@@ -1,6 +1,6 @@
 import type { HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
-import { chantaCheck, chinitsuCheck, chitoitsuCheck, doubleReachCheck, haiteiCheck, honitsuCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, pinfuCheck, reachCheck, rinshanKaihoCheck, ryanpekoCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, tanyaoCheck, toitoihoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
+import { chantaCheck, chinitsuCheck, chitoitsuCheck, daisangenCheck, doubleReachCheck, haiteiCheck, honitsuCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, kokushimusou13Check, kokushimusouCheck, pinfuCheck, reachCheck, rinshanKaihoCheck, ryanpekoCheck, ryuisoCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, suankoCheck, suankoTankiCheck, tanyaoCheck, toitoihoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
 export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): MachiTensuInfo => {
   // テンパイ以外は計算しない
@@ -10,38 +10,39 @@ export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machi
         fu: 0,
         han: 0,
         yakuman: 0,
-        yakuList: []
+        yakuList: [],
+        yakumanYakuList: []
       },
       tsumo: {
         fu: 0,
         han: 0,
         yakuman: 0,
-        yakuList: []
+        yakuList: [],
+        yakumanYakuList: []
       }
     }
   }
-
-  // @todo: 役満判定
-  // @todo: 七対子判定
 
   // それ以外 府計算
   const [ronFu, tsumoFu] = fuCalc(shantenInfo, paiInfo, machiHai, bakaze, jikaze)
 
   // ここから役計算
-  const [tsumoHan, ronHan, tsumoYakuList, ronYakuList] = tensuCalc(shantenInfo, paiInfo, machiHai, yama, bakaze, jikaze)
+  const [tsumoHan, ronHan, tsumoYakuman, ronYakuman, tsumoYakuList, ronYakuList, tsumoYakumanYakuList, ronYakumanYakuList] = tensuCalc(shantenInfo, paiInfo, machiHai, yama, bakaze, jikaze)
 
   return {
     ron: {
       fu: ronFu,
       han: ronHan as number,
-      yakuman: 0,
-      yakuList: ronYakuList as string[]
+      yakuman: ronYakuman as number,
+      yakuList: ronYakuList as string[],
+      yakumanYakuList: ronYakumanYakuList as string[]
     },
     tsumo: {
       fu: tsumoFu,
       han: tsumoHan as number,
-      yakuman: 0,
-      yakuList: tsumoYakuList as string[]
+      yakuman: tsumoYakuman as number,
+      yakuList: tsumoYakuList as string[],
+      yakumanYakuList: tsumoYakumanYakuList as string[]
     }
   }
 }
@@ -143,8 +144,12 @@ const isYakuhai = (hai: HaiInfoProp, bakaze: number, jikaze: number): boolean =>
 const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): Array<number | string[]> => {
   let tsumoYaku = 0
   let ronYaku = 0
+  let tsumoYakuman = 0
+  let ronYakuman = 0
   const tsumoYakuList: string[] = []
   const ronYakuList: string[] = []
+  const tsumoYakumanYakuList: string[] = []
+  const ronYakumanYakuList: string[] = []
 
   // ダブルリーチ/リーチ
   if (doubleReachCheck(paiInfo)) {
@@ -250,12 +255,12 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
   }
 
   // 三暗刻(ツモとロンを別ロジックにする)
-  if (sanankoCheck(shantenInfo, true)) {
+  if (sanankoCheck(shantenInfo, paiInfo, true)) {
     tsumoYaku += 2
     tsumoYakuList.push('三暗刻')
   }
 
-  if (sanankoCheck(shantenInfo, false)) {
+  if (sanankoCheck(shantenInfo, paiInfo, false)) {
     ronYaku += 2
     ronYakuList.push('三暗刻')
   }
@@ -357,5 +362,57 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     ronYakuList.push('小三元')
   }
 
-  return [tsumoYaku, ronYaku, tsumoYakuList, ronYakuList]
+  // ここから役満
+  // 四暗刻
+  // eslint-disable-next-line
+  if (suankoCheck(shantenInfo, paiInfo)) {
+    tsumoYakuman += 1
+    tsumoYakumanYakuList.push('四暗刻')
+  }
+
+  // eslint-disable-next-line
+  if (suankoTankiCheck(shantenInfo, paiInfo)) {
+    tsumoYakuman += 2
+    ronYakuman += 2
+    tsumoYakumanYakuList.push('四暗刻単騎')
+    ronYakumanYakuList.push('四暗刻単騎')
+  }
+
+  // 国士無双
+  // eslint-disable-next-line
+  if (kokushimusouCheck(shantenInfo)) {
+    tsumoYakuman += 1
+    ronYakuman += 1
+    tsumoYakumanYakuList.push('国士無双')
+    ronYakumanYakuList.push('国士無双')
+  }
+
+  // 国士無双13面待ち
+  // eslint-disable-next-line
+  if (kokushimusou13Check(shantenInfo)) {
+    tsumoYakuman += 2
+    ronYakuman += 2
+    tsumoYakumanYakuList.push('国士無双13面待ち')
+    ronYakumanYakuList.push('国士無双13面待ち')
+  }
+
+  // 大三元
+  // eslint-disable-next-line
+  if (daisangenCheck(shantenInfo, paiInfo, machiHai)) {
+    tsumoYakuman += 1
+    ronYakuman += 1
+    tsumoYakumanYakuList.push('大三元')
+    ronYakumanYakuList.push('大三元')
+  }
+
+  // 緑一色
+  // eslint-disable-next-line
+  if (ryuisoCheck(shantenInfo, paiInfo, machiHai)) {
+    tsumoYakuman += 1
+    ronYakuman += 1
+    tsumoYakumanYakuList.push('緑一色')
+    ronYakumanYakuList.push('緑一色')
+  }
+
+  return [tsumoYaku, ronYaku, tsumoYakuman, ronYakuman, tsumoYakuList, ronYakuList, tsumoYakumanYakuList, ronYakumanYakuList]
 }
