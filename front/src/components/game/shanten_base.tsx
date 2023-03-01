@@ -1,5 +1,6 @@
 import type { HaiCountInfoProp, HaiInfoProp, MachiInfoProp, PaiProp, ShantenBaseInfo, ShantenInfoProp } from '../board/type'
 import { fuyakuCalc } from './calc/fuyaku_calc'
+import { isMemzen } from './detection/is_menzen'
 
 export const shantenBase = (paiInfo: PaiProp, yama: string[], jikaze: number, bakaze: number): ShantenInfoProp => {
   const mentsuGroup = shantenMentsu(paiInfo, yama, jikaze, bakaze)
@@ -316,46 +317,48 @@ export const shantenMentsu = (paiInfo: PaiProp, yama: string[], jikaze: number, 
   const shantenCheck27 = toitsuTatsuBunseki(shantenCheck26)
 
   // 国士セットを別に追加する
-  // @todo: 鳴きがあるときはセット不要
-  let kokushiToitsuSet = false
-  let toitsuInfo: HaiInfoProp[] = []
-  const copyhaiCountInfo = JSON.parse(JSON.stringify(haiCountInfo))
-  haiCountInfo.forEach((h, k) => {
-    if (h.count > 0 && (h.num === 1 || h.num === 9 || h.type === 4)) {
-      if (!kokushiToitsuSet && h.count >= 2) {
-        toitsuInfo = toitsuInfo.concat([
-          {
-            hai: h.hai,
-            type: h.type,
-            num: h.num
-          },
-          {
-            hai: h.hai,
-            type: h.type,
-            num: h.num
-          }
-        ])
-        copyhaiCountInfo[k].count = copyhaiCountInfo[k].count - 2
-        kokushiToitsuSet = true
-      } else {
-        toitsuInfo = toitsuInfo.concat([
-          {
-            hai: h.hai,
-            type: h.type,
-            num: h.num
-          }
-        ])
-        copyhaiCountInfo[k].count = copyhaiCountInfo[k].count - 1
+  const isMenzenHantei = isMemzen(paiInfo)
+  if (isMenzenHantei) {
+    let kokushiToitsuSet = false
+    let toitsuInfo: HaiInfoProp[] = []
+    const copyhaiCountInfo = JSON.parse(JSON.stringify(haiCountInfo))
+    haiCountInfo.forEach((h, k) => {
+      if (h.count > 0 && (h.num === 1 || h.num === 9 || h.type === 4)) {
+        if (!kokushiToitsuSet && h.count >= 2) {
+          toitsuInfo = toitsuInfo.concat([
+            {
+              hai: h.hai,
+              type: h.type,
+              num: h.num
+            },
+            {
+              hai: h.hai,
+              type: h.type,
+              num: h.num
+            }
+          ])
+          copyhaiCountInfo[k].count = copyhaiCountInfo[k].count - 2
+          kokushiToitsuSet = true
+        } else {
+          toitsuInfo = toitsuInfo.concat([
+            {
+              hai: h.hai,
+              type: h.type,
+              num: h.num
+            }
+          ])
+          copyhaiCountInfo[k].count = copyhaiCountInfo[k].count - 1
+        }
       }
-    }
-  })
+    })
 
-  const shantenKokushi = JSON.parse(JSON.stringify(shantenBaseInfo))
-  shantenKokushi.remainHaiCountInfo = copyhaiCountInfo
-  shantenKokushi.kokushi = toitsuInfo
+    const shantenKokushi = JSON.parse(JSON.stringify(shantenBaseInfo))
+    shantenKokushi.remainHaiCountInfo = copyhaiCountInfo
+    shantenKokushi.kokushi = toitsuInfo
 
-  // セット
-  shantenCheck27.push(shantenKokushi)
+    // セット
+    shantenCheck27.push(shantenKokushi)
+  }
 
   // メンツなどの並び替え(重複除去に使用したい)
   shantenCheck27.forEach((a) => {
@@ -390,11 +393,17 @@ export const shantenMentsu = (paiInfo: PaiProp, yama: string[], jikaze: number, 
     }
   })
 
+  // 七対子の判定用
+  const uniqueBase = Array.from(new Set(paiInfo.base))
   // 各組み合わせのシャンテン数セット
   let minShanten = 99
   shantenSeiri.forEach((c) => {
     if (c.kokushi.length > 0) {
-      return 13 - c.kokushi.length
+      c.shanten = 13 - c.kokushi.length
+      if (c.shanten < minShanten) {
+        minShanten = c.shanten
+      }
+      return
     }
     const mentsu: number = c.mentsu.length
     const toitsu: number = c.toitsu.length
@@ -412,15 +421,21 @@ export const shantenMentsu = (paiInfo: PaiProp, yama: string[], jikaze: number, 
     }
 
     // 七対子の判定を
-    // @todo: 鳴きがあるときは入れない
-    const titoitsuShanten = 6 - toitsu
+    if (isMenzenHantei) {
+      let titoitsuShanten = 6 - toitsu
+      // 種類が7つ未満のときはその分だけシャンテン数を足す
+      if (uniqueBase.length < 7) {
+        titoitsuShanten += (7 - uniqueBase.length)
+      }
 
-    c.shanten = Math.min(shantenCount, titoitsuShanten)
+      c.shanten = Math.min(shantenCount, titoitsuShanten)
+    }
 
     if (c.shanten < minShanten) {
       minShanten = c.shanten
     }
   })
+  console.log(shantenSeiri)
 
   const shantenComplete = shantenSeiri.filter((c) => {
     return c.shanten === minShanten
@@ -532,7 +547,42 @@ export const shantenMentsu = (paiInfo: PaiProp, yama: string[], jikaze: number, 
         shantenComplete[k].machi = tanki
       }
 
-      // @todo: 国士
+      // 国士
+      if (c.kokushi.length === 13) {
+        // ない牌を探す
+        c.haiCountInfo.forEach((h) => {
+          if ((h.type === 4 || h.num === 1 || h.type === 9) && h.count === 0) {
+            const matchiHai7: HaiInfoProp = {
+              hai: h.hai,
+              type: h.type,
+              num: h.num
+            }
+            c.machi.push({
+              haiInfo: matchiHai7,
+              // @todo: 点数計算
+              tensu: fuyakuCalc(c, paiInfo, matchiHai7, yama, jikaze, bakaze)
+            })
+          }
+        })
+
+        // 全部あったときは13面
+        if (c.machi.length === 0) {
+          c.haiCountInfo.forEach((h) => {
+            if ((h.type === 4 || h.num === 1 || h.type === 9)) {
+              const matchiHai8: HaiInfoProp = {
+                hai: h.hai,
+                type: h.type,
+                num: h.num
+              }
+              c.machi.push({
+                haiInfo: matchiHai8,
+                // @todo: 点数計算
+                tensu: fuyakuCalc(c, paiInfo, matchiHai8, yama, jikaze, bakaze)
+              })
+            }
+          })
+        }
+      }
     }
   })
 

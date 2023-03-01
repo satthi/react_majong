@@ -468,9 +468,10 @@ export const ryanpekoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, ma
   }
 
   // 力技で・・・ｗ
-  return (shuntsuList[0][0].hai === shuntsuList[1][0].hai && shuntsuList[2][0].hai === shuntsuList[3][0].hai) ||
+  return shuntsuList.length === 4 &&
+    ((shuntsuList[0][0].hai === shuntsuList[1][0].hai && shuntsuList[2][0].hai === shuntsuList[3][0].hai) ||
     (shuntsuList[0][0].hai === shuntsuList[2][0].hai && shuntsuList[1][0].hai === shuntsuList[3][0].hai) ||
-    (shuntsuList[0][0].hai === shuntsuList[3][0].hai && shuntsuList[1][0].hai === shuntsuList[2][0].hai)
+    (shuntsuList[0][0].hai === shuntsuList[3][0].hai && shuntsuList[1][0].hai === shuntsuList[2][0].hai))
 }
 
 export const junchantaCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
@@ -568,6 +569,7 @@ export const chitoitsuCheck = (shantenInfo: ShantenBaseInfo): boolean => {
 }
 
 export const rinshanKaihoCheck = (paiInfo: PaiProp): boolean => {
+  // eslint-disable-next-line
   return paiInfo.kantsumo === true
 }
 
