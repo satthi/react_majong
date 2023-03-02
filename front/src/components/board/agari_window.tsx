@@ -7,6 +7,9 @@ import { BaseHaiAgari } from './common/base_hai_agari'
 import { NakiAgari } from './common/naki_agari'
 import { DoraReach } from './common/dora_reach'
 import { DoraNormal } from './common/dora_normal'
+import { tensuKeisan, tensuTotal } from '../game/calc/tensu_keisan'
+import b_1_2 from './parts/b_1_2.gif'
+import b_8_2 from './parts/b_8_2.gif'
 
 interface AgariWindowProp {
   boardStatus: string
@@ -32,7 +35,8 @@ interface DisplayAgariReturnProp {
 interface GetYakuInfoProp {
   yakuList: string[]
   fuhan: string
-  tensu: string
+  tensu: number
+  tensuText: string
 }
 
 const getAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, yama: string[], kyoku: number, hon: number, reach: number): DisplayAgariReturnProp | undefined => {
@@ -56,11 +60,11 @@ const getAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, y
     hon,
     reach,
     agariStatus,
-    yakuInfo: getYakuInfo(allPai, agariUser, yama, bakaze, agariStatus)
+    yakuInfo: getYakuInfo(allPai, agariUser, yama, bakaze, agariStatus, hon)
   }
 }
 
-const getYakuInfo = (allPai: AllPaiProp, agariUser: UserProp, yama: string[], bakaze: number, agariStatus: string): GetYakuInfoProp => {
+const getYakuInfo = (allPai: AllPaiProp, agariUser: UserProp, yama: string[], bakaze: number, agariStatus: string, hon: number): GetYakuInfoProp => {
   const agariPaiInfo = allPai[agariUser]
   const checkHaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[agariUser]))
   const agariHai = checkHaiInfo.base.splice(checkHaiInfo.base.length - 1, 1)
@@ -97,10 +101,12 @@ const getYakuInfo = (allPai: AllPaiProp, agariUser: UserProp, yama: string[], ba
       fuhanText += String(agariInfo.yakuman) + '倍'
     }
     fuhanText += '役満'
+
     return {
       yakuList: agariInfo.yakumanYakuList,
       fuhan: fuhanText,
-      tensu: '48000点'
+      tensu: tensuTotal(agariInfo, agariPaiInfo.jikaze, agariStatus, hon),
+      tensuText: tensuKeisan(agariInfo, hon).yakuText
     }
   }
 
@@ -179,55 +185,68 @@ const getYakuInfo = (allPai: AllPaiProp, agariUser: UserProp, yama: string[], ba
   return {
     yakuList: agariInfo.yakuList,
     fuhan: String(agariInfo.fu) + '符' + String(agariInfo.han) + '翻', // @todo: 満貫以上のテキスト表示を追加する
-    tensu: '48000点'
+    tensu: tensuTotal(agariInfo, agariPaiInfo.jikaze, agariStatus, hon),
+    tensuText: tensuKeisan(agariInfo, hon).yakuText
   }
 }
 
 export const AgariWindow = ({ boardStatus, allPai, bakaze, yama, kyoku, hon, reach }: AgariWindowProp): JSX.Element => {
-  // return <div dangerouslySetInnerHTML={ { __html: displayAgariInfo(boardStatus, allPai, bakaze, yama) } } />
-
   const agariInfo = getAgariInfo(boardStatus, allPai, bakaze, yama, kyoku, hon, reach)
   if (typeof agariInfo === 'undefined') {
     return <></>
   }
 
   return <div className={style.agari_window}>
-    <div className={style.playerName}>{agariInfo.user}</div>
-    <div className={style.tsumoRon}>ツモ</div>
-    <div className={style.ba}>
-      {bakaze === 1 && '東'}
-      {bakaze === 2 && '南'}
-      {bakaze === 3 && '西'}
-      {bakaze === 4 && '北'}
-      {kyoku === 1 && '一'}
-      {kyoku === 2 && '二'}
-      {kyoku === 3 && '三'}
-      {kyoku === 4 && '四'}
-      局
-
-      {hon}本場
-    </div>
-    <div className={style.ie}>
-      {agariInfo.agariPaiInfo.jikaze === 1 && '東'}
-      {agariInfo.agariPaiInfo.jikaze === 2 && '南'}
-      {agariInfo.agariPaiInfo.jikaze === 3 && '西'}
-      {agariInfo.agariPaiInfo.jikaze === 4 && '北'}
-      家 {agariInfo.agariStatus === 'tsumo' && 'ツモ'}
-      {agariInfo.agariStatus === 'ron' && 'ロン'}
+    <>
+      <div className={style.playerName}>{agariInfo.user}</div>
+      <div className={style.ba}>
+        {bakaze === 1 && '東'}
+        {bakaze === 2 && '南'}
+        {bakaze === 3 && '西'}
+        {bakaze === 4 && '北'}
+        {kyoku === 1 && '一'}
+        {kyoku === 2 && '二'}
+        {kyoku === 3 && '三'}
+        {kyoku === 4 && '四'}
+        局
       </div>
-    <div className={style.doraField}>
-      {
-        agariInfo.agariPaiInfo.isReach
-          ? <DoraReach yama={yama} allPai={allPai} />
-          : <DoraNormal yama={yama} allPai={allPai} />
-      }
-    </div>
-    <div className={style.hai}>
-      <BaseHaiAgari base={agariInfo.agariPaiInfo.base} />
-      <NakiAgari naki={agariInfo.agariPaiInfo.naki} />
-    </div>
-    <div className={style.yaku} dangerouslySetInnerHTML={ { __html: agariInfo.yakuInfo.yakuList.join('<br />') } } />
-    <div className={style.fu_han}>{agariInfo.yakuInfo.fuhan}</div>
-    <div className={style.tensu}>{agariInfo.yakuInfo.tensu}</div>
+      <div className={style.ie}>
+        {agariInfo.agariPaiInfo.jikaze === 1 && '東'}
+        {agariInfo.agariPaiInfo.jikaze === 2 && '南'}
+        {agariInfo.agariPaiInfo.jikaze === 3 && '西'}
+        {agariInfo.agariPaiInfo.jikaze === 4 && '北'}
+        家 {agariInfo.agariStatus === 'tsumo' && 'ツモ'}
+        {agariInfo.agariStatus === 'ron' && 'ロン'}
+      </div>
+      <div className={style.honInfo}>
+        <img src={b_1_2} /> × {reach}<br />
+        <img src={b_8_2} /> × {hon}
+      </div>
+      <div className={style.doraField}>
+        {
+          agariInfo.agariPaiInfo.isReach
+            ? <DoraReach yama={yama} allPai={allPai} />
+            : <DoraNormal yama={yama} allPai={allPai} />
+        }
+      </div>
+      <div className={style.hai}>
+        <BaseHaiAgari base={agariInfo.agariPaiInfo.base} />
+        <NakiAgari naki={agariInfo.agariPaiInfo.naki} />
+      </div>
+      <div className={style.yaku}>
+        {agariInfo.yakuInfo.yakuList.map((y, yk) => <div className={style.yaku_child} key={yk}>{ y }</div>)}
+      </div>
+      <div className={style.fu_han}>{agariInfo.yakuInfo.fuhan}</div>
+      <div className={style.tensu}>{agariInfo.yakuInfo.tensu}点</div>
+      <div className={style.tensuText}>{agariInfo.yakuInfo.tensuText}</div>
+      <div className={style.next}>次の局</div>
+      {(Object.keys(allPai) as UserProp[]).map((user, userKey) =>
+        // eslint-disable-next-line
+        <div className={`${style.tensuBox} ${style['tensuBoxPosition' + userKey]}`} key={userKey}>
+          <div className={style.tensuName}>{user}</div>
+          <div className={style.tensuHyoji}>25000(+1000)</div>
+        </div>
+      )}
+    </>
   </div>
 }

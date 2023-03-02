@@ -32,6 +32,14 @@
     background-color: white;
     font-size: 4em;
 }
+.honInfo{
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    color: white;
+    font-size: 2em;
+}
+
 .ie {
     position: absolute;
     top: 20px;
@@ -50,10 +58,16 @@
 .yaku {
     position: absolute;
     left: 100px;
-    top: 150px;
-    width: 200px;
+    top: 220px;
+    width: 600px;
     color: white;
     font-size: 2em;
+    clear: both;
+}
+
+.yaku_child {
+    float: left;
+    margin: 0 25px;
 }
 
 .fu_han {
@@ -70,4 +84,58 @@
     bottom: 150px;
     color: white;
     font-size: 3em;
+}
+
+.tensuText {
+    position: absolute;
+    right: 240px;
+    bottom: 150px;
+    color: white;
+    font-size: 4em;
+}
+
+.next {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: white;
+    background-color: blue;
+    font-size: 4em;
+    cursor: pointer;
+}
+
+.tensuBox {
+    position: absolute;
+    right: 0;
+    width: 200px;
+    border: 2px solid white;
+    height: 60px;
+    font-size: 1.5em;
+}
+
+.tensuBoxPosition0 {
+    top: 100px;
+}
+
+.tensuBoxPosition1 {
+    top: 160px;
+}
+
+.tensuBoxPosition2 {
+    top: 220px;
+}
+
+.tensuBoxPosition3 {
+    top: 280px;
+}
+
+.tensuName {
+    background-color: gray;
+    color: white;
+    height: 30px;
+}
+
+.tensuHyoji {
+    color: white;
+    height: 30px;
 }

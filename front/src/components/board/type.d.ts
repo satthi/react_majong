@@ -72,6 +72,21 @@ export type TensuInfoProp = {
   yakumanYakuList: string[]
 }
 
+export type TensuKeisanProp = {
+  oya: {
+    tsumo: number,
+    ron: number
+  },
+  ko: {
+    tsumo: {
+      oya: number,
+      ko: number
+    },
+    ron: number
+  },
+  yakuText: string
+}
+
 export type HaiCountInfoProp = {
   hai: string
   type: number
