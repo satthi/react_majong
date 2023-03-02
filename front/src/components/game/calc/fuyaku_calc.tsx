@@ -1,6 +1,6 @@
 import type { HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
-import { chantaCheck, chinitsuCheck, chitoitsuCheck, daisangenCheck, doubleReachCheck, haiteiCheck, honitsuCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, kokushimusou13Check, kokushimusouCheck, pinfuCheck, reachCheck, rinshanKaihoCheck, ryanpekoCheck, ryuisoCheck, sanankoCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, suankoCheck, suankoTankiCheck, tanyaoCheck, toitoihoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
+import { chantaCheck, chinitsuCheck, chinrotoCheck, chitoitsuCheck, daisangenCheck, doubleReachCheck, haiteiCheck, honitsuCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, kokushimusou13Check, kokushimusouCheck, pinfuCheck, reachCheck, rinshanKaihoCheck, ryanpekoCheck, ryuisoCheck, sanankoCheck, sankantsuCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, suankoCheck, suankoTankiCheck, sukantsuCheck, tanyaoCheck, toitoihoCheck, tsuisoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
 export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): MachiTensuInfo => {
   // テンパイ以外は計算しない
@@ -352,8 +352,13 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     ronYakuList.push('混一色')
   }
 
-  // @todo: 三槓子
-
+  // 三槓子
+  if (sankantsuCheck(paiInfo)) {
+    tsumoYaku += 2
+    ronYaku += 2
+    tsumoYakuList.push('三槓子')
+    ronYakuList.push('三槓子')
+  }
   // 小三元
   if (shosangenCheck(shantenInfo, paiInfo)) {
     tsumoYaku += 2
@@ -412,6 +417,32 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     ronYakuman += 1
     tsumoYakumanYakuList.push('緑一色')
     ronYakumanYakuList.push('緑一色')
+  }
+
+  // 字一色
+  // eslint-disable-next-line
+  if (tsuisoCheck(shantenInfo, paiInfo)) {
+    tsumoYakuman += 1
+    ronYakuman += 1
+    tsumoYakumanYakuList.push('字一色')
+    ronYakumanYakuList.push('字一色')
+  }
+
+  // 清老頭
+  // eslint-disable-next-line
+  if (chinrotoCheck(shantenInfo, paiInfo, machiHai)) {
+    tsumoYakuman += 1
+    ronYakuman += 1
+    tsumoYakumanYakuList.push('清老頭')
+    ronYakumanYakuList.push('清老頭')
+  }
+
+  // 四槓子
+  if (sukantsuCheck(paiInfo)) {
+    tsumoYakuman += 1
+    ronYakuman += 1
+    tsumoYakumanYakuList.push('四槓子')
+    ronYakumanYakuList.push('四槓子')
   }
 
   return [tsumoYaku, ronYaku, tsumoYakuman, ronYakuman, tsumoYakuList, ronYakuList, tsumoYakumanYakuList, ronYakumanYakuList]

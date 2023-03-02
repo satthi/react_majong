@@ -418,6 +418,17 @@ export const shosangenCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp): 
   return SangenhaiCheck.num_5 === true && SangenhaiCheck.num_6 === true && SangenhaiCheck.num_7 === true
 }
 
+export const sankantsuCheck = (paiInfo: PaiProp): boolean => {
+  let kanCount = 0
+  paiInfo.naki.forEach((n) => {
+    if (n.type === 'ankan' || n.type === 'minkan') {
+      kanCount++
+    }
+  })
+
+  return kanCount === 3
+}
+
 export const honrotoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
   // すべての牌が19字牌
   let honrotoFlag = true
@@ -736,6 +747,72 @@ export const ryuisoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, mach
   })
 
   return ryuisoFlag
+}
+
+// 緑一色
+export const tsuisoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp): boolean => {
+  let tsuisoFlag = true
+  // base
+  shantenInfo.haiCountInfo.forEach((h) => {
+    if (h.count > 0 && h.type !== 4) {
+      tsuisoFlag = false
+    }
+  })
+
+  // naki牌
+  paiInfo.naki.forEach((n) => {
+    if (n.keyHai.haiInfo.type !== 4) {
+      tsuisoFlag = false
+    }
+
+    n.hai.forEach((h) => {
+      if (h.type !== 4) {
+        tsuisoFlag = false
+      }
+    })
+  })
+
+  return tsuisoFlag
+}
+
+// 清老頭
+export const chinrotoCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
+  // すべての牌が19
+  let chinrotoFlag = true
+  shantenInfo.haiCountInfo.forEach((h) => {
+    if (h.count > 0 && (h.type === 4 || (h.num !== 1 && h.num !== 9))) {
+      chinrotoFlag = false
+    }
+  })
+  if (!isYaochu(machiHai) || machiHai.type === 4) {
+    chinrotoFlag = false
+  }
+
+  // 鳴きの中身も見る
+  paiInfo.naki.forEach((n) => {
+    if (!isYaochu(n.keyHai.haiInfo) || n.keyHai.haiInfo.type === 4) {
+      chinrotoFlag = false
+    }
+
+    n.hai.forEach((nh) => {
+      if (!isYaochu(nh) || nh.type === 4) {
+        chinrotoFlag = false
+      }
+    })
+  })
+
+  return chinrotoFlag
+}
+
+export const sukantsuCheck = (paiInfo: PaiProp): boolean => {
+  let kanCount = 0
+  paiInfo.naki.forEach((n) => {
+    if (n.type === 'ankan' || n.type === 'minkan') {
+      kanCount++
+    }
+  })
+
+  return kanCount === 4
 }
 
 // 一九字牌の判定

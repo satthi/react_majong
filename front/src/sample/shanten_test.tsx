@@ -47,44 +47,133 @@ export const ShantenTest = (): JSX.Element => {
       // 'hai_2_5',
       // 'hai_2_6',
       // 'hai_2_8'
-      'hai_3_2',
-      'hai_3_2',
-      'hai_3_3',
-      'hai_3_3',
-      'hai_3_4',
-      'hai_3_6',
-      'hai_3_6',
-      'hai_3_8',
-      'hai_3_8',
-      'hai_3_8',
-      'hai_4_6',
-      'hai_4_6',
-      'hai_4_7'
+      'hai_1_1'
+      // 'hai_1_1',
+      // 'hai_1_1',
+      // 'hai_1_9',
+      // 'hai_1_9',
+      // 'hai_1_9',
+      // 'hai_2_1',
+      // 'hai_2_1',
+      // 'hai_2_9',
+      // 'hai_2_9',
+      // 'hai_2_9',
+      // 'hai_3_1',
+      // 'hai_3_1'
     ],
     naki: [
-      // {
-      //   type: 'pon',
-      //   keyHai: {
-      //     haiInfo: {
-      //       hai: 'hai_4_1',
-      //       type: 4,
-      //       num: 1
-      //     },
-      //     position: 'left'
-      //   },
-      //   hai: [
-      //     {
-      //       hai: 'hai_4_1',
-      //       type: 4,
-      //       num: 1
-      //     },
-      //     {
-      //       hai: 'hai_4_1',
-      //       type: 4,
-      //       num: 1
-      //     }
-      //   ]
-      // },
+      {
+        type: 'ankan',
+        keyHai: {
+          haiInfo: {
+            hai: 'hai_4_1',
+            type: 4,
+            num: 1
+          },
+          position: 'none'
+        },
+        hai: [
+          {
+            hai: 'hai_4_1',
+            type: 4,
+            num: 1
+          },
+          {
+            hai: 'hai_4_1',
+            type: 4,
+            num: 1
+          },
+          {
+            hai: 'hai_4_1',
+            type: 4,
+            num: 1
+          }
+        ]
+      },
+      {
+        type: 'ankan',
+        keyHai: {
+          haiInfo: {
+            hai: 'hai_2_1',
+            type: 2,
+            num: 1
+          },
+          position: 'none'
+        },
+        hai: [
+          {
+            hai: 'hai_2_1',
+            type: 2,
+            num: 1
+          },
+          {
+            hai: 'hai_2_1',
+            type: 2,
+            num: 1
+          },
+          {
+            hai: 'hai_2_1',
+            type: 2,
+            num: 1
+          }
+        ]
+      },
+      {
+        type: 'minkan',
+        keyHai: {
+          haiInfo: {
+            hai: 'hai_4_3',
+            type: 4,
+            num: 3
+          },
+          position: 'left'
+        },
+        hai: [
+          {
+            hai: 'hai_4_3',
+            type: 4,
+            num: 3
+          },
+          {
+            hai: 'hai_4_3',
+            type: 4,
+            num: 3
+          },
+          {
+            hai: 'hai_4_3',
+            type: 4,
+            num: 3
+          }
+        ]
+      },
+      {
+        type: 'minkan',
+        keyHai: {
+          haiInfo: {
+            hai: 'hai_3_3',
+            type: 3,
+            num: 3
+          },
+          position: 'left'
+        },
+        hai: [
+          {
+            hai: 'hai_3_3',
+            type: 3,
+            num: 3
+          },
+          {
+            hai: 'hai_3_3',
+            type: 3,
+            num: 3
+          },
+          {
+            hai: 'hai_3_3',
+            type: 3,
+            num: 3
+          }
+        ]
+      }
       // {
       //   type: 'pon',
       //   keyHai: {
