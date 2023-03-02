@@ -327,6 +327,19 @@ const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: numbe
     })
   })
 
+  // 役満判定があるときはここで表示内容を出して終わり
+  if (agariInfo.yakuman > 0) {
+    let yakumanAgariString = ''
+    yakumanAgariString += '上がり: ' + agariUser + '/' + agariStatus + '<br />'
+    if (agariInfo.yakuman > 1) {
+      yakumanAgariString += String(agariInfo.yakuman) + '倍'
+    }
+    yakumanAgariString += '役満<br />'
+    yakumanAgariString += agariInfo.yakumanYakuList.join('<br />')
+
+    return yakumanAgariString
+  }
+
   // ここにドラ判定を追加する
   let omoteDoraCount = 0
   let uraDoraCount = 0
