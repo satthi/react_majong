@@ -1,4 +1,3 @@
-import { getDora } from '../board'
 import { setTsumo } from '../board/common/set_tsumo'
 import type { AllPaiProp, HaiInfoProp, PaiProp, ShantenListProp, SutehaiListWeightProp, SuteType, UserProp } from '../board/type'
 import { isMemzen } from './detection/is_menzen'
@@ -9,6 +8,7 @@ import { shantenBase } from './shanten_base'
 import { execAnkan } from './exec_ankan'
 import { isAddMinkanabkeList } from './detection/is_add_minkanable_list'
 import { execAddMinkan } from './exec_add_minkan'
+import { getDora } from '../board/common/get_dora'
 
 export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, turnUser: UserProp, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean, bakaze: number): void => {
   // 上がり

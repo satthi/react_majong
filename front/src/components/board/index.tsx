@@ -1,5 +1,5 @@
 import style from './board.module.css'
-import type { AllPaiProp, PaiProp, TensuInfoProp, UserProp } from './type'
+import type { AllPaiProp, UserProp } from './type'
 import { Sutehai } from './common/sutehai'
 import { OwnBaseHai } from './common/own_base_hai'
 import { PlaterBaseHai } from './common/player_base_hai'
@@ -15,14 +15,13 @@ import { shantenCheck } from '../game/shanten_check'
 import { execNaki } from '../game/exec_naki'
 import { DoraNormal } from './common/dora_normal'
 import { DoraReach } from './common/dora_reach'
-import { shantenBase } from '../game/shanten_base'
 import { isAnkanableList } from '../game/detection/is_ankanable_list'
 import { execAnkan } from '../game/exec_ankan'
-import { getKanCount } from '../game/detection/get_kan_count'
 import { isAddMinkanabkeList } from '../game/detection/is_add_minkanable_list'
 import { execAddMinkan } from '../game/exec_add_minkan'
 import { isTsumoable } from '../game/detection/is_tsumoable'
 import { getHaiSrc } from './hai/hai_info'
+import { AgariWindow } from './agari_window'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -37,6 +36,7 @@ interface BoardProp {
   reach: number
   setExecUser: React.Dispatch<React.SetStateAction<string>>
   ownAuto: boolean
+  agariDisplay: boolean
 }
 
 const execHaiOpen = (haiOpen: boolean, setHaiOpen: React.Dispatch<React.SetStateAction<boolean>>): void => {
@@ -286,162 +286,7 @@ const execOwnCancel = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
   execNaki(allPai, setAllPai, nakiUser, boardStatus, setBoardStatus, yama, setYama, suteruhai, bakaze, setExecUser, ownAuto)
 }
 
-const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, yama: string[]): string => {
-  const agariMatch = boardStatus.match(/^agari_(tsumo|ron)_(own|player1|player2|player3)$/)
-  // マッチしないときは何もしない
-  if (agariMatch === null) {
-    return ''
-  }
-
-  const agariUser = agariMatch[2] as UserProp
-  const agariStatus = agariMatch[1]
-
-  // 上がり情報の内訳取得
-  const agariPaiInfo = allPai[agariUser]
-
-  const checkHaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[agariUser]))
-  const agariHai = checkHaiInfo.base.splice(checkHaiInfo.base.length - 1, 1)
-
-  const shantenInfoMentsu = shantenBase(allPai, checkHaiInfo, yama, bakaze, checkHaiInfo.jikaze)
-
-  let agariInfo: TensuInfoProp = {
-    fu: 0,
-    han: 0,
-    yakuman: 0,
-    yakuList: [],
-    yakumanYakuList: []
-  }
-  shantenInfoMentsu.mentsuGroup.forEach((g) => {
-    g.machi.forEach((m) => {
-      if (m.haiInfo.hai === agariHai[0]) {
-        if (agariStatus === 'tsumo') {
-          if (agariInfo.han < m.tensu.tsumo.han || (agariInfo.han === m.tensu.tsumo.han && agariInfo.fu < m.tensu.tsumo.fu)) {
-            agariInfo = m.tensu.tsumo
-          }
-        } else {
-          if (agariInfo.han < m.tensu.ron.han || (agariInfo.han === m.tensu.ron.han && agariInfo.fu < m.tensu.ron.fu)) {
-            agariInfo = m.tensu.ron
-          }
-        }
-      }
-    })
-  })
-
-  // 役満判定があるときはここで表示内容を出して終わり
-  if (agariInfo.yakuman > 0) {
-    let yakumanAgariString = ''
-    yakumanAgariString += '上がり: ' + agariUser + '/' + agariStatus + '<br />'
-    if (agariInfo.yakuman > 1) {
-      yakumanAgariString += String(agariInfo.yakuman) + '倍'
-    }
-    yakumanAgariString += '役満<br />'
-    yakumanAgariString += agariInfo.yakumanYakuList.join('<br />')
-
-    return yakumanAgariString
-  }
-
-  // ここにドラ判定を追加する
-  let omoteDoraCount = 0
-  let uraDoraCount = 0
-  const omoteDora = getDora(yama[yama.length - 6])
-  const kanDoras: string[] = []
-  const kanCount = getKanCount(allPai)
-  if (kanCount >= 1) {
-    kanDoras.push(getDora(yama[yama.length - 8]))
-  }
-  if (kanCount >= 2) {
-    kanDoras.push(getDora(yama[yama.length - 10]))
-  }
-  if (kanCount >= 3) {
-    kanDoras.push(getDora(yama[yama.length - 12]))
-  }
-  if (kanCount >= 4) {
-    kanDoras.push(getDora(yama[yama.length - 14]))
-  }
-  let uraDora = ''
-  const uraKanDoras: string[] = []
-  if (agariPaiInfo.isReach) {
-    uraDora = getDora(yama[yama.length - 5])
-    if (kanCount >= 1) {
-      uraKanDoras.push(getDora(yama[yama.length - 7]))
-    }
-    if (kanCount >= 2) {
-      uraKanDoras.push(getDora(yama[yama.length - 9]))
-    }
-    if (kanCount >= 3) {
-      uraKanDoras.push(getDora(yama[yama.length - 11]))
-    }
-    if (kanCount >= 4) {
-      uraKanDoras.push(getDora(yama[yama.length - 13]))
-    }
-  }
-
-  const checkHaiList: string[] = []
-  checkHaiList.concat(agariPaiInfo.base)
-  agariPaiInfo.naki.forEach((n) => {
-    checkHaiList.push(n.keyHai.haiInfo.hai)
-    n.hai.forEach((nh) => {
-      checkHaiList.push(nh.hai)
-    })
-  })
-
-  checkHaiList.forEach((b) => {
-    if (b === omoteDora) {
-      omoteDoraCount++
-    }
-    kanDoras.forEach((k) => {
-      if (b === k) {
-        omoteDoraCount++
-      }
-    })
-    if (b === uraDora) {
-      uraDoraCount++
-    }
-    uraKanDoras.forEach((k) => {
-      if (b === k) {
-        uraDoraCount++
-      }
-    })
-  })
-
-  agariInfo.han += omoteDoraCount + uraDoraCount
-  if (omoteDoraCount > 0) {
-    agariInfo.yakuList.push('ドラ' + String(omoteDoraCount))
-  }
-  if (uraDoraCount > 0) {
-    agariInfo.yakuList.push('裏ドラ' + String(uraDoraCount))
-  }
-
-  let agariString = ''
-  agariString += '上がり: ' + agariUser + '/' + agariStatus + '<br />'
-  agariString += String(agariInfo.fu) + '符' + String(agariInfo.han) + '翻<br />'
-  agariString += agariInfo.yakuList.join('<br />')
-
-  return agariString
-}
-
-export const getDora = (doraHyojiText: string): string => {
-  const omoteDoraMatch = doraHyojiText.match(/^hai_([1-4])_([1-9])$/)
-  // matchしないことはないはずなんだけどね
-  if (omoteDoraMatch === null) {
-    return ''
-  }
-  const doraType = Number(omoteDoraMatch[1])
-  let doraNum = Number(omoteDoraMatch[2]) + 1
-  // 数字牌が9の次は1
-  if ((doraType === 1 || doraType === 2 || doraType === 3) && doraNum === 10) {
-    doraNum = 1
-  } else if (doraType === 4 && doraNum === 5) {
-    // 北の次は東
-    doraNum = 1
-  } else if (doraType === 4 && doraNum === 8) {
-    // 中の次は白
-    doraNum = 5
-  }
-  return 'hai_' + String(doraType) + '_' + String(doraNum)
-}
-
-export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto }: BoardProp): JSX.Element => {
+export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay }: BoardProp): JSX.Element => {
   const ownPai = allPai.own
   const player1Pai = allPai.player1
   const player2Pai = allPai.player2
@@ -737,7 +582,9 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           </tr>
         </tbody>
       </table>
-      <div dangerouslySetInnerHTML={{ __html: displayAgariInfo(boardStatus, allPai, bakaze, yama) }} />
+      {agariDisplay &&
+        <AgariWindow boardStatus={boardStatus} allPai={allPai} bakaze={bakaze} yama={yama} kyoku={kyoku} hon={hon} reach={reach} />
+      }
     </div>
   </>
 }

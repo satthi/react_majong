@@ -1,0 +1,73 @@
+.agari_window {
+    width: 900px;
+    height: 700px;
+    position: absolute;
+    z-index: 10;
+    background-color: darkgreen;
+    top: 150px;
+    left: 50px;
+}
+
+.playerName {
+    color: white;
+    border: 1px solid white;
+    width: 220px;
+    font-size: 4em;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.hai {
+    position: absolute;
+    bottom: 80px;
+    left: 170px;
+}
+
+.ba {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    font-size: 4em;
+}
+.ie {
+    position: absolute;
+    top: 20px;
+    right: 250px;
+    color: white;
+    font-size: 2em;
+}
+
+.doraField {
+    position: absolute;
+    width: 240px;
+    right: 250px;
+    top: 10px;
+}
+
+.yaku {
+    position: absolute;
+    left: 100px;
+    top: 150px;
+    width: 200px;
+    color: white;
+    font-size: 2em;
+}
+
+.fu_han {
+    position: absolute;
+    right: 50px;
+    bottom: 200px;
+    color: white;
+    font-size: 2em;
+}
+
+.tensu{
+    position: absolute;
+    right: 50px;
+    bottom: 150px;
+    color: white;
+    font-size: 3em;
+}

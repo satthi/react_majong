@@ -27,10 +27,11 @@ interface GetElementProp {
   reach: number
   setExecUser: React.Dispatch<React.SetStateAction<string>>
   ownAuto: boolean
+  agariDisplay: boolean
 }
 
-const GetElement = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto }: GetElementProp): JSX.Element => {
-  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} />
+const GetElement = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay }: GetElementProp): JSX.Element => {
+  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} />
 }
 
 export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX.Element => {
@@ -203,7 +204,9 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
 
   const [execUser, setExecUser] = useState('')
 
-  const [boardElement, setBoardElement] = useState(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} />)
+  const [agariDisplay, setAgariDisplay] = useState(false)
+
+  const [boardElement, setBoardElement] = useState(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} />)
   // initial時の処理
   // 下記の自動イベントはステータスが変更されたときだけ
 
@@ -211,8 +214,8 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
   const allPaiJson = JSON.stringify(allPai)
   const yamaJson = JSON.stringify(yama)
   useEffect(() => {
-    setBoardElement(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} />)
-  }, [allPai, setAllPai, boardStatus, setBoardStatus, yama, bakaze, kyoku, hon, reach, setYama, setExecUser, ownAuto, setBoardElement, allPaiJson, yamaJson])
+    setBoardElement(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} />)
+  }, [allPai, setAllPai, boardStatus, setBoardStatus, yama, bakaze, kyoku, hon, reach, setYama, setExecUser, ownAuto, setBoardElement, agariDisplay, allPaiJson, yamaJson])
 
   if (checkBoardStatus !== boardStatus) {
     setCheckBoardStatus(boardStatus)
@@ -223,6 +226,11 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
     // ターン
     if (boardStatus.match(/^turn_/) !== null) {
       turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser, ownAuto, bakaze)
+    }
+    if (boardStatus.match(/^agari_/) !== null) {
+      setTimeout(() => {
+        setAgariDisplay(true)
+      }, 2000)
     }
   }
 

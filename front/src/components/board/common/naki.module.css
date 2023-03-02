@@ -29,3 +29,8 @@
 .nakiHai {
     float: left;
 }
+
+.nakiField {
+    float: left;
+    margin: 10px;
+}
