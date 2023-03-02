@@ -61,7 +61,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   })
 
   if (ronExec) {
-    allNakiCheckReset(allPai, setAllPai)
+    allNakiCheckReset(allPai, setAllPai, true)
     return
   }
 
@@ -118,7 +118,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
       minkanExec = true
       setTimeout(() => {
-        allNakiCheckReset(allPai, setAllPai)
+        allNakiCheckReset(allPai, setAllPai, false)
         setExecUser(user) // 捨てる人にセットしないと次の人が積もってくれないことがある
 
         // @todo: カンの数のカウントからの流局チェック
@@ -129,6 +129,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
         // 1枚もらう
         allPai[sortUser].kantsumo = true
         allPai[sortUser].base = allPai[sortUser].base.concat(catYama)
+
         setAllPai(allPai)
 
         shantenCheck(allPai, setAllPai, yama, bakaze, sortUser)
@@ -191,7 +192,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
       ponExec = true
       setTimeout(() => {
-        allNakiCheckReset(allPai, setAllPai)
+        allNakiCheckReset(allPai, setAllPai, false)
         setExecUser(sortUser) // 捨てる人にセットしないと次の人が積もってくれないことがある
 
         // ポンを実行してる人の捨てるフェーズ
@@ -261,7 +262,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
       ti1Exec = true
       setTimeout(() => {
-        allNakiCheckReset(allPai, setAllPai)
+        allNakiCheckReset(allPai, setAllPai, false)
         setExecUser(sortUser) // 捨てる人にセットしないと次の人が積もってくれないことがある
 
         // ポンを実行してる人の捨てるフェーズ
@@ -331,7 +332,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
       ti2Exec = true
       setTimeout(() => {
-        allNakiCheckReset(allPai, setAllPai)
+        allNakiCheckReset(allPai, setAllPai, false)
         setExecUser(sortUser) // 捨てる人にセットしないと次の人が積もってくれないことがある
 
         // ポンを実行してる人の捨てるフェーズ
@@ -401,7 +402,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
       ti3Exec = true
       setTimeout(() => {
-        allNakiCheckReset(allPai, setAllPai)
+        allNakiCheckReset(allPai, setAllPai, false)
         setExecUser(sortUser) // 捨てる人にセットしないと次の人が積もってくれないことがある
 
         // ポンを実行してる人の捨てるフェーズ
@@ -421,7 +422,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   nextTurn(allPai, user, boardStatus, setBoardStatus, yama)
 }
 
-const allNakiCheckReset = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>): void => {
+const allNakiCheckReset = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, isRon: boolean): void => {
   (Object.keys(allPai) as UserProp[]).forEach((user: UserProp) => {
     allPai[user].nakiCheck.pon = false
     allPai[user].nakiCheck.ron = false
@@ -430,6 +431,14 @@ const allNakiCheckReset = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
     allPai[user].nakiCheck.ti3 = false
     allPai[user].nakiCheck.kan = false
   })
+
+  // 全員の一発フラグを消す
+  if (!isRon) {
+    allPai.own.ippatsu = false
+    allPai.player1.ippatsu = false
+    allPai.player2.ippatsu = false
+    allPai.player3.ippatsu = false
+  }
 
   setAllPai(allPai)
 }

@@ -37,7 +37,7 @@ const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
       // その牌を切ったときにテンパイするか確認。しないときは反応なし
       const checkHaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[turnUser]))
       checkHaiInfo.base.splice(haiKey, 1)
-      const shantenInfo = shantenBase(checkHaiInfo, yama, bakaze, checkHaiInfo.jikaze)
+      const shantenInfo = shantenBase(allPai, checkHaiInfo, yama, bakaze, checkHaiInfo.jikaze)
       // 切ったらテンパイが崩れる
       if (shantenInfo.shanten !== 0) {
         return

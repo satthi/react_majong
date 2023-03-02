@@ -30,7 +30,7 @@ export const cpuThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
 
 // eslint-disable-next-line
 const cpuThink1 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setExecUser: React.Dispatch<React.SetStateAction<string>>, turnUser: UserProp, ownAuto: boolean, bakaze: number): void => {
-  const minShantenList = minShantenPick(allPai[turnUser], yama, bakaze)
+  const minShantenList = minShantenPick(allPai, allPai[turnUser], yama, bakaze)
   // 牌のリストをコストで見るようにしてみる
   const shuffleShanteList = shuffle(minShantenList)
 
@@ -108,7 +108,7 @@ const cpuThink2 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
     })
 
     // シャンテン数の確認
-    const kanShantenCheck = shantenBase(ankanCheckPaiInfo, yama, bakaze, ankanCheckPaiInfo.jikaze)
+    const kanShantenCheck = shantenBase(allPai, ankanCheckPaiInfo, yama, bakaze, ankanCheckPaiInfo.jikaze)
     // シャンテン数が変わらないならカンを実行する
     if (kanShantenCheck.shanten === allPai[turnUser].shantenInfo.shanten) {
       execAnkan(allPai, setAllPai, turnUser, ah, boardStatus, setBoardStatus, setExecUser)
@@ -158,7 +158,7 @@ const cpuThink2 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
     })
 
     // シャンテン数の確認
-    const kanShantenCheck = shantenBase(addminkanCheckPaiInfo, yama, bakaze, addminkanCheckPaiInfo.jikaze)
+    const kanShantenCheck = shantenBase(allPai, addminkanCheckPaiInfo, yama, bakaze, addminkanCheckPaiInfo.jikaze)
     // シャンテン数が変わらないならカンを実行する
     if (kanShantenCheck.shanten === allPai[turnUser].shantenInfo.shanten) {
       execAddMinkan(allPai, setAllPai, turnUser, ah, boardStatus, setBoardStatus, setExecUser)
@@ -171,7 +171,7 @@ const cpuThink2 = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateA
     return
   }
 
-  const minShantenList = minShantenPick(allPai[turnUser], yama, bakaze)
+  const minShantenList = minShantenPick(allPai, allPai[turnUser], yama, bakaze)
   // 捨て方にも気持ちレベルを設定したい
   let maxGroupWeight = 0
   const sutehaiListWeight: SutehaiListWeightProp[] = []
@@ -312,7 +312,7 @@ export const cpuNakiThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React
         ]
       })
 
-      const nakiShantenCheck = shantenBase(paiInfoCopy, yama, bakaze, paiInfoCopy.jikaze)
+      const nakiShantenCheck = shantenBase(allPai, paiInfoCopy, yama, bakaze, paiInfoCopy.jikaze)
       // まず前提としてシャンテン数が下がらないなら実行しない
       if (allPai[checkUser].shantenInfo.shanten > nakiShantenCheck.shanten) {
         // まだ面前の場合
@@ -383,7 +383,7 @@ export const cpuNakiThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React
         ]
       })
 
-      const nakiShantenCheck = shantenBase(paiInfoCopy, yama, bakaze, paiInfoCopy.jikaze)
+      const nakiShantenCheck = shantenBase(allPai, paiInfoCopy, yama, bakaze, paiInfoCopy.jikaze)
       // まず前提としてシャンテン数が下がらないなら実行しない
       if (allPai[checkUser].shantenInfo.shanten > nakiShantenCheck.shanten) {
         // まだ面前の場合実行しない
@@ -442,7 +442,7 @@ export const cpuNakiThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React
         ]
       })
 
-      const nakiShantenCheck = shantenBase(paiInfoCopy, yama, bakaze, paiInfoCopy.jikaze)
+      const nakiShantenCheck = shantenBase(allPai, paiInfoCopy, yama, bakaze, paiInfoCopy.jikaze)
       // まず前提としてシャンテン数が下がらないなら実行しない
       if (allPai[checkUser].shantenInfo.shanten > nakiShantenCheck.shanten) {
         // まだ面前の場合実行しない
@@ -501,7 +501,7 @@ export const cpuNakiThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React
         ]
       })
 
-      const nakiShantenCheck = shantenBase(paiInfoCopy, yama, bakaze, paiInfoCopy.jikaze)
+      const nakiShantenCheck = shantenBase(allPai, paiInfoCopy, yama, bakaze, paiInfoCopy.jikaze)
       // まず前提としてシャンテン数が下がらないなら実行しない
       if (allPai[checkUser].shantenInfo.shanten > nakiShantenCheck.shanten) {
         // まだ面前の場合実行しない
@@ -554,7 +554,7 @@ export const cpuNakiThink = (allPai: AllPaiProp, setAllPai: React.Dispatch<React
 }
 
 // これ処理が重いので見直し
-const minShantenPick = (hai: PaiProp, yama: string[], bakaze: number): ShantenListProp[] => {
+const minShantenPick = (allPai: AllPaiProp, hai: PaiProp, yama: string[], bakaze: number): ShantenListProp[] => {
   // とりあえずシャンテン数が減る方向に切ってみる
   const shantenList: ShantenListProp[] = []
   let minShanten = 99
@@ -563,7 +563,7 @@ const minShantenPick = (hai: PaiProp, yama: string[], bakaze: number): ShantenLi
     // 1個ずつずらしてみる
     paiInfoCopy.base.splice(k, 1)
 
-    const shantenInfo = shantenBase(paiInfoCopy, yama, bakaze, hai.jikaze)
+    const shantenInfo = shantenBase(allPai, paiInfoCopy, yama, bakaze, hai.jikaze)
     shantenList.push({
       key: k,
       shantenInfo

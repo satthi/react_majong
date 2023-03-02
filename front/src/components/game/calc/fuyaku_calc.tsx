@@ -1,8 +1,8 @@
-import type { HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
+import type { AllPaiProp, HaiInfoProp, MachiTensuInfo, PaiProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
-import { chantaCheck, chinitsuCheck, chinrotoCheck, chitoitsuCheck, daisangenCheck, doubleReachCheck, haiteiCheck, honitsuCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, kokushimusou13Check, kokushimusouCheck, pinfuCheck, reachCheck, rinshanKaihoCheck, ryanpekoCheck, ryuisoCheck, sanankoCheck, sankantsuCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, suankoCheck, suankoTankiCheck, sukantsuCheck, tanyaoCheck, toitoihoCheck, tsuisoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
+import { chantaCheck, chihoCheck, chinitsuCheck, chinrotoCheck, chitoitsuCheck, churenpotoCheck, daisangenCheck, daisushiCheck, doubleReachCheck, haiteiCheck, honitsuCheck, honrotoCheck, ikkitsukanCheck, ipekoCheck, ippatsuCheck, junchantaCheck, junseChurenpotoCheck, kokushimusou13Check, kokushimusouCheck, pinfuCheck, reachCheck, rinshanKaihoCheck, ryanpekoCheck, ryuisoCheck, sanankoCheck, sankantsuCheck, sanshokuDoujunCheck, sanshokuDoukokuCheck, shosangenCheck, shosushiCheck, suankoCheck, suankoTankiCheck, sukantsuCheck, tanyaoCheck, tenhoCheck, toitoihoCheck, tsuisoCheck, tsumoCheck, yakuhaiCheck } from './yaku_hantei'
 
-export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): MachiTensuInfo => {
+export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, allPaiInfo: AllPaiProp, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): MachiTensuInfo => {
   // テンパイ以外は計算しない
   if (shantenInfo.shanten !== 0) {
     return {
@@ -27,7 +27,7 @@ export const fuyakuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machi
   const [ronFu, tsumoFu] = fuCalc(shantenInfo, paiInfo, machiHai, bakaze, jikaze)
 
   // ここから役計算
-  const [tsumoHan, ronHan, tsumoYakuman, ronYakuman, tsumoYakuList, ronYakuList, tsumoYakumanYakuList, ronYakumanYakuList] = tensuCalc(shantenInfo, paiInfo, machiHai, yama, bakaze, jikaze)
+  const [tsumoHan, ronHan, tsumoYakuman, ronYakuman, tsumoYakuList, ronYakuList, tsumoYakumanYakuList, ronYakumanYakuList] = tensuCalc(shantenInfo, allPaiInfo, paiInfo, machiHai, yama, bakaze, jikaze)
 
   return {
     ron: {
@@ -141,7 +141,7 @@ const isYakuhai = (hai: HaiInfoProp, bakaze: number, jikaze: number): boolean =>
   return hai.type === 4 && (hai.num === bakaze || hai.num === jikaze || hai.num === 5 || hai.num === 6 || hai.num === 7)
 }
 
-const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): Array<number | string[]> => {
+const tensuCalc = (shantenInfo: ShantenBaseInfo, allPaiInfo: AllPaiProp, paiInfo: PaiProp, machiHai: HaiInfoProp, yama: string[], bakaze: number, jikaze: number): Array<number | string[]> => {
   let tsumoYaku = 0
   let ronYaku = 0
   let tsumoYakuman = 0
@@ -445,5 +445,48 @@ const tensuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: Hai
     ronYakumanYakuList.push('四槓子')
   }
 
+  // 大四喜
+  // eslint-disable-next-line
+  if (daisushiCheck(shantenInfo, paiInfo, machiHai)) {
+    tsumoYakuman += 2
+    ronYakuman += 2
+    tsumoYakumanYakuList.push('大四喜')
+    ronYakumanYakuList.push('大四喜')
+    // eslint-disable-next-line
+  } else if (shosushiCheck(shantenInfo, paiInfo)) {
+    tsumoYakuman += 1
+    ronYakuman += 1
+    tsumoYakumanYakuList.push('小四喜')
+    ronYakumanYakuList.push('小四喜')
+  }
+
+  // 九蓮宝燈
+  // eslint-disable-next-line
+  if (junseChurenpotoCheck(shantenInfo)) {
+    tsumoYakuman += 2
+    ronYakuman += 2
+    tsumoYakumanYakuList.push('純正九蓮宝燈')
+    ronYakumanYakuList.push('純正九蓮宝燈')
+    // eslint-disable-next-line
+  } else if (churenpotoCheck(shantenInfo, machiHai)) {
+    tsumoYakuman += 1
+    ronYakuman += 1
+    tsumoYakumanYakuList.push('九蓮宝燈')
+    ronYakumanYakuList.push('九蓮宝燈')
+  }
+
+  // 天和
+  // eslint-disable-next-line
+  if (tenhoCheck(paiInfo, allPaiInfo)) {
+    tsumoYakuman += 1
+    tsumoYakumanYakuList.push('天和')
+  }
+
+  // 地和
+  // eslint-disable-next-line
+  if (chihoCheck(paiInfo, allPaiInfo)) {
+    tsumoYakuman += 1
+    tsumoYakumanYakuList.push('地和')
+  }
   return [tsumoYaku, ronYaku, tsumoYakuman, ronYakuman, tsumoYakuList, ronYakuList, tsumoYakumanYakuList, ronYakumanYakuList]
 }

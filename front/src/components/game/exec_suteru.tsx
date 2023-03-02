@@ -18,6 +18,10 @@ export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
   // リーチ情報をセット
   if (suteType === 'reach') {
     allPai[user].isReach = true
+    allPai[user].ippatsu = true
+  } else {
+    // 捨てたときに自身の一発フラグを消す
+    allPai[user].ippatsu = false
   }
 
   const userList = (Object.keys(allPai) as UserProp[])

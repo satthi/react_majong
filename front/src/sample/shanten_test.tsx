@@ -2,7 +2,7 @@ import React from 'react'
 import { BaseHaiOpen } from '../components/board/common/base_hai_open'
 import { Naki } from '../components/board/common/naki'
 import { getHaiSrc } from '../components/board/hai/hai_info'
-import type { PaiProp } from '../components/board/type'
+import type { AllPaiProp, PaiProp } from '../components/board/type'
 import { shantenBase, shantenMentsu } from '../components/game/shanten_base'
 
 export const ShantenTest = (): JSX.Element => {
@@ -47,133 +47,133 @@ export const ShantenTest = (): JSX.Element => {
       // 'hai_2_5',
       // 'hai_2_6',
       // 'hai_2_8'
-      'hai_1_1'
-      // 'hai_1_1',
-      // 'hai_1_1',
-      // 'hai_1_9',
-      // 'hai_1_9',
-      // 'hai_1_9',
-      // 'hai_2_1',
-      // 'hai_2_1',
-      // 'hai_2_9',
-      // 'hai_2_9',
-      // 'hai_2_9',
-      // 'hai_3_1',
-      // 'hai_3_1'
+      'hai_1_1',
+      'hai_1_1',
+      'hai_1_1',
+      'hai_1_2',
+      'hai_1_3',
+      'hai_1_4',
+      'hai_1_5',
+      'hai_1_6',
+      'hai_1_7',
+      'hai_1_8',
+      'hai_1_4',
+      'hai_1_9',
+      'hai_1_9'
     ],
     naki: [
-      {
-        type: 'ankan',
-        keyHai: {
-          haiInfo: {
-            hai: 'hai_4_1',
-            type: 4,
-            num: 1
-          },
-          position: 'none'
-        },
-        hai: [
-          {
-            hai: 'hai_4_1',
-            type: 4,
-            num: 1
-          },
-          {
-            hai: 'hai_4_1',
-            type: 4,
-            num: 1
-          },
-          {
-            hai: 'hai_4_1',
-            type: 4,
-            num: 1
-          }
-        ]
-      },
-      {
-        type: 'ankan',
-        keyHai: {
-          haiInfo: {
-            hai: 'hai_2_1',
-            type: 2,
-            num: 1
-          },
-          position: 'none'
-        },
-        hai: [
-          {
-            hai: 'hai_2_1',
-            type: 2,
-            num: 1
-          },
-          {
-            hai: 'hai_2_1',
-            type: 2,
-            num: 1
-          },
-          {
-            hai: 'hai_2_1',
-            type: 2,
-            num: 1
-          }
-        ]
-      },
-      {
-        type: 'minkan',
-        keyHai: {
-          haiInfo: {
-            hai: 'hai_4_3',
-            type: 4,
-            num: 3
-          },
-          position: 'left'
-        },
-        hai: [
-          {
-            hai: 'hai_4_3',
-            type: 4,
-            num: 3
-          },
-          {
-            hai: 'hai_4_3',
-            type: 4,
-            num: 3
-          },
-          {
-            hai: 'hai_4_3',
-            type: 4,
-            num: 3
-          }
-        ]
-      },
-      {
-        type: 'minkan',
-        keyHai: {
-          haiInfo: {
-            hai: 'hai_3_3',
-            type: 3,
-            num: 3
-          },
-          position: 'left'
-        },
-        hai: [
-          {
-            hai: 'hai_3_3',
-            type: 3,
-            num: 3
-          },
-          {
-            hai: 'hai_3_3',
-            type: 3,
-            num: 3
-          },
-          {
-            hai: 'hai_3_3',
-            type: 3,
-            num: 3
-          }
-        ]
-      }
+      // {
+      //   type: 'ankan',
+      //   keyHai: {
+      //     haiInfo: {
+      //       hai: 'hai_4_1',
+      //       type: 4,
+      //       num: 1
+      //     },
+      //     position: 'none'
+      //   },
+      //   hai: [
+      //     {
+      //       hai: 'hai_4_1',
+      //       type: 4,
+      //       num: 1
+      //     },
+      //     {
+      //       hai: 'hai_4_1',
+      //       type: 4,
+      //       num: 1
+      //     },
+      //     {
+      //       hai: 'hai_4_1',
+      //       type: 4,
+      //       num: 1
+      //     }
+      //   ]
+      // },
+      // {
+      //   type: 'ankan',
+      //   keyHai: {
+      //     haiInfo: {
+      //       hai: 'hai_2_1',
+      //       type: 2,
+      //       num: 1
+      //     },
+      //     position: 'none'
+      //   },
+      //   hai: [
+      //     {
+      //       hai: 'hai_2_1',
+      //       type: 2,
+      //       num: 1
+      //     },
+      //     {
+      //       hai: 'hai_2_1',
+      //       type: 2,
+      //       num: 1
+      //     },
+      //     {
+      //       hai: 'hai_2_1',
+      //       type: 2,
+      //       num: 1
+      //     }
+      //   ]
+      // },
+      // {
+      //   type: 'minkan',
+      //   keyHai: {
+      //     haiInfo: {
+      //       hai: 'hai_4_3',
+      //       type: 4,
+      //       num: 3
+      //     },
+      //     position: 'left'
+      //   },
+      //   hai: [
+      //     {
+      //       hai: 'hai_4_3',
+      //       type: 4,
+      //       num: 3
+      //     },
+      //     {
+      //       hai: 'hai_4_3',
+      //       type: 4,
+      //       num: 3
+      //     },
+      //     {
+      //       hai: 'hai_4_3',
+      //       type: 4,
+      //       num: 3
+      //     }
+      //   ]
+      // },
+      // {
+      //   type: 'minkan',
+      //   keyHai: {
+      //     haiInfo: {
+      //       hai: 'hai_3_3',
+      //       type: 3,
+      //       num: 3
+      //     },
+      //     position: 'left'
+      //   },
+      //   hai: [
+      //     {
+      //       hai: 'hai_3_3',
+      //       type: 3,
+      //       num: 3
+      //     },
+      //     {
+      //       hai: 'hai_3_3',
+      //       type: 3,
+      //       num: 3
+      //     },
+      //     {
+      //       hai: 'hai_3_3',
+      //       type: 3,
+      //       num: 3
+      //     }
+      //   ]
+      // }
       // {
       //   type: 'pon',
       //   keyHai: {
@@ -198,13 +198,20 @@ export const ShantenTest = (): JSX.Element => {
       //   ]
       // }
     ],
-    sutehai: [],
+    sutehai: [
+      {
+        hai: 'hai_1_1',
+        type: 'normal',
+        naki: false
+      }
+    ],
     shantenInfo: {
       shanten: 99,
       machi: [],
       mentsuGroup: []
     },
     isReach: false,
+    ippatsu: false,
     nakiCheck: {
       ron: false,
       pon: false,
@@ -235,8 +242,100 @@ export const ShantenTest = (): JSX.Element => {
   ]
   const jikaze = 1
   const bakaze = 2
-  const a = shantenBase(hai, yama, jikaze, bakaze)
-  const shantenMentsuData = shantenMentsu(hai, yama, jikaze, bakaze)
+  const allPaiInfo: AllPaiProp = {
+    own: {
+      base: [],
+      naki: [],
+      sutehai: [],
+      shantenInfo: {
+        shanten: 0,
+        machi: [],
+        mentsuGroup: []
+      },
+      isReach: false,
+      ippatsu: false,
+      nakiCheck: {
+        ron: false,
+        pon: false,
+        ti1: false,
+        ti2: false,
+        ti3: false,
+        kan: false
+      },
+      jikaze: 0,
+      kantsumo: false
+    },
+    player1: {
+      base: [],
+      naki: [],
+      sutehai: [],
+      shantenInfo: {
+        shanten: 0,
+        machi: [],
+        mentsuGroup: []
+      },
+      isReach: false,
+      ippatsu: false,
+      nakiCheck: {
+        ron: false,
+        pon: false,
+        ti1: false,
+        ti2: false,
+        ti3: false,
+        kan: false
+      },
+      jikaze: 0,
+      kantsumo: false
+    },
+    player2: {
+      base: [],
+      naki: [],
+      sutehai: [],
+      shantenInfo: {
+        shanten: 0,
+        machi: [],
+        mentsuGroup: []
+      },
+      isReach: false,
+      ippatsu: false,
+      nakiCheck: {
+        ron: false,
+        pon: false,
+        ti1: false,
+        ti2: false,
+        ti3: false,
+        kan: false
+      },
+      jikaze: 0,
+      kantsumo: false
+    },
+    player3: {
+      base: [],
+      naki: [],
+      sutehai: [],
+      shantenInfo: {
+        shanten: 0,
+        machi: [],
+        mentsuGroup: []
+      },
+      isReach: false,
+      ippatsu: false,
+      nakiCheck: {
+        ron: false,
+        pon: false,
+        ti1: false,
+        ti2: false,
+        ti3: false,
+        kan: false
+      },
+      jikaze: 0,
+      kantsumo: false
+    }
+  }
+
+  const a = shantenBase(allPaiInfo, hai, yama, jikaze, bakaze)
+  const shantenMentsuData = shantenMentsu(allPaiInfo, hai, yama, jikaze, bakaze)
+
   return <>
     <div style={{ position: 'absolute', top: '40px' }}>
       <BaseHaiOpen base={hai.base} shanten={a.shanten} machi={a.machi} />

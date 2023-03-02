@@ -5,7 +5,7 @@ export const shantenCheck = (allPai: AllPaiProp, setAllPai: React.Dispatch<React
   // eslint-disable-next-line
   if ((allPai[user].base.length as number) + (allPai[user].naki.length as number) * 3 >= 13) {
     // 13枚/14枚時の判定
-    allPai[user].shantenInfo = shantenBase(allPai[user], yama, bakaze, allPai[user].jikaze)
+    allPai[user].shantenInfo = shantenBase(allPai, allPai[user], yama, bakaze, allPai[user].jikaze)
   }
   setAllPai(allPai)
 }

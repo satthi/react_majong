@@ -302,7 +302,7 @@ const displayAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: numbe
   const checkHaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[agariUser]))
   const agariHai = checkHaiInfo.base.splice(checkHaiInfo.base.length - 1, 1)
 
-  const shantenInfoMentsu = shantenBase(checkHaiInfo, yama, bakaze, checkHaiInfo.jikaze)
+  const shantenInfoMentsu = shantenBase(allPai, checkHaiInfo, yama, bakaze, checkHaiInfo.jikaze)
 
   let agariInfo: TensuInfoProp = {
     fu: 0,

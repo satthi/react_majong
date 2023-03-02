@@ -1,4 +1,4 @@
-import type { ColorFlagProp, ColorTypeProp, HaiInfoProp, IkkiTsukanFlagProp, IkkiTsukanTypeProp, PaiProp, SangenhaiFlagProp, SangenhaiTypeProp, ShantenBaseInfo } from '../../board/type'
+import type { AllPaiProp, ColorFlagProp, ColorTypeProp, HaiInfoProp, IkkiTsukanFlagProp, IkkiTsukanTypeProp, PaiProp, SangenhaiFlagProp, SangenhaiTypeProp, ShantenBaseInfo } from '../../board/type'
 import { isMemzen } from '../detection/is_menzen'
 
 // ダブルリーチチェック
@@ -15,7 +15,8 @@ export const reachCheck = (paiInfo: PaiProp): boolean => {
 
 // 一発チェック
 export const ippatsuCheck = (paiInfo: PaiProp): boolean => {
-  return paiInfo.isReach && paiInfo.sutehai[paiInfo.sutehai.length - 1].type === 'reach'
+  console.log(paiInfo)
+  return paiInfo.ippatsu
 }
 
 // 面前ツモチェック
@@ -813,6 +814,169 @@ export const sukantsuCheck = (paiInfo: PaiProp): boolean => {
   })
 
   return kanCount === 4
+}
+
+export const daisushiCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInfoProp): boolean => {
+  let tonFlag = false
+  let nanFlag = false
+  let shaFlag = false
+  let peFlag = false
+  const mentsuSet = mentsuPlusNaki(shantenInfo.mentsu, paiInfo)
+
+  mentsuSet.forEach((m) => {
+    if (m[0].type === 4 && m[0].num === 1) {
+      tonFlag = true
+    }
+    if (m[0].type === 4 && m[0].num === 2) {
+      nanFlag = true
+    }
+    if (m[0].type === 4 && m[0].num === 3) {
+      shaFlag = true
+    }
+    if (m[0].type === 4 && m[0].num === 4) {
+      peFlag = true
+    }
+  })
+
+  // ツモ予定もチェック
+  if (shantenInfo.toitsu.length === 2) {
+    if (machiHai.type === 4 && machiHai.num === 1) {
+      tonFlag = true
+    }
+    if (machiHai.type === 4 && machiHai.num === 2) {
+      nanFlag = true
+    }
+    if (machiHai.type === 4 && machiHai.num === 3) {
+      shaFlag = true
+    }
+    if (machiHai.type === 4 && machiHai.num === 4) {
+      peFlag = true
+    }
+  }
+
+  return tonFlag && nanFlag && shaFlag && peFlag
+}
+
+export const shosushiCheck = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp): boolean => {
+  // 大四喜は判定済みの前提
+  let tonFlag = false
+  let nanFlag = false
+  let shaFlag = false
+  let peFlag = false
+
+  const mentsuSet = mentsuPlusNaki(shantenInfo.mentsu, paiInfo)
+  mentsuSet.forEach((m) => {
+    if (m[0].type === 4 && m[0].num === 1) {
+      tonFlag = true
+    }
+    if (m[0].type === 4 && m[0].num === 2) {
+      nanFlag = true
+    }
+    if (m[0].type === 4 && m[0].num === 3) {
+      shaFlag = true
+    }
+    if (m[0].type === 4 && m[0].num === 4) {
+      peFlag = true
+    }
+  })
+  shantenInfo.toitsu.forEach((m) => {
+    if (m[0].type === 4 && m[0].num === 1) {
+      tonFlag = true
+    }
+    if (m[0].type === 4 && m[0].num === 2) {
+      nanFlag = true
+    }
+    if (m[0].type === 4 && m[0].num === 3) {
+      shaFlag = true
+    }
+    if (m[0].type === 4 && m[0].num === 4) {
+      peFlag = true
+    }
+  })
+
+  shantenInfo.remainHaiCountInfo.forEach((r) => {
+    if (r.count > 0) {
+      if (r.type === 4 && r.num === 1) {
+        tonFlag = true
+      }
+      if (r.type === 4 && r.num === 2) {
+        nanFlag = true
+      }
+      if (r.type === 4 && r.num === 3) {
+        shaFlag = true
+      }
+      if (r.type === 4 && r.num === 4) {
+        peFlag = true
+      }
+    }
+  })
+
+  // eslint-disable-next-line
+  return tonFlag && nanFlag && shaFlag && peFlag
+}
+
+export const junseChurenpotoCheck = (shantenInfo: ShantenBaseInfo): boolean => {
+  let junseChurenFlag = false
+  for (let i = 1; i <= 3; i++) {
+    let colorChurenFlag = true
+    shantenInfo.haiCountInfo.forEach((h) => {
+      if (h.type === i) {
+        if ((h.num === 1 || h.num === 9) && h.count !== 3) {
+          colorChurenFlag = false
+        }
+        if ((h.num !== 1 && h.num !== 9) && h.count !== 1) {
+          colorChurenFlag = false
+        }
+      }
+    })
+    if (colorChurenFlag) {
+      junseChurenFlag = true
+    }
+  }
+
+  return junseChurenFlag
+}
+
+export const churenpotoCheck = (shantenInfo: ShantenBaseInfo, machiHai: HaiInfoProp): boolean => {
+  let churenFlag = false
+  for (let i = 1; i <= 3; i++) {
+    let colorChurenFlag = true
+    shantenInfo.haiCountInfo.forEach((h) => {
+      if (h.type === i) {
+        if (h.num === 1 || h.num === 9) {
+          if (h.count < 2) {
+            colorChurenFlag = false
+          } else if (h.count === 2) {
+            if (h.type !== machiHai.type || h.num !== machiHai.num) {
+              colorChurenFlag = false
+            }
+          }
+        }
+        if (h.num !== 1 && h.num !== 9) {
+          if (h.count === 0) {
+            if (h.type !== machiHai.type || h.num !== machiHai.num) {
+              colorChurenFlag = false
+            }
+          }
+        }
+      }
+    })
+    if (colorChurenFlag) {
+      churenFlag = true
+    }
+  }
+
+  return churenFlag
+}
+
+export const tenhoCheck = (paiInfo: PaiProp, allPaiProp: AllPaiProp): boolean => {
+  // 親で捨て牌が一つもなく鳴きが一つもない
+  return paiInfo.jikaze === 1 && paiInfo.sutehai.length === 0 && allPaiProp.own.naki.length === 0 && allPaiProp.player1.naki.length === 0 && allPaiProp.player2.naki.length === 0 && allPaiProp.player3.naki.length === 0
+}
+
+export const chihoCheck = (paiInfo: PaiProp, allPaiProp: AllPaiProp): boolean => {
+  // 親で捨て牌が一つもなく鳴きが一つもない
+  return paiInfo.jikaze !== 1 && paiInfo.sutehai.length === 0 && allPaiProp.own.naki.length === 0 && allPaiProp.player1.naki.length === 0 && allPaiProp.player2.naki.length === 0 && allPaiProp.player3.naki.length === 0
 }
 
 // 一九字牌の判定

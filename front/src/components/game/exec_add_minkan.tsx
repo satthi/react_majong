@@ -30,6 +30,13 @@ export const execAddMinkan = (allPai: AllPaiProp, setAllPai: React.Dispatch<Reac
   })
   allPai[user].kantsumo = true
   allPai[user].base = allPai[user].base.sort() // 最後ソートして配置
+
+  // 全員の一発フラグを消す
+  allPai.own.ippatsu = false
+  allPai.player1.ippatsu = false
+  allPai.player2.ippatsu = false
+  allPai.player3.ippatsu = false
+
   setAllPai(allPai)
 
   // もう一度ターンを回す

@@ -47,6 +47,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
         mentsuGroup: []
       },
       isReach: false,
+      ippatsu: false,
       nakiCheck: {
         ron: false,
         pon: false,
@@ -68,6 +69,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
         mentsuGroup: []
       },
       isReach: false,
+      ippatsu: false,
       nakiCheck: {
         ron: false,
         pon: false,
@@ -89,6 +91,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
         mentsuGroup: []
       },
       isReach: false,
+      ippatsu: false,
       nakiCheck: {
         ron: false,
         pon: false,
@@ -110,6 +113,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
         mentsuGroup: []
       },
       isReach: false,
+      ippatsu: false,
       nakiCheck: {
         ron: false,
         pon: false,
@@ -142,6 +146,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
           mentsuGroup: []
         },
         isReach: false,
+        ippatsu: false,
         nakiCheck: {
           ron: false,
           pon: false,
@@ -172,6 +177,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach }: GameProp): JSX
           mentsuGroup: []
         },
         isReach: false,
+        ippatsu: false,
         nakiCheck: {
           ron: false,
           pon: false,

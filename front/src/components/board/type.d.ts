@@ -11,6 +11,7 @@ export type PaiProp = {
   sutehai: SutehaiProp[]
   shantenInfo: ShantenInfoProp
   isReach: boolean
+  ippatsu: boolean
   nakiCheck: NakiCheckProp
   jikaze: number
   kantsumo: boolean // カンを自模ってきた判定(嶺上開花に使用)
