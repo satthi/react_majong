@@ -167,3 +167,10 @@ export type SutehaiListWeightProp = {
   key: number
   weight: number
 }
+
+export type TensuMapProp = {
+  own: number
+  player1: number
+  player2: number
+  player3: number
+}

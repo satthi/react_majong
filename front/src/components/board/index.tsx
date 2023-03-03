@@ -1,5 +1,5 @@
 import style from './board.module.css'
-import type { AllPaiProp, UserProp } from './type'
+import type { AllPaiProp, TensuMapProp, UserProp } from './type'
 import { Sutehai } from './common/sutehai'
 import { OwnBaseHai } from './common/own_base_hai'
 import { PlaterBaseHai } from './common/player_base_hai'
@@ -38,6 +38,8 @@ interface BoardProp {
   setExecUser: React.Dispatch<React.SetStateAction<string>>
   ownAuto: boolean
   agariDisplay: boolean
+  tensuMap: TensuMapProp
+  setTensuMap: React.Dispatch<React.SetStateAction<TensuMapProp>>
 }
 
 const execHaiOpen = (haiOpen: boolean, setHaiOpen: React.Dispatch<React.SetStateAction<boolean>>): void => {
@@ -287,7 +289,7 @@ const execOwnCancel = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
   execNaki(allPai, setAllPai, nakiUser, boardStatus, setBoardStatus, yama, setYama, suteruhai, bakaze, setExecUser, ownAuto)
 }
 
-export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay }: BoardProp): JSX.Element => {
+export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay, tensuMap, setTensuMap }: BoardProp): JSX.Element => {
   const ownPai = allPai.own
   const player1Pai = allPai.player1
   const player2Pai = allPai.player2
@@ -334,6 +336,12 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
             {isRonAgari(boardStatus, 'own') && <>ロン</>}
           </div>
 
+          {/* 点数表示フィールド */}
+          <div className={`${style.nameField} ${style.ownNameField}`}>
+            <div className={style.name}>own</div>
+            <div className={style.tensu}>{tensuMap.own}</div>
+          </div>
+
           {/* player1 */}
           {(!haiOpen && !isAgari(boardStatus, 'player1'))
             ? <div className={style.player1PaiBaseField}>
@@ -368,6 +376,12 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
             {isRonAgari(boardStatus, 'player1') && <>ロン</>}
           </div>
 
+          {/* 点数表示フィールド */}
+          <div className={`${style.nameField} ${style.player1NameField}`}>
+            <div className={style.name}>player1</div>
+            <div className={style.tensu}>{tensuMap.player1}</div>
+          </div>
+
           {/* player2 */}
           {(!haiOpen && !isAgari(boardStatus, 'player2'))
             ? <div className={style.player2PaiBaseField}>
@@ -395,6 +409,12 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
               <img src={b_1_2} />
             </div>
           }
+
+          {/* 点数表示フィールド */}
+          <div className={`${style.nameField} ${style.player2NameField}`}>
+            <div className={style.name}>player2</div>
+            <div className={style.tensu}>{tensuMap.player2}</div>
+          </div>
 
           {/* メッセージ枠 */}
           <div className={style.player2MessageField}>
@@ -434,6 +454,12 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           <div className={style.player3MessageField}>
             {isTsumoAgari(boardStatus, 'player3') && <>ツモ</>}
             {isRonAgari(boardStatus, 'player3') && <>ロン</>}
+          </div>
+
+          {/* 点数表示フィールド */}
+          <div className={`${style.nameField} ${style.player3NameField}`}>
+            <div className={style.name}>player3</div>
+            <div className={style.tensu}>{tensuMap.player3}</div>
           </div>
 
           <div className={style.info}>

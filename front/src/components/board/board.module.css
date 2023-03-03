@@ -222,3 +222,47 @@
     right: 0;
     top: 0;
 }
+
+.nameField {
+    height: 60px;
+    width: 100px;
+    position: absolute;
+    font-size: 1.5em;
+}
+
+.ownNameField {
+    bottom: 0;
+    left: 0;
+}
+
+.player1NameField {
+    bottom: 20px;
+    right: -20px;
+    transform:rotate(-90deg);    
+}
+
+.player2NameField {
+    top: 0;
+    right: 0;
+    transform:rotate(180deg);    
+}
+
+.player3NameField {
+    top: 20px;
+    left: -20px;
+    transform:rotate(90deg);    
+}
+
+.name {
+    background-color: gray;
+    color: white;
+    height: 30px;
+    text-align: center;
+}
+
+.tensu {
+    color: white;
+    height: 30px;
+    text-align: center;
+    background-color: darkblue;
+}
