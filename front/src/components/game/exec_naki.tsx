@@ -1,10 +1,10 @@
 import { setRon } from '../board/common/set_ron'
-import type { AllPaiProp, HaiInfoProp, NakiPositionProp, UserProp } from '../board/type'
+import type { AllPaiProp, GameMapProp, HaiInfoProp, NakiPositionProp, UserProp } from '../board/type'
 import { nextTurn } from './next_turn'
 import { cpuNakiThink, cpuThink } from './cpu_think'
 import { shantenCheck } from './shanten_check'
 
-export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, suteruhai: string, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean): void => {
+export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, suteruhai: string, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, ownAuto: boolean, gameMap: GameMapProp, setGameMap: React.Dispatch<React.SetStateAction<GameMapProp>>): void => {
   // 判定順
   const userList = (Object.keys(allPai) as UserProp[])
 
@@ -139,7 +139,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
         if (sortUser === 'own' && !ownAuto) {
           setBoardStatus('think_' + sortUser)
         } else {
-          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
+          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze, gameMap, setGameMap)
         }
       }, 250)
     }
@@ -199,7 +199,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
         if (sortUser === 'own' && !ownAuto) {
           setBoardStatus('think_' + sortUser)
         } else {
-          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
+          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze, gameMap, setGameMap)
         }
       }, 250)
     }
@@ -269,7 +269,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
         if (sortUser === 'own' && !ownAuto) {
           setBoardStatus('think_' + sortUser)
         } else {
-          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
+          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze, gameMap, setGameMap)
         }
       }, 250)
     }
@@ -339,7 +339,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
         if (sortUser === 'own' && !ownAuto) {
           setBoardStatus('think_' + sortUser)
         } else {
-          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
+          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze, gameMap, setGameMap)
         }
       }, 250)
     }
@@ -409,7 +409,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
         if (sortUser === 'own' && !ownAuto) {
           setBoardStatus('think_' + sortUser)
         } else {
-          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze)
+          cpuThink(allPai, setAllPai, sortUser, yama, setYama, boardStatus, setBoardStatus, setExecUser, ownAuto, bakaze, gameMap, setGameMap)
         }
       }, 250)
     }

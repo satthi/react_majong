@@ -1,6 +1,6 @@
 import style from './base_hai.module.css'
 import { getHaiSrc } from '../hai/hai_info'
-import type { AllPaiProp, MachiInfoProp, PaiProp, SuteType } from '../type'
+import type { AllPaiProp, GameMapProp, MachiInfoProp, PaiProp, SuteType } from '../type'
 import { execSuteru } from '../../game/exec_suteru'
 import { shantenBase } from '../../game/shanten_base'
 
@@ -18,9 +18,11 @@ interface OwnBaseHaiProp {
   setReachMode: React.Dispatch<React.SetStateAction<boolean>>
   bakaze: number
   setExecUser: React.Dispatch<React.SetStateAction<string>>
+  gameMap: GameMapProp
+  setGameMap: React.Dispatch<React.SetStateAction<GameMapProp>>
 }
 
-const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, haiKey: number, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, reachMode: boolean, setReachMode: React.Dispatch<React.SetStateAction<boolean>>, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
+const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, haiKey: number, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, reachMode: boolean, setReachMode: React.Dispatch<React.SetStateAction<boolean>>, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, gameMap: GameMapProp, setGameMap: React.Dispatch<React.SetStateAction<GameMapProp>>): void => {
   const turnUserMatch = boardStatus.match(/^think_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (turnUserMatch === null) {
@@ -52,16 +54,16 @@ const execOwnSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
     if (allPai.own.isReach && haiKey !== allPai.own.base.length - 1) {
       return
     }
-    execSuteru(allPai, setAllPai, 'own', boardStatus, setBoardStatus, haiKey, yama, setYama, suteType, false, bakaze, setExecUser)
+    execSuteru(allPai, setAllPai, 'own', boardStatus, setBoardStatus, haiKey, yama, setYama, suteType, false, bakaze, setExecUser, gameMap, setGameMap)
   }
 }
 
-export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatus, yama, setYama, shanten, machi, reachMode, setReachMode, bakaze, setExecUser }: OwnBaseHaiProp): JSX.Element => {
+export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatus, yama, setYama, shanten, machi, reachMode, setReachMode, bakaze, setExecUser, gameMap, setGameMap }: OwnBaseHaiProp): JSX.Element => {
   return <>
     {base.map((basePai, haiKey) => {
       return <div key={haiKey} className={style.basePai}>
         {/* eslint-disable-next-line */}
-        <img src={getHaiSrc(basePai, 0)} onClick={() => execOwnSuteru(allPai, setAllPai, boardStatus, setBoardStatus, haiKey, yama, setYama, reachMode, setReachMode, bakaze, setExecUser)}/>
+        <img src={getHaiSrc(basePai, 0)} onClick={() => execOwnSuteru(allPai, setAllPai, boardStatus, setBoardStatus, haiKey, yama, setYama, reachMode, setReachMode, bakaze, setExecUser, gameMap, setGameMap)}/>
       </div>
     })}
     <div className={style.shanten}>

@@ -1,5 +1,5 @@
 
-import type { AllPaiProp, SuteType, UserProp } from '../board/type'
+import type { AllPaiProp, GameMapProp, SuteType, UserProp } from '../board/type'
 import { isMinkanable } from './detection/is_minkanable'
 import { isPonable } from './detection/is_ponable'
 import { isRonable } from './detection/is_ronable'
@@ -7,7 +7,7 @@ import { isTi1able, isTi2able, isTi3able } from './detection/is_tiable'
 import { execNaki } from './exec_naki'
 import { shantenCheck } from './shanten_check'
 
-export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, suteType: SuteType, ownAuto: boolean, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>): void => {
+export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetStateAction<AllPaiProp>>, user: UserProp, boardStatus: string, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, suteruKey: number, yama: string[], setYama: React.Dispatch<React.SetStateAction<string[]>>, suteType: SuteType, ownAuto: boolean, bakaze: number, setExecUser: React.Dispatch<React.SetStateAction<string>>, gameMap: GameMapProp, setGameMap: React.Dispatch<React.SetStateAction<GameMapProp>>): void => {
   const suteruHai = allPai[user].base.splice(suteruKey, 1)
 
   allPai[user].kantsumo = false // 捨てた時点でfalseにする
@@ -19,6 +19,10 @@ export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
   if (suteType === 'reach') {
     allPai[user].isReach = true
     allPai[user].ippatsu = true
+    // 点数の設定
+    gameMap.tensu[user] -= 1000
+    gameMap.reach++
+    setGameMap(gameMap)
   } else {
     // 捨てたときに自身の一発フラグを消す
     allPai[user].ippatsu = false
@@ -59,7 +63,7 @@ export const execSuteru = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.S
   // eslint-disable-next-line
   if (ownAuto || (!allPai.own.nakiCheck.ron && !allPai.own.nakiCheck.pon && !allPai.own.nakiCheck.ti1 && !allPai.own.nakiCheck.ti2 && !allPai.own.nakiCheck.ti3 && !allPai.own.nakiCheck.kan)) {
     // 自動で判定を進めてよい
-    execNaki(allPai, setAllPai, user, boardStatus, setBoardStatus, yama, setYama, suteruHai[0], bakaze, setExecUser, ownAuto)
+    execNaki(allPai, setAllPai, user, boardStatus, setBoardStatus, yama, setYama, suteruHai[0], bakaze, setExecUser, ownAuto, gameMap, setGameMap)
   } else {
     // 鳴きの確認
     setBoardStatus('naki_' + user)

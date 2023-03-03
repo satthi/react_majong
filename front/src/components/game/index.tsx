@@ -1,19 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Board } from '../board'
 import { getInitialYama } from '../board/hai/hai_info'
-import type { AllPaiProp, TensuMapProp, UserProp } from '../board/type'
+import type { AllPaiProp, GameMapProp, UserProp } from '../board/type'
 import { initialSet } from './initial_set'
 import { turn } from './turn'
 
 interface GameProp {
-  oya: UserProp
   ownAuto: boolean
-  bakaze: number
-  kyoku: number
-  hon: number
-  reach: number
-  tensuMap: TensuMapProp
-  setTensuMap: React.Dispatch<React.SetStateAction<TensuMapProp>>
+  gameMap: GameMapProp
+  setGameMap: React.Dispatch<React.SetStateAction<GameMapProp>>
 }
 
 interface GetElementProp {
@@ -30,15 +25,21 @@ interface GetElementProp {
   setExecUser: React.Dispatch<React.SetStateAction<string>>
   ownAuto: boolean
   agariDisplay: boolean
-  tensuMap: TensuMapProp
-  setTensuMap: React.Dispatch<React.SetStateAction<TensuMapProp>>
+  gameMap: GameMapProp
+  setGameMap: React.Dispatch<React.SetStateAction<GameMapProp>>
 }
 
-const GetElement = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay, tensuMap, setTensuMap }: GetElementProp): JSX.Element => {
-  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} tensuMap={tensuMap} setTensuMap={setTensuMap} />
+const GetElement = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay, gameMap, setGameMap }: GetElementProp): JSX.Element => {
+  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} gameMap={gameMap} setGameMap={setGameMap} />
 }
 
-export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach, tensuMap, setTensuMap }: GameProp): JSX.Element => {
+export const Game = ({ ownAuto, gameMap, setGameMap }: GameProp): JSX.Element => {
+  const oya = gameMap.oya
+  const bakaze = gameMap.bakaze
+  const kyoku = gameMap.kyoku
+  const hon = gameMap.hon
+  const reach = gameMap.reach
+
   const userList: UserProp[] = ['own', 'player1', 'player2', 'player3']
 
   const initialSortPai: AllPaiProp = {
@@ -210,7 +211,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach, tensuMap, setTen
 
   const [agariDisplay, setAgariDisplay] = useState(false)
 
-  const [boardElement, setBoardElement] = useState(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} tensuMap={tensuMap} setTensuMap={setTensuMap} />)
+  const [boardElement, setBoardElement] = useState(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} gameMap={gameMap} setGameMap={setGameMap} />)
   // initial時の処理
   // 下記の自動イベントはステータスが変更されたときだけ
 
@@ -218,8 +219,8 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach, tensuMap, setTen
   const allPaiJson = JSON.stringify(allPai)
   const yamaJson = JSON.stringify(yama)
   useEffect(() => {
-    setBoardElement(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} tensuMap={tensuMap} setTensuMap={setTensuMap} />)
-  }, [allPai, setAllPai, boardStatus, setBoardStatus, yama, bakaze, kyoku, hon, reach, setYama, setExecUser, ownAuto, setBoardElement, agariDisplay, allPaiJson, yamaJson, tensuMap, setTensuMap])
+    setBoardElement(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} gameMap={gameMap} setGameMap={setGameMap} />)
+  }, [allPai, setAllPai, boardStatus, setBoardStatus, yama, bakaze, kyoku, hon, reach, setYama, setExecUser, ownAuto, setBoardElement, agariDisplay, allPaiJson, yamaJson, gameMap, setGameMap])
 
   if (checkBoardStatus !== boardStatus) {
     setCheckBoardStatus(boardStatus)
@@ -229,7 +230,7 @@ export const Game = ({ oya, ownAuto, bakaze, kyoku, hon, reach, tensuMap, setTen
 
     // ターン
     if (boardStatus.match(/^turn_/) !== null) {
-      turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser, ownAuto, bakaze)
+      turn(allPai, setAllPai, yama, setYama, boardStatus, setBoardStatus, execUser, setExecUser, ownAuto, bakaze, gameMap, setGameMap)
     }
     if (boardStatus.match(/^agari_/) !== null) {
       setTimeout(() => {
