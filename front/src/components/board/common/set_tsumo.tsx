@@ -5,5 +5,6 @@ export const setTsumo = (allPai: AllPaiProp, user: UserProp, setBoardStatus: Rea
   if (allPai[user].shantenInfo.shanten !== -1) {
     return
   }
-  setBoardStatus('agari_tsumo_' + String(user))
+  // 使わないけどロンに合わせてツモをセットする
+  setBoardStatus('agari_tsumo_' + String(user) + '_' + String(user))
 }

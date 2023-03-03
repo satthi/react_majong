@@ -22,6 +22,7 @@ import { execAddMinkan } from '../game/exec_add_minkan'
 import { isTsumoable } from '../game/detection/is_tsumoable'
 import { getHaiSrc } from './hai/hai_info'
 import { AgariWindow } from './agari_window'
+import { isAgari, isRonAgari, isTsumoAgari } from '../game/detection/is_agari'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -300,7 +301,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
       <div className={style.board}>
         <>
           {/* 自陣 */}
-          {(boardStatus !== 'agari_ron_own' && boardStatus !== 'agari_tsumo_own')
+          {!isAgari(boardStatus, 'own')
             ? <div className={style.ownPaiBaseField}>
               <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} reachMode={reachMode} setReachMode={setReachMode} bakaze={bakaze} setYama={setYama} setExecUser={setExecUser} />
             </div>
@@ -329,12 +330,12 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
 
           {/* メッセージ枠 */}
           <div className={style.ownMessageField}>
-            {boardStatus === 'agari_tsumo_own' && <>ツモ</>}
-            {boardStatus === 'agari_ron_own' && <>ロン</>}
+            {isTsumoAgari(boardStatus, 'own') && <>ツモ</>}
+            {isRonAgari(boardStatus, 'own') && <>ロン</>}
           </div>
 
           {/* player1 */}
-          {(!haiOpen && boardStatus !== 'agari_ron_player1' && boardStatus !== 'agari_tsumo_player1')
+          {(!haiOpen && !isAgari(boardStatus, 'player1'))
             ? <div className={style.player1PaiBaseField}>
               <PlaterBaseHai base={player1Pai.base} />
             </div>
@@ -363,12 +364,12 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
 
           {/* メッセージ枠 */}
           <div className={style.player1MessageField}>
-            {boardStatus === 'agari_tsumo_player1' && <>player1 ツモ</>}
-            {boardStatus === 'agari_ron_player1' && <>player1 ロン</>}
+            {isTsumoAgari(boardStatus, 'player1') && <>ツモ</>}
+            {isRonAgari(boardStatus, 'player1') && <>ロン</>}
           </div>
 
           {/* player2 */}
-          {(!haiOpen && boardStatus !== 'agari_ron_player2' && boardStatus !== 'agari_tsumo_player2')
+          {(!haiOpen && !isAgari(boardStatus, 'player2'))
             ? <div className={style.player2PaiBaseField}>
               <PlaterBaseHai base={player2Pai.base} />
             </div>
@@ -397,12 +398,12 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
 
           {/* メッセージ枠 */}
           <div className={style.player2MessageField}>
-            {boardStatus === 'agari_tsumo_player2' && <>player2 ツモ</>}
-            {boardStatus === 'agari_ron_player2' && <>player2 ロン</>}
+            {isTsumoAgari(boardStatus, 'player2') && <>ツモ</>}
+            {isRonAgari(boardStatus, 'player2') && <>ロン</>}
           </div>
 
           {/* player3 */}
-          {(!haiOpen && boardStatus !== 'agari_ron_player3' && boardStatus !== 'agari_tsumo_player3')
+          {(!haiOpen && !isAgari(boardStatus, 'player3'))
             ? <div className={style.player3PaiBaseField}>
               <PlaterBaseHai base={player3Pai.base} />
             </div>
@@ -431,8 +432,8 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
 
           {/* メッセージ枠 */}
           <div className={style.player3MessageField}>
-            {boardStatus === 'agari_tsumo_player3' && <>player3 ツモ</>}
-            {boardStatus === 'agari_ron_player3' && <>player3 ロン</>}
+            {isTsumoAgari(boardStatus, 'player3') && <>ツモ</>}
+            {isRonAgari(boardStatus, 'player3') && <>ロン</>}
           </div>
 
           <div className={style.info}>
@@ -458,16 +459,16 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
               {
                 (
                   (
-                    (boardStatus === 'agari_tsumo_own' || boardStatus === 'agari_ron_own') && allPai.own.isReach
+                    isAgari(boardStatus, 'own') && allPai.own.isReach
                   ) ||
                   (
-                    (boardStatus === 'agari_tsumo_player1' || boardStatus === 'agari_ron_player1') && allPai.player1.isReach
+                    isAgari(boardStatus, 'player1') && allPai.player1.isReach
                   ) ||
                   (
-                    (boardStatus === 'agari_tsumo_player2' || boardStatus === 'agari_ron_player2') && allPai.player2.isReach
+                    isAgari(boardStatus, 'player2') && allPai.player2.isReach
                   ) ||
                   (
-                    (boardStatus === 'agari_tsumo_player3' || boardStatus === 'agari_ron_player3') && allPai.player3.isReach
+                    isAgari(boardStatus, 'player3') && allPai.player3.isReach
                   )
                 )
                   ? <DoraReach yama={yama} allPai={allPai} />

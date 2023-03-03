@@ -1,7 +1,7 @@
 import { getKanCount } from '../game/detection/get_kan_count'
 import { shantenBase } from '../game/shanten_base'
 import { getDora } from './common/get_dora'
-import type { AllPaiProp, PaiProp, TensuInfoProp, UserProp } from './type'
+import type { AllPaiProp, PaiProp, TensuInfoProp, TensuKeisanProp, UserProp } from './type'
 import style from './agari_window.module.css'
 import { BaseHaiAgari } from './common/base_hai_agari'
 import { NakiAgari } from './common/naki_agari'
@@ -29,6 +29,8 @@ interface DisplayAgariReturnProp {
   hon: number
   reach: number
   agariStatus: string
+  tensuMap: TensuMapProp
+  tensuMove: TensuMoveProp
   yakuInfo: GetYakuInfoProp
 }
 
@@ -36,21 +38,79 @@ interface GetYakuInfoProp {
   yakuList: string[]
   fuhan: string
   tensu: number
-  tensuText: string
+  tensuDetail: TensuKeisanProp
+}
+
+interface TensuMapProp {
+  own: number
+  player1: number
+  player2: number
+  player3: number
+}
+
+interface TensuMoveProp {
+  own: number
+  player1: number
+  player2: number
+  player3: number
 }
 
 const getAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, yama: string[], kyoku: number, hon: number, reach: number): DisplayAgariReturnProp | undefined => {
-  const agariMatch = boardStatus.match(/^agari_(tsumo|ron)_(own|player1|player2|player3)$/)
+  const agariMatch = boardStatus.match(/^agari_(tsumo|ron)_(own|player1|player2|player3)_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (agariMatch === null) {
     return
   }
 
   const agariUser = agariMatch[2] as UserProp
+  const ronTaishoUser = agariMatch[3] as UserProp
   const agariStatus = agariMatch[1]
 
   // 上がり情報の内訳取得
   const agariPaiInfo = allPai[agariUser]
+
+  const yakuInfo = getYakuInfo(allPai, agariUser, yama, bakaze, agariStatus, hon)
+
+  // @todo: これを最終的には外だしする
+  const tensuMap: TensuMapProp = {
+    own: 27000,
+    player1: 26000,
+    player2: 25000,
+    player3: 21000
+  }
+
+  const tensuMove: TensuMoveProp = {
+    own: 0,
+    player1: 0,
+    player2: 0,
+    player3: 0
+  }
+
+  // リーチ棒分足しておく
+  tensuMove[agariUser] = yakuInfo.tensu + reach * 1000
+  if (agariStatus === 'ron') {
+    tensuMove[ronTaishoUser] = yakuInfo.tensu * -1
+  } else {
+    // ツモ時
+    // 親
+    if (agariPaiInfo.jikaze === 1) {
+      (Object.keys(tensuMove) as UserProp[]).forEach((u) => {
+        if (u !== agariUser) {
+          tensuMove[ronTaishoUser] = yakuInfo.tensuDetail.oya.tsumo * -1
+        }
+      })
+    } else {
+      (Object.keys(tensuMove) as UserProp[]).forEach((u) => {
+        if (u !== agariUser) {
+          if (allPai[u].jikaze === 1) {
+            tensuMove[ronTaishoUser] = yakuInfo.tensuDetail.ko.tsumo.oya * -1
+          } else {
+            tensuMove[ronTaishoUser] = yakuInfo.tensuDetail.ko.tsumo.ko * -1
+          }
+        }
+      })
+    }
+  }
 
   return {
     user: agariUser,
@@ -60,7 +120,9 @@ const getAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, y
     hon,
     reach,
     agariStatus,
-    yakuInfo: getYakuInfo(allPai, agariUser, yama, bakaze, agariStatus, hon)
+    tensuMap,
+    tensuMove,
+    yakuInfo
   }
 }
 
@@ -106,7 +168,7 @@ const getYakuInfo = (allPai: AllPaiProp, agariUser: UserProp, yama: string[], ba
       yakuList: agariInfo.yakumanYakuList,
       fuhan: fuhanText,
       tensu: tensuTotal(agariInfo, agariPaiInfo.jikaze, agariStatus, hon),
-      tensuText: tensuKeisan(agariInfo, hon).yakuText
+      tensuDetail: tensuKeisan(agariInfo, hon)
     }
   }
 
@@ -186,7 +248,7 @@ const getYakuInfo = (allPai: AllPaiProp, agariUser: UserProp, yama: string[], ba
     yakuList: agariInfo.yakuList,
     fuhan: String(agariInfo.fu) + '符' + String(agariInfo.han) + '翻', // @todo: 満貫以上のテキスト表示を追加する
     tensu: tensuTotal(agariInfo, agariPaiInfo.jikaze, agariStatus, hon),
-    tensuText: tensuKeisan(agariInfo, hon).yakuText
+    tensuDetail: tensuKeisan(agariInfo, hon)
   }
 }
 
@@ -238,13 +300,17 @@ export const AgariWindow = ({ boardStatus, allPai, bakaze, yama, kyoku, hon, rea
       </div>
       <div className={style.fu_han}>{agariInfo.yakuInfo.fuhan}</div>
       <div className={style.tensu}>{agariInfo.yakuInfo.tensu}点</div>
-      <div className={style.tensuText}>{agariInfo.yakuInfo.tensuText}</div>
+      <div className={style.tensuText}>{agariInfo.yakuInfo.tensuDetail.yakuText}</div>
       <div className={style.next}>次の局</div>
       {(Object.keys(allPai) as UserProp[]).map((user, userKey) =>
         // eslint-disable-next-line
         <div className={`${style.tensuBox} ${style['tensuBoxPosition' + userKey]}`} key={userKey}>
           <div className={style.tensuName}>{user}</div>
-          <div className={style.tensuHyoji}>25000(+1000)</div>
+          <div className={style.tensuHyoji}>
+            {agariInfo.tensuMap[user] + agariInfo.tensuMove[user]}
+            {agariInfo.tensuMove[user] > 0 && <>(+{agariInfo.tensuMove[user]})</>}
+            {agariInfo.tensuMove[user] < 0 && <>({agariInfo.tensuMove[user]})</>}
+          </div>
         </div>
       )}
     </>

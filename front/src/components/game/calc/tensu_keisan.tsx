@@ -27,7 +27,7 @@ export const tensuKeisan = (agariInfo: TensuInfoProp, hon: number): TensuKeisanP
       baseTensu = 12000
       yakuText = '跳満'
     } else {
-      baseTensu = agariInfo.fu * 4 * 2 ^ agariInfo.han
+      baseTensu = agariInfo.fu * 4 * (2 ** (agariInfo.han + 2))
       // 8000を超えているときは満貫
       if (baseTensu >= 8000) {
         baseTensu = 8000

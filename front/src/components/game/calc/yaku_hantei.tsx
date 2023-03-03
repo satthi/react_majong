@@ -15,7 +15,6 @@ export const reachCheck = (paiInfo: PaiProp): boolean => {
 
 // 一発チェック
 export const ippatsuCheck = (paiInfo: PaiProp): boolean => {
-  console.log(paiInfo)
   return paiInfo.ippatsu
 }
 

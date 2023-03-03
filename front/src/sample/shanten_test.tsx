@@ -3,6 +3,7 @@ import { BaseHaiOpen } from '../components/board/common/base_hai_open'
 import { Naki } from '../components/board/common/naki'
 import { getHaiSrc } from '../components/board/hai/hai_info'
 import type { AllPaiProp, PaiProp } from '../components/board/type'
+import { tensuKeisan } from '../components/game/calc/tensu_keisan'
 import { shantenBase, shantenMentsu } from '../components/game/shanten_base'
 
 export const ShantenTest = (): JSX.Element => {
@@ -47,19 +48,19 @@ export const ShantenTest = (): JSX.Element => {
       // 'hai_2_5',
       // 'hai_2_6',
       // 'hai_2_8'
-      'hai_1_1',
-      'hai_1_1',
-      'hai_1_1',
       'hai_1_2',
-      'hai_1_3',
+      'hai_1_2',
+      'hai_1_2',
       'hai_1_4',
       'hai_1_5',
-      'hai_1_6',
       'hai_1_7',
       'hai_1_8',
-      'hai_1_4',
       'hai_1_9',
-      'hai_1_9'
+      'hai_2_9',
+      'hai_2_9',
+      'hai_3_3',
+      'hai_3_4',
+      'hai_3_5'
     ],
     naki: [
       // {
@@ -383,6 +384,7 @@ export const ShantenTest = (): JSX.Element => {
             })}
           </div>
           {b.machi.map((m, mkey) => {
+            console.log(tensuKeisan(m.tensu.ron, 0))
             return <div key={mkey}>
               <>待ち： </>
               <img src={getHaiSrc(m.haiInfo.hai, 1)} key={mkey} /><br />
