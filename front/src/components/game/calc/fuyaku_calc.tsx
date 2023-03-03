@@ -65,7 +65,36 @@ const fuCalc = (shantenInfo: ShantenBaseInfo, paiInfo: PaiProp, machiHai: HaiInf
     }
   })
 
-  // @todo: 鳴き判定
+  // 鳴き判定
+  paiInfo.naki.forEach((n) => {
+    if (n.type === 'pon') {
+      if (isYaochu(n.keyHai.haiInfo)) {
+        ronFu += 4
+        tsumoFu += 4
+      } else {
+        ronFu += 2
+        tsumoFu += 2
+      }
+    }
+    if (n.type === 'ankan') {
+      if (isYaochu(n.keyHai.haiInfo)) {
+        ronFu += 32
+        tsumoFu += 32
+      } else {
+        ronFu += 16
+        tsumoFu += 16
+      }
+    }
+    if (n.type === 'minkan') {
+      if (isYaochu(n.keyHai.haiInfo)) {
+        ronFu += 16
+        tsumoFu += 16
+      } else {
+        ronFu += 8
+        tsumoFu += 8
+      }
+    }
+  })
 
   // 待ちの判定/雀頭の判定
   if (shantenInfo.toitsu.length === 2) {
