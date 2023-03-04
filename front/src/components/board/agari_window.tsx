@@ -1,7 +1,7 @@
 import { getKanCount } from '../game/detection/get_kan_count'
 import { shantenBase } from '../game/shanten_base'
 import { getDora } from './common/get_dora'
-import type { AllPaiProp, PaiProp, TensuInfoProp, TensuKeisanProp, UserProp } from './type'
+import type { AllPaiProp, GameMapProp, PaiProp, TensuInfoProp, TensuKeisanProp, UserProp } from './type'
 import style from './agari_window.module.css'
 import { BaseHaiAgari } from './common/base_hai_agari'
 import { NakiAgari } from './common/naki_agari'
@@ -19,6 +19,7 @@ interface AgariWindowProp {
   kyoku: number
   hon: number
   reach: number
+  gameMap: GameMapProp
 }
 
 interface DisplayAgariReturnProp {
@@ -55,7 +56,7 @@ interface TensuMoveProp {
   player3: number
 }
 
-const getAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, yama: string[], kyoku: number, hon: number, reach: number): DisplayAgariReturnProp | undefined => {
+const getAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, yama: string[], kyoku: number, hon: number, reach: number, gameMap: GameMapProp): DisplayAgariReturnProp | undefined => {
   const agariMatch = boardStatus.match(/^agari_(tsumo|ron)_(own|player1|player2|player3)_(own|player1|player2|player3)$/)
   // マッチしないときは何もしない
   if (agariMatch === null) {
@@ -72,12 +73,7 @@ const getAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, y
   const yakuInfo = getYakuInfo(allPai, agariUser, yama, bakaze, agariStatus, hon)
 
   // @todo: これを最終的には外だしする
-  const tensuMap: TensuMapProp = {
-    own: 27000,
-    player1: 26000,
-    player2: 25000,
-    player3: 21000
-  }
+  const tensuMap = gameMap.tensu
 
   const tensuMove: TensuMoveProp = {
     own: 0,
@@ -96,16 +92,16 @@ const getAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, y
     if (agariPaiInfo.jikaze === 1) {
       (Object.keys(tensuMove) as UserProp[]).forEach((u) => {
         if (u !== agariUser) {
-          tensuMove[ronTaishoUser] = yakuInfo.tensuDetail.oya.tsumo * -1
+          tensuMove[u] = yakuInfo.tensuDetail.oya.tsumo * -1
         }
       })
     } else {
       (Object.keys(tensuMove) as UserProp[]).forEach((u) => {
         if (u !== agariUser) {
           if (allPai[u].jikaze === 1) {
-            tensuMove[ronTaishoUser] = yakuInfo.tensuDetail.ko.tsumo.oya * -1
+            tensuMove[u] = yakuInfo.tensuDetail.ko.tsumo.oya * -1
           } else {
-            tensuMove[ronTaishoUser] = yakuInfo.tensuDetail.ko.tsumo.ko * -1
+            tensuMove[u] = yakuInfo.tensuDetail.ko.tsumo.ko * -1
           }
         }
       })
@@ -208,8 +204,7 @@ const getYakuInfo = (allPai: AllPaiProp, agariUser: UserProp, yama: string[], ba
     }
   }
 
-  const checkHaiList: string[] = []
-  checkHaiList.concat(agariPaiInfo.base)
+  const checkHaiList: string[] = agariPaiInfo.base
   agariPaiInfo.naki.forEach((n) => {
     checkHaiList.push(n.keyHai.haiInfo.hai)
     n.hai.forEach((nh) => {
@@ -252,8 +247,8 @@ const getYakuInfo = (allPai: AllPaiProp, agariUser: UserProp, yama: string[], ba
   }
 }
 
-export const AgariWindow = ({ boardStatus, allPai, bakaze, yama, kyoku, hon, reach }: AgariWindowProp): JSX.Element => {
-  const agariInfo = getAgariInfo(boardStatus, allPai, bakaze, yama, kyoku, hon, reach)
+export const AgariWindow = ({ boardStatus, allPai, bakaze, yama, kyoku, hon, reach, gameMap }: AgariWindowProp): JSX.Element => {
+  const agariInfo = getAgariInfo(boardStatus, allPai, bakaze, yama, kyoku, hon, reach, gameMap)
   if (typeof agariInfo === 'undefined') {
     return <></>
   }

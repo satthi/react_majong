@@ -23,6 +23,7 @@ import { isTsumoable } from '../game/detection/is_tsumoable'
 import { getHaiSrc } from './hai/hai_info'
 import { AgariWindow } from './agari_window'
 import { isAgari, isRonAgari, isTsumoAgari } from '../game/detection/is_agari'
+import { RyukyokuWindow } from './ryukyoku_window'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -38,6 +39,7 @@ interface BoardProp {
   setExecUser: React.Dispatch<React.SetStateAction<string>>
   ownAuto: boolean
   agariDisplay: boolean
+  ryukyokuDisplay: boolean
   gameMap: GameMapProp
   setGameMap: React.Dispatch<React.SetStateAction<GameMapProp>>
 }
@@ -289,21 +291,20 @@ const execOwnCancel = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
   execNaki(allPai, setAllPai, nakiUser, boardStatus, setBoardStatus, yama, setYama, suteruhai, bakaze, setExecUser, ownAuto, gameMap, setGameMap)
 }
 
-export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay, gameMap, setGameMap }: BoardProp): JSX.Element => {
+export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay, ryukyokuDisplay, gameMap, setGameMap }: BoardProp): JSX.Element => {
   const ownPai = allPai.own
   const player1Pai = allPai.player1
   const player2Pai = allPai.player2
   const player3Pai = allPai.player3
   const [haiOpen, setHaiOpen] = useState(false)
   const [reachMode, setReachMode] = useState(false)
-
   // 表示
   return <>
     <div className={style.boardBase}>
       <div className={style.board}>
         <>
           {/* 自陣 */}
-          {!isAgari(boardStatus, 'own')
+          {!isAgari(boardStatus, 'own') && (boardStatus !== 'ryukyoku' || allPai.own.shantenInfo.shanten !== 0)
             ? <div className={style.ownPaiBaseField}>
               <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} reachMode={reachMode} setReachMode={setReachMode} bakaze={bakaze} setYama={setYama} setExecUser={setExecUser} gameMap={gameMap} setGameMap={setGameMap} />
             </div>
@@ -334,6 +335,11 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           <div className={style.ownMessageField}>
             {isTsumoAgari(boardStatus, 'own') && <>ツモ</>}
             {isRonAgari(boardStatus, 'own') && <>ロン</>}
+            {boardStatus === 'ryukyoku' &&
+              <>
+                {allPai.own.shantenInfo.shanten === 0 ? 'テンパイ' : 'ノーテン'}
+              </>
+            }
           </div>
 
           {/* 点数表示フィールド */}
@@ -343,7 +349,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           </div>
 
           {/* player1 */}
-          {(!haiOpen && !isAgari(boardStatus, 'player1'))
+          {(!haiOpen && !isAgari(boardStatus, 'player1')) && (boardStatus !== 'ryukyoku' || allPai.player1.shantenInfo.shanten !== 0)
             ? <div className={style.player1PaiBaseField}>
               <PlaterBaseHai base={player1Pai.base} />
             </div>
@@ -374,6 +380,11 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           <div className={style.player1MessageField}>
             {isTsumoAgari(boardStatus, 'player1') && <>ツモ</>}
             {isRonAgari(boardStatus, 'player1') && <>ロン</>}
+            {boardStatus === 'ryukyoku' &&
+              <>
+                {allPai.player1.shantenInfo.shanten === 0 ? 'テンパイ' : 'ノーテン'}
+              </>
+            }
           </div>
 
           {/* 点数表示フィールド */}
@@ -383,7 +394,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           </div>
 
           {/* player2 */}
-          {(!haiOpen && !isAgari(boardStatus, 'player2'))
+          {(!haiOpen && !isAgari(boardStatus, 'player2')) && (boardStatus !== 'ryukyoku' || allPai.player2.shantenInfo.shanten !== 0)
             ? <div className={style.player2PaiBaseField}>
               <PlaterBaseHai base={player2Pai.base} />
             </div>
@@ -420,10 +431,15 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           <div className={style.player2MessageField}>
             {isTsumoAgari(boardStatus, 'player2') && <>ツモ</>}
             {isRonAgari(boardStatus, 'player2') && <>ロン</>}
+            {boardStatus === 'ryukyoku' &&
+              <>
+                {allPai.player2.shantenInfo.shanten === 0 ? 'テンパイ' : 'ノーテン'}
+              </>
+            }
           </div>
 
           {/* player3 */}
-          {(!haiOpen && !isAgari(boardStatus, 'player3'))
+          {(!haiOpen && !isAgari(boardStatus, 'player3')) && (boardStatus !== 'ryukyoku' || allPai.player3.shantenInfo.shanten !== 0)
             ? <div className={style.player3PaiBaseField}>
               <PlaterBaseHai base={player3Pai.base} />
             </div>
@@ -454,6 +470,11 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           <div className={style.player3MessageField}>
             {isTsumoAgari(boardStatus, 'player3') && <>ツモ</>}
             {isRonAgari(boardStatus, 'player3') && <>ロン</>}
+            {boardStatus === 'ryukyoku' &&
+              <>
+                {allPai.player3.shantenInfo.shanten === 0 ? 'テンパイ' : 'ノーテン'}
+              </>
+            }
           </div>
 
           {/* 点数表示フィールド */}
@@ -610,7 +631,10 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
         </tbody>
       </table>
       {agariDisplay &&
-        <AgariWindow boardStatus={boardStatus} allPai={allPai} bakaze={bakaze} yama={yama} kyoku={kyoku} hon={hon} reach={reach} />
+        <AgariWindow boardStatus={boardStatus} allPai={allPai} bakaze={bakaze} yama={yama} kyoku={kyoku} hon={hon} reach={reach} gameMap={gameMap} />
+      }
+      {ryukyokuDisplay &&
+        <RyukyokuWindow boardStatus={boardStatus} allPai={allPai} bakaze={bakaze} yama={yama} kyoku={kyoku} hon={hon} reach={reach} gameMap={gameMap} />
       }
     </div>
   </>

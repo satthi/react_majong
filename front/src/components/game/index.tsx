@@ -25,12 +25,13 @@ interface GetElementProp {
   setExecUser: React.Dispatch<React.SetStateAction<string>>
   ownAuto: boolean
   agariDisplay: boolean
+  ryukyokuDisplay: boolean
   gameMap: GameMapProp
   setGameMap: React.Dispatch<React.SetStateAction<GameMapProp>>
 }
 
-const GetElement = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay, gameMap, setGameMap }: GetElementProp): JSX.Element => {
-  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} gameMap={gameMap} setGameMap={setGameMap} />
+const GetElement = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay, ryukyokuDisplay, gameMap, setGameMap }: GetElementProp): JSX.Element => {
+  return <Board allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} ryukyokuDisplay={ryukyokuDisplay} gameMap={gameMap} setGameMap={setGameMap} />
 }
 
 export const Game = ({ ownAuto, gameMap, setGameMap }: GameProp): JSX.Element => {
@@ -211,7 +212,9 @@ export const Game = ({ ownAuto, gameMap, setGameMap }: GameProp): JSX.Element =>
 
   const [agariDisplay, setAgariDisplay] = useState(false)
 
-  const [boardElement, setBoardElement] = useState(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} gameMap={gameMap} setGameMap={setGameMap} />)
+  const [ryukyokuDisplay, setRyukyokuDisplay] = useState(false)
+
+  const [boardElement, setBoardElement] = useState(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} ryukyokuDisplay={ryukyokuDisplay} gameMap={gameMap} setGameMap={setGameMap} />)
   // initial時の処理
   // 下記の自動イベントはステータスが変更されたときだけ
 
@@ -219,8 +222,8 @@ export const Game = ({ ownAuto, gameMap, setGameMap }: GameProp): JSX.Element =>
   const allPaiJson = JSON.stringify(allPai)
   const yamaJson = JSON.stringify(yama)
   useEffect(() => {
-    setBoardElement(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} gameMap={gameMap} setGameMap={setGameMap} />)
-  }, [allPai, setAllPai, boardStatus, setBoardStatus, yama, bakaze, kyoku, hon, reach, setYama, setExecUser, ownAuto, setBoardElement, agariDisplay, allPaiJson, yamaJson, gameMap, setGameMap])
+    setBoardElement(<GetElement allPai={allPai} setAllPai={setAllPai} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} bakaze={bakaze} kyoku={kyoku} hon={hon} reach={reach} setYama={setYama} setExecUser={setExecUser} ownAuto={ownAuto} agariDisplay={agariDisplay} ryukyokuDisplay={ryukyokuDisplay} gameMap={gameMap} setGameMap={setGameMap} />)
+  }, [allPai, setAllPai, boardStatus, setBoardStatus, yama, bakaze, kyoku, hon, reach, setYama, setExecUser, ownAuto, setBoardElement, agariDisplay, ryukyokuDisplay, allPaiJson, yamaJson, gameMap, setGameMap])
 
   if (checkBoardStatus !== boardStatus) {
     setCheckBoardStatus(boardStatus)
@@ -235,6 +238,12 @@ export const Game = ({ ownAuto, gameMap, setGameMap }: GameProp): JSX.Element =>
     if (boardStatus.match(/^agari_/) !== null) {
       setTimeout(() => {
         setAgariDisplay(true)
+      }, 2000)
+    }
+    console.log(boardStatus)
+    if (boardStatus === 'ryukyoku') {
+      setTimeout(() => {
+        setRyukyokuDisplay(true)
       }, 2000)
     }
   }
