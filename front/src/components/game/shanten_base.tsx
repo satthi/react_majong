@@ -416,8 +416,10 @@ export const shantenMentsu = (allPaiInfo: AllPaiProp, paiInfo: PaiProp, yama: st
 
     let shantenCount = 8 - (mentsu + paiInfo.naki.length) * 2 - toitsu - tatsu
     // メンツとターツの組み合わせが5セットあって対子がない時は1シャンテンプラス
-    if ((mentsu + paiInfo.naki.length + tatsu) === 5) {
-      shantenCount += 1
+
+    const amariToitsu = toitsu === 0 ? 0 : (toitsu - 1)
+    if ((mentsu + paiInfo.naki.length + tatsu + amariToitsu) >= 5) {
+      shantenCount += (mentsu + paiInfo.naki.length + tatsu + amariToitsu - 4)
     }
 
     // 七対子の判定を
