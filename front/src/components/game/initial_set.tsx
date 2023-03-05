@@ -1,3 +1,4 @@
+import { getUserTurn } from '../board/common/next_user'
 import { getInitialYama } from '../board/hai/hai_info'
 import type { AllPaiProp, GameMapProp, UserProp } from '../board/type'
 import { shantenCheck } from './shanten_check'
@@ -170,7 +171,7 @@ export const initialSet = (setAllPai: React.Dispatch<React.SetStateAction<AllPai
 
   // とりあえず4枚ずつ配布
   for (let i = 1; i <= 3; i += 1) {
-    (Object.keys(initialSortPai) as UserProp[]).forEach((user) => {
+    getUserTurn(gameMap.oya).forEach((user) => {
       // 4マイずつ配布
       const catYama = newYama.splice(0, 4)
 
@@ -183,7 +184,7 @@ export const initialSet = (setAllPai: React.Dispatch<React.SetStateAction<AllPai
   setRyukyokuDisplay(false);
 
   // 1枚ずつ配布
-  (Object.keys(initialSortPai) as UserProp[]).forEach((user) => {
+  getUserTurn(gameMap.oya).forEach((user) => {
     const catYama = newYama.splice(0, 1)
 
     // 1枚もらってから配列をソート
@@ -196,6 +197,6 @@ export const initialSet = (setAllPai: React.Dispatch<React.SetStateAction<AllPai
 
   setTimeout(() => {
     setIsInitialExec(true)
-    setBoardStatus('turn_' + Object.keys(initialSortPai)[0] + '_1')
+    setBoardStatus('turn_' + gameMap.oya + '_1')
   }, 500)
 }

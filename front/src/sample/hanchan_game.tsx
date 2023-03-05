@@ -14,7 +14,7 @@ export const HanchanGame = (): JSX.Element => {
     kyoku: 1,
     hon: 0,
     reach: 0,
-    oya: 'own',
+    oya: 'player1',
     ownAuto: true
   }
 

@@ -11,3 +11,35 @@ export const getNextUser = (user: UserProp): UserProp => {
     return 'own'
   }
 }
+
+export const getUserTurn = (oya: UserProp): UserProp[] => {
+  if (oya === 'own') {
+    return [
+      'own',
+      'player1',
+      'player2',
+      'player3'
+    ]
+  } else if (oya === 'player1') {
+    return [
+      'player1',
+      'player2',
+      'player3',
+      'own'
+    ]
+  } else if (oya === 'player2') {
+    return [
+      'player2',
+      'player3',
+      'own',
+      'player1'
+    ]
+  } else {
+    return [
+      'player3',
+      'own',
+      'player1',
+      'player2'
+    ]
+  }
+}
