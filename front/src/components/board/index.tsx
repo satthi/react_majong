@@ -502,10 +502,10 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           {/* 点数表示フィールド */}
           <div className={`${style.nameField} ${style.player3NameField}`}>
             <div className={style.name}>
-              {allPai.player2.jikaze === 1 && <>[東]</>}
-              {allPai.player2.jikaze === 2 && <>[南]</>}
-              {allPai.player2.jikaze === 3 && <>[西]</>}
-              {allPai.player2.jikaze === 4 && <>[北]</>}
+              {allPai.player3.jikaze === 1 && <>[東]</>}
+              {allPai.player3.jikaze === 2 && <>[南]</>}
+              {allPai.player3.jikaze === 3 && <>[西]</>}
+              {allPai.player3.jikaze === 4 && <>[北]</>}
               player3
             </div>
             <div className={style.tensu}>{gameMap.tensu.player3}</div>

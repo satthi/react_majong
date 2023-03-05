@@ -128,10 +128,9 @@ const getAgariInfo = (boardStatus: string, allPai: AllPaiProp, bakaze: number, y
 }
 
 const getYakuInfo = (allPai: AllPaiProp, agariUser: UserProp, yama: string[], bakaze: number, agariStatus: string, hon: number): GetYakuInfoProp => {
-  const agariPaiInfo = allPai[agariUser]
+  const agariPaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[agariUser]))
   const checkHaiInfo: PaiProp = JSON.parse(JSON.stringify(allPai[agariUser]))
   const agariHai = checkHaiInfo.base.splice(checkHaiInfo.base.length - 1, 1)
-
   const shantenInfoMentsu = shantenBase(allPai, checkHaiInfo, yama, bakaze, checkHaiInfo.jikaze)
 
   let agariInfo: TensuInfoProp = {
@@ -293,7 +292,6 @@ const execNextGame = (agariInfo: DisplayAgariReturnProp, gameMap: GameMapProp, s
       }
     }
   }
-  console.log('BBB')
 
   // リーチ棒はなくす
   gameMap.reach = 0

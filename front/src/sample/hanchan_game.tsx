@@ -8,7 +8,7 @@ export const HanchanGame = (): JSX.Element => {
       own: 25000,
       player1: 25000,
       player2: 25000,
-      player3: 24000
+      player3: 25000
     },
     bakaze: 1,
     kyoku: 1,

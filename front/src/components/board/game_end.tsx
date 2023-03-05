@@ -60,7 +60,6 @@ export const GameEnd = ({ gameMap }: GameEndProp): JSX.Element => {
     }
     return (a.point < b.point) ? 1 : -1
   })
-  console.log(pointData)
 
   return <div className={style.agari_window}>
     <>

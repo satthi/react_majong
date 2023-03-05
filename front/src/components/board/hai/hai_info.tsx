@@ -624,10 +624,10 @@ export const getInitialYama = (): string[] => {
   const yama = haiList.concat(haiList).concat(haiList).concat(haiList)
 
   // ランダムにして山にする
-  return shuffle(yama)
+  // return shuffle(yama)
   // チート
-  // yama[0] = 'hai_2_1'
-  // yama[1] = 'hai_2_2'
+  yama[0] = 'hai_4_6'
+  yama[1] = 'hai_3_3'
   // yama[2] = 'hai_2_3'
   // yama[3] = 'hai_2_4'
   // yama[16] = 'hai_2_5'
@@ -659,20 +659,20 @@ export const getInitialYama = (): string[] => {
   // // yama[53] = 'hai_4_2'
   // yama[130] = 'hai_1_7'
 
-  // // yama[4] = 'hai_4_1'
-  // // yama[5] = 'hai_4_1'
-  // // yama[6] = 'hai_1_1'
-  // // yama[7] = 'hai_1_2'
-  // // yama[20] = 'hai_1_3'
-  // // yama[21] = 'hai_2_1'
-  // // yama[22] = 'hai_2_2'
-  // // yama[23] = 'hai_2_3'
-  // // yama[36] = 'hai_3_1'
-  // // yama[37] = 'hai_3_2'
-  // // yama[38] = 'hai_3_6'
-  // // yama[39] = 'hai_3_6'
-  // // yama[49] = 'hai_4_5'
-  // // // yama[53] = 'hai_4_1'
+  yama[4] = 'hai_4_6'
+  yama[5] = 'hai_4_6'
+  yama[6] = 'hai_1_1'
+  yama[7] = 'hai_1_2'
+  yama[20] = 'hai_1_3'
+  yama[21] = 'hai_2_1'
+  yama[22] = 'hai_2_2'
+  yama[23] = 'hai_2_3'
+  yama[36] = 'hai_3_1'
+  yama[37] = 'hai_3_2'
+  yama[38] = 'hai_3_6'
+  yama[39] = 'hai_3_6'
+  yama[49] = 'hai_4_5'
+  // yama[53] = 'hai_4_1'
   // // yama[56] = 'hai_4_1'
 
   // // yama[8] = 'hai_1_1'
@@ -709,7 +709,7 @@ export const getInitialYama = (): string[] => {
 
   // // yama[130] = 'hai_1_8'
 
-  // return yama
+  return yama
 }
 
 // @todo: チート未起動時は不要にはなる
