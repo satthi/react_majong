@@ -1,4 +1,4 @@
-import type { AllPaiProp, HaiCountInfoProp, HaiInfoProp, MachiInfoProp, PaiProp, ShantenBaseInfo, ShantenInfoProp } from '../board/type'
+import type { AllPaiProp, HaiCountInfoProp, HaiInfoProp, MachiInfoProp, PaiProp, ShantenBaseInfo, ShantenGroupInfoProp, ShantenInfoProp } from '../board/type'
 import { fuyakuCalc } from './calc/fuyaku_calc'
 import { isMemzen } from './detection/is_menzen'
 
@@ -267,54 +267,287 @@ export const shantenMentsu = (allPaiInfo: AllPaiProp, paiInfo: PaiProp, yama: st
     machi: []
   }
 
-  // 対子の可能性を取得(対子なしも含めて)
-  const shantenCheck1: ShantenBaseInfo[] = []
-  haiCountInfo.forEach((h, k) => {
-    if (h.count >= 2) {
-      // 対子を除いたデータ
-      const copyhaiCountInfo: HaiCountInfoProp[] = JSON.parse(JSON.stringify(haiCountInfo))
-      copyhaiCountInfo[k].count = copyhaiCountInfo[k].count - 2
+  // メンツパターンの調整
+  // 牌の種類ごとにグルーピング/字牌は暗刻・対子で固定する
+  const manzuGroup: ShantenGroupInfoProp = {
+    remainHaiCountInfo: [
+      {
+        hai: 'hai_1_1',
+        type: 1,
+        num: 1,
+        count: 0
+      },
+      {
+        hai: 'hai_1_2',
+        type: 1,
+        num: 2,
+        count: 0
+      },
+      {
+        hai: 'hai_1_3',
+        type: 1,
+        num: 3,
+        count: 0
+      },
+      {
+        hai: 'hai_1_4',
+        type: 1,
+        num: 4,
+        count: 0
+      },
+      {
+        hai: 'hai_1_5',
+        type: 1,
+        num: 5,
+        count: 0
+      },
+      {
+        hai: 'hai_1_6',
+        type: 1,
+        num: 6,
+        count: 0
+      },
+      {
+        hai: 'hai_1_7',
+        type: 1,
+        num: 7,
+        count: 0
+      },
+      {
+        hai: 'hai_1_8',
+        type: 1,
+        num: 8,
+        count: 0
+      },
+      {
+        hai: 'hai_1_9',
+        type: 1,
+        num: 9,
+        count: 0
+      }
+    ],
+    mentsu: [],
+    toitsu: [],
+    tatsu: []
+  }
 
-      // 対子データの作成
-      const toitsuInfo: HaiInfoProp[] = [
-        {
-          hai: h.hai,
-          type: h.type,
-          num: h.num
-        },
-        {
-          hai: h.hai,
-          type: h.type,
-          num: h.num
-        }
-      ]
+  const pinzuGroup: ShantenGroupInfoProp = {
+    remainHaiCountInfo: [
+      {
+        hai: 'hai_2_1',
+        type: 2,
+        num: 1,
+        count: 0
+      },
+      {
+        hai: 'hai_2_2',
+        type: 2,
+        num: 2,
+        count: 0
+      },
+      {
+        hai: 'hai_2_3',
+        type: 2,
+        num: 3,
+        count: 0
+      },
+      {
+        hai: 'hai_2_4',
+        type: 2,
+        num: 4,
+        count: 0
+      },
+      {
+        hai: 'hai_2_5',
+        type: 2,
+        num: 5,
+        count: 0
+      },
+      {
+        hai: 'hai_2_6',
+        type: 2,
+        num: 6,
+        count: 0
+      },
+      {
+        hai: 'hai_2_7',
+        type: 2,
+        num: 7,
+        count: 0
+      },
+      {
+        hai: 'hai_2_8',
+        type: 2,
+        num: 8,
+        count: 0
+      },
+      {
+        hai: 'hai_2_9',
+        type: 2,
+        num: 9,
+        count: 0
+      }
+    ],
+    mentsu: [],
+    toitsu: [],
+    tatsu: []
+  }
 
-      const shantenStartToitsu: ShantenBaseInfo = JSON.parse(JSON.stringify(shantenBaseInfo))
-      shantenStartToitsu.remainHaiCountInfo = copyhaiCountInfo
-      shantenStartToitsu.toitsu.push(toitsuInfo)
-
-      // セット
-      shantenCheck1.push(shantenStartToitsu)
+  const sozuGroup: ShantenGroupInfoProp = {
+    remainHaiCountInfo: [
+      {
+        hai: 'hai_3_1',
+        type: 3,
+        num: 1,
+        count: 0
+      },
+      {
+        hai: 'hai_3_2',
+        type: 3,
+        num: 2,
+        count: 0
+      },
+      {
+        hai: 'hai_3_3',
+        type: 3,
+        num: 3,
+        count: 0
+      },
+      {
+        hai: 'hai_3_4',
+        type: 3,
+        num: 4,
+        count: 0
+      },
+      {
+        hai: 'hai_3_5',
+        type: 3,
+        num: 5,
+        count: 0
+      },
+      {
+        hai: 'hai_3_6',
+        type: 3,
+        num: 6,
+        count: 0
+      },
+      {
+        hai: 'hai_3_7',
+        type: 3,
+        num: 7,
+        count: 0
+      },
+      {
+        hai: 'hai_3_8',
+        type: 3,
+        num: 8,
+        count: 0
+      },
+      {
+        hai: 'hai_3_9',
+        type: 3,
+        num: 9,
+        count: 0
+      }
+    ],
+    mentsu: [],
+    toitsu: [],
+    tatsu: []
+  }
+  shantenBaseInfo.remainHaiCountInfo.forEach((r) => {
+    if (r.type === 1) {
+      const remainInfo = manzuGroup.remainHaiCountInfo.find((m) => m.num === r.num)
+      if (typeof remainInfo !== 'undefined') {
+        remainInfo.count = r.count
+      }
+    }
+    if (r.type === 2) {
+      const remainInfo = pinzuGroup.remainHaiCountInfo.find((m) => m.num === r.num)
+      if (typeof remainInfo !== 'undefined') {
+        remainInfo.count = r.count
+      }
+    }
+    if (r.type === 3) {
+      const remainInfo = sozuGroup.remainHaiCountInfo.find((m) => m.num === r.num)
+      if (typeof remainInfo !== 'undefined') {
+        remainInfo.count = r.count
+      }
+    }
+    if (r.type === 4) {
+      if (r.count >= 3) {
+        // 暗刻データの作成
+        shantenBaseInfo.mentsu.push([
+          {
+            hai: r.hai,
+            type: r.type,
+            num: r.num
+          },
+          {
+            hai: r.hai,
+            type: r.type,
+            num: r.num
+          },
+          {
+            hai: r.hai,
+            type: r.type,
+            num: r.num
+          }
+        ])
+        r.count -= 3
+      } else if (r.count === 2) {
+        // 暗刻データの作成
+        shantenBaseInfo.toitsu.push([
+          {
+            hai: r.hai,
+            type: r.type,
+            num: r.num
+          },
+          {
+            hai: r.hai,
+            type: r.type,
+            num: r.num
+          }
+        ])
+        r.count -= 2
+      }
     }
   })
-  // 対子がないパターンのセット
-  const shantenNotoitsu: ShantenBaseInfo = JSON.parse(JSON.stringify(shantenBaseInfo))
-  shantenCheck1.push(shantenNotoitsu)
 
-  // ここからメンツがなくなるまでチェックするよー(max4回)
-  const shantenCheck2 = mentsuBunseki(shantenCheck1)
-  const shantenCheck3 = mentsuBunseki(shantenCheck2)
-  const shantenCheck4 = mentsuBunseki(shantenCheck3)
-  const shantenCheck5 = mentsuBunseki(shantenCheck4)
+  const manzuGroupBunseki = groupBunseki(manzuGroup, shantenBaseInfo.toitsu.length > 0)
+  const pinzuGroupBunseki = groupBunseki(pinzuGroup, shantenBaseInfo.toitsu.length > 0)
+  const sozuGroupBunseki = groupBunseki(sozuGroup, shantenBaseInfo.toitsu.length > 0)
 
-  // // 対子/ターツのチェック(max 7回)
-  const shantenCheck21 = toitsuTatsuBunseki(shantenCheck5)
-  const shantenCheck22 = toitsuTatsuBunseki(shantenCheck21)
-  const shantenCheck23 = toitsuTatsuBunseki(shantenCheck22)
-  const shantenCheck24 = toitsuTatsuBunseki(shantenCheck23)
-  const shantenCheck25 = toitsuTatsuBunseki(shantenCheck24)
-  const shantenCheck26 = toitsuTatsuBunseki(shantenCheck25)
-  const shantenCheck27 = toitsuTatsuBunseki(shantenCheck26)
+  const shantenCheck27: ShantenBaseInfo[] = []
+  manzuGroupBunseki.forEach((m) => {
+    pinzuGroupBunseki.forEach((p) => {
+      sozuGroupBunseki.forEach((s) => {
+        // マンズ・ピンズ・ソウズの取得グループの設置
+        const copyShantenBaseInfo: ShantenBaseInfo = JSON.parse(JSON.stringify(shantenBaseInfo))
+        copyShantenBaseInfo.mentsu = copyShantenBaseInfo.mentsu.concat(m.mentsu).concat(p.mentsu).concat(s.mentsu)
+        copyShantenBaseInfo.toitsu = copyShantenBaseInfo.toitsu.concat(m.toitsu).concat(p.toitsu).concat(s.toitsu)
+        copyShantenBaseInfo.tatsu = copyShantenBaseInfo.tatsu.concat(m.tatsu).concat(p.tatsu).concat(s.tatsu)
+        m.remainHaiCountInfo.forEach((mr) => {
+          const mrinfo = copyShantenBaseInfo.remainHaiCountInfo.find((r) => r.type === mr.type && r.num === mr.num)
+          if (typeof mrinfo !== 'undefined') {
+            mrinfo.count = mr.count
+          }
+        })
+        p.remainHaiCountInfo.forEach((pr) => {
+          const prinfo = copyShantenBaseInfo.remainHaiCountInfo.find((r) => r.type === pr.type && r.num === pr.num)
+          if (typeof prinfo !== 'undefined') {
+            prinfo.count = pr.count
+          }
+        })
+        s.remainHaiCountInfo.forEach((sr) => {
+          const srinfo = copyShantenBaseInfo.remainHaiCountInfo.find((r) => r.type === sr.type && r.num === sr.num)
+          if (typeof srinfo !== 'undefined') {
+            srinfo.count = sr.count
+          }
+        })
+        shantenCheck27.push(copyShantenBaseInfo)
+      })
+    })
+  })
 
   // 国士セットを別に追加する
   const isMenzenHantei = isMemzen(paiInfo)
@@ -590,8 +823,59 @@ export const shantenMentsu = (allPaiInfo: AllPaiProp, paiInfo: PaiProp, yama: st
   return shantenComplete
 }
 
-const mentsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[] => {
-  const shantenCheck2: ShantenBaseInfo[] = []
+const groupBunseki = (group: ShantenGroupInfoProp, toitsuFlag: boolean): ShantenGroupInfoProp[] => {
+  // 対子の可能性を取得(対子なしも含めて)
+  const shantenCheck1: ShantenGroupInfoProp[] = []
+  if (!toitsuFlag) {
+    group.remainHaiCountInfo.forEach((h, k) => {
+      if (h.count >= 2) {
+        // 対子を除いたデータ
+        const copyGroup: ShantenGroupInfoProp = JSON.parse(JSON.stringify(group))
+        copyGroup.remainHaiCountInfo[k].count = copyGroup.remainHaiCountInfo[k].count - 2
+
+        // 対子データの作成
+        copyGroup.toitsu.push([
+          {
+            hai: h.hai,
+            type: h.type,
+            num: h.num
+          },
+          {
+            hai: h.hai,
+            type: h.type,
+            num: h.num
+          }
+        ])
+
+        // セット
+        shantenCheck1.push(copyGroup)
+      }
+    })
+  }
+
+  const copyGroup: ShantenGroupInfoProp = JSON.parse(JSON.stringify(group))
+  shantenCheck1.push(copyGroup)
+
+  // ここからメンツがなくなるまでチェックするよー(max4回)
+  const shantenCheck2 = mentsuBunseki(shantenCheck1)
+  const shantenCheck3 = mentsuBunseki(shantenCheck2)
+  const shantenCheck4 = mentsuBunseki(shantenCheck3)
+  const shantenCheck5 = mentsuBunseki(shantenCheck4)
+
+  // // 対子/ターツのチェック(max 7回)
+  const shantenCheck21 = toitsuTatsuBunseki(shantenCheck5)
+  const shantenCheck22 = toitsuTatsuBunseki(shantenCheck21)
+  const shantenCheck23 = toitsuTatsuBunseki(shantenCheck22)
+  const shantenCheck24 = toitsuTatsuBunseki(shantenCheck23)
+  const shantenCheck25 = toitsuTatsuBunseki(shantenCheck24)
+  const shantenCheck26 = toitsuTatsuBunseki(shantenCheck25)
+  const shantenCheck27 = toitsuTatsuBunseki(shantenCheck26)
+
+  return shantenCheck27
+}
+
+const mentsuBunseki = (shantenCheck1: ShantenGroupInfoProp[]): ShantenGroupInfoProp[] => {
+  const shantenCheck2: ShantenGroupInfoProp[] = []
   shantenCheck1.forEach((c, k) => {
     let mentsuNone = true
     c.remainHaiCountInfo.forEach((c2, k2) => {
@@ -621,7 +905,7 @@ const mentsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[] => {
           }
         ]
 
-        const shantenAnko: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
+        const shantenAnko: ShantenGroupInfoProp = JSON.parse(JSON.stringify(c))
         shantenAnko.remainHaiCountInfo = copyhaiCountInfoAnko
         shantenAnko.mentsu.push(ankoInfo)
 
@@ -666,7 +950,7 @@ const mentsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[] => {
           }
         ]
 
-        const shantenShuntsu: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
+        const shantenShuntsu: ShantenGroupInfoProp = JSON.parse(JSON.stringify(c))
         shantenShuntsu.remainHaiCountInfo = copyhaiCountInfoShuntsu
         shantenShuntsu.mentsu.push(shuntsuInfo)
 
@@ -676,7 +960,7 @@ const mentsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[] => {
     })
     // メンツがない時はそのままセットする
     if (mentsuNone) {
-      const shantenSonomama: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
+      const shantenSonomama: ShantenGroupInfoProp = JSON.parse(JSON.stringify(c))
       shantenCheck2.push(shantenSonomama)
     }
   })
@@ -684,8 +968,8 @@ const mentsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[] => {
   return shantenCheck2
 }
 
-const toitsuTatsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[] => {
-  const shantenCheck2: ShantenBaseInfo[] = []
+const toitsuTatsuBunseki = (shantenCheck1: ShantenGroupInfoProp[]): ShantenGroupInfoProp[] => {
+  const shantenCheck2: ShantenGroupInfoProp[] = []
   shantenCheck1.forEach((c, k) => {
     let mentsuNone = true
     c.remainHaiCountInfo.forEach((c2, k2) => {
@@ -710,7 +994,7 @@ const toitsuTatsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[]
           }
         ]
 
-        const shantenToitsu: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
+        const shantenToitsu: ShantenGroupInfoProp = JSON.parse(JSON.stringify(c))
         shantenToitsu.remainHaiCountInfo = copyhaiCountInfoToitsu
         shantenToitsu.toitsu.push(toitsuInfo)
 
@@ -746,7 +1030,7 @@ const toitsuTatsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[]
           }
         ]
 
-        const shantenTatsu1: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
+        const shantenTatsu1: ShantenGroupInfoProp = JSON.parse(JSON.stringify(c))
         shantenTatsu1.remainHaiCountInfo = copyhaiCountInfoTatsu1
         shantenTatsu1.tatsu.push(tatsu1Info)
 
@@ -781,7 +1065,7 @@ const toitsuTatsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[]
           }
         ]
 
-        const shantenTatsu2: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
+        const shantenTatsu2: ShantenGroupInfoProp = JSON.parse(JSON.stringify(c))
         shantenTatsu2.remainHaiCountInfo = copyhaiCountInfoTatsu2
         shantenTatsu2.tatsu.push(tatsu2Info)
 
@@ -792,7 +1076,7 @@ const toitsuTatsuBunseki = (shantenCheck1: ShantenBaseInfo[]): ShantenBaseInfo[]
 
     // メンツがない時はそのままセットする
     if (mentsuNone) {
-      const shantenSonomama: ShantenBaseInfo = JSON.parse(JSON.stringify(c))
+      const shantenSonomama: ShantenGroupInfoProp = JSON.parse(JSON.stringify(c))
       shantenCheck2.push(shantenSonomama)
     }
   })
