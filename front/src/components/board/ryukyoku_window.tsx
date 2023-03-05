@@ -80,8 +80,11 @@ const execNextGame = (allPai: AllPaiProp, tensuMoveInfo: TensuMoveProp, gameMap:
     } else {
       if (gameMap.bakaze === 2) {
         // 南場の場合は終わる
+        // 南場の場合は終わる
+        setGameMap(gameMap)
         setGameEndDisplay(true)
         setBoardStatus('end')
+        return
       } else {
         gameMap.bakaze += 1
         gameMap.kyoku = 1

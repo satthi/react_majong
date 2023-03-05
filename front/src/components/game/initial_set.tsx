@@ -181,7 +181,7 @@ export const initialSet = (setAllPai: React.Dispatch<React.SetStateAction<AllPai
 
   setExecUser('')
   setAgariDisplay(false)
-  setRyukyokuDisplay(false);
+  setRyukyokuDisplay(false)
 
   // 1枚ずつ配布
   getUserTurn(gameMap.oya).forEach((user) => {

@@ -268,6 +268,8 @@ const execNextGame = (agariInfo: DisplayAgariReturnProp, gameMap: GameMapProp, s
         (agariInfo.user === 'player2' || gameMap.tensu[agariInfo.user] > gameMap.tensu.player2) &&
         (agariInfo.user === 'player3' || gameMap.tensu[agariInfo.user] > gameMap.tensu.player3)
       ) {
+        // 南場の場合は終わる
+        setGameMap(gameMap)
         setGameEndDisplay(true)
         setBoardStatus('end')
         return
@@ -283,8 +285,10 @@ const execNextGame = (agariInfo: DisplayAgariReturnProp, gameMap: GameMapProp, s
     } else {
       if (gameMap.bakaze === 2) {
         // 南場の場合は終わる
+        setGameMap(gameMap)
         setGameEndDisplay(true)
         setBoardStatus('end')
+        return
       } else {
         gameMap.bakaze += 1
         gameMap.kyoku = 1
