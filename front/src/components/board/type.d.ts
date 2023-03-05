@@ -182,4 +182,5 @@ export type GameMapProp = {
   hon: number
   reach: number
   oya: UserProp
+  ownAuto: boolean
 }

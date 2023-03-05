@@ -2,18 +2,18 @@ import { useState } from 'react'
 import type { GameMapProp } from '../components/board/type'
 import { Game } from '../components/game'
 
-export const SingleGame = (): JSX.Element => {
+export const HanchanGame = (): JSX.Element => {
   const initialGameMapInfo: GameMapProp = {
     tensu: {
-      own: 27000,
-      player1: 24000,
+      own: 25000,
+      player1: 25000,
       player2: 25000,
       player3: 24000
     },
     bakaze: 1,
     kyoku: 1,
-    hon: 1,
-    reach: 1,
+    hon: 0,
+    reach: 0,
     oya: 'own',
     ownAuto: true
   }

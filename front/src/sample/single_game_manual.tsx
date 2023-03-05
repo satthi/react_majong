@@ -10,14 +10,15 @@ export const SingleGameManual = (): JSX.Element => {
       player2: 25000,
       player3: 24000
     },
-    bakaze: 1,
-    kyoku: 1,
+    bakaze: 2,
+    kyoku: 4,
     hon: 1,
     reach: 1,
-    oya: 'own'
+    oya: 'own',
+    ownAuto: false
   }
 
   const [gameMap, setGameMap] = useState(initialGameMapInfo)
 
-  return <Game ownAuto={false} gameMap={gameMap} setGameMap={setGameMap} />
+  return <Game gameMap={gameMap} setGameMap={setGameMap} />
 }

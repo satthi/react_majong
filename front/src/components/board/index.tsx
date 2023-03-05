@@ -24,6 +24,7 @@ import { getHaiSrc } from './hai/hai_info'
 import { AgariWindow } from './agari_window'
 import { isAgari, isRonAgari, isTsumoAgari } from '../game/detection/is_agari'
 import { RyukyokuWindow } from './ryukyoku_window'
+import { GameEnd } from './game_end'
 
 interface BoardProp {
   allPai: AllPaiProp
@@ -42,6 +43,7 @@ interface BoardProp {
   ryukyokuDisplay: boolean
   gameMap: GameMapProp
   setGameMap: React.Dispatch<React.SetStateAction<GameMapProp>>
+  setIsInitialExec: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const execHaiOpen = (haiOpen: boolean, setHaiOpen: React.Dispatch<React.SetStateAction<boolean>>): void => {
@@ -291,13 +293,15 @@ const execOwnCancel = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.SetSt
   execNaki(allPai, setAllPai, nakiUser, boardStatus, setBoardStatus, yama, setYama, suteruhai, bakaze, setExecUser, ownAuto, gameMap, setGameMap)
 }
 
-export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay, ryukyokuDisplay, gameMap, setGameMap }: BoardProp): JSX.Element => {
+export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, setYama, bakaze, kyoku, hon, reach, setExecUser, ownAuto, agariDisplay, ryukyokuDisplay, gameMap, setGameMap, setIsInitialExec }: BoardProp): JSX.Element => {
   const ownPai = allPai.own
   const player1Pai = allPai.player1
   const player2Pai = allPai.player2
   const player3Pai = allPai.player3
   const [haiOpen, setHaiOpen] = useState(false)
   const [reachMode, setReachMode] = useState(false)
+  const [gameEndDisplay, setGameEndDisplay] = useState(false)
+
   // 表示
   return <>
     <div className={style.boardBase}>
@@ -306,7 +310,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
           {/* 自陣 */}
           {!isAgari(boardStatus, 'own') && (boardStatus !== 'ryukyoku' || allPai.own.shantenInfo.shanten !== 0)
             ? <div className={style.ownPaiBaseField}>
-              <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} reachMode={reachMode} setReachMode={setReachMode} bakaze={bakaze} setYama={setYama} setExecUser={setExecUser} gameMap={gameMap} setGameMap={setGameMap} />
+              <OwnBaseHai allPai={allPai} setAllPai={setAllPai} base={ownPai.base} boardStatus={boardStatus} setBoardStatus={setBoardStatus} yama={yama} shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} reachMode={reachMode} setReachMode={setReachMode} bakaze={gameMap.bakaze} setYama={setYama} setExecUser={setExecUser} gameMap={gameMap} setGameMap={setGameMap} />
             </div>
             : <div className={style.ownPaiBaseField}>
             <BaseHaiOpen base={ownPai.base} shanten={ownPai.shantenInfo.shanten} machi={ownPai.shantenInfo.machi} />
@@ -344,7 +348,13 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
 
           {/* 点数表示フィールド */}
           <div className={`${style.nameField} ${style.ownNameField}`}>
-            <div className={style.name}>own</div>
+            <div className={style.name}>
+              {allPai.own.jikaze === 1 && <>[東]</>}
+              {allPai.own.jikaze === 2 && <>[南]</>}
+              {allPai.own.jikaze === 3 && <>[西]</>}
+              {allPai.own.jikaze === 4 && <>[北]</>}
+              own
+            </div>
             <div className={style.tensu}>{gameMap.tensu.own}</div>
           </div>
 
@@ -389,7 +399,13 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
 
           {/* 点数表示フィールド */}
           <div className={`${style.nameField} ${style.player1NameField}`}>
-            <div className={style.name}>player1</div>
+            <div className={style.name}>
+              {allPai.player1.jikaze === 1 && <>[東]</>}
+              {allPai.player1.jikaze === 2 && <>[南]</>}
+              {allPai.player1.jikaze === 3 && <>[西]</>}
+              {allPai.player1.jikaze === 4 && <>[北]</>}
+              player1
+            </div>
             <div className={style.tensu}>{gameMap.tensu.player1}</div>
           </div>
 
@@ -423,7 +439,13 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
 
           {/* 点数表示フィールド */}
           <div className={`${style.nameField} ${style.player2NameField}`}>
-            <div className={style.name}>player2</div>
+            <div className={style.name}>
+              {allPai.player2.jikaze === 1 && <>[東]</>}
+              {allPai.player2.jikaze === 2 && <>[南]</>}
+              {allPai.player2.jikaze === 3 && <>[西]</>}
+              {allPai.player2.jikaze === 4 && <>[北]</>}
+              player2
+            </div>
             <div className={style.tensu}>{gameMap.tensu.player2}</div>
           </div>
 
@@ -479,16 +501,22 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
 
           {/* 点数表示フィールド */}
           <div className={`${style.nameField} ${style.player3NameField}`}>
-            <div className={style.name}>player3</div>
+            <div className={style.name}>
+              {allPai.player2.jikaze === 1 && <>[東]</>}
+              {allPai.player2.jikaze === 2 && <>[南]</>}
+              {allPai.player2.jikaze === 3 && <>[西]</>}
+              {allPai.player2.jikaze === 4 && <>[北]</>}
+              player3
+            </div>
             <div className={style.tensu}>{gameMap.tensu.player3}</div>
           </div>
 
           <div className={style.info}>
             <div>
-              {bakaze === 1 && '東'}
-              {bakaze === 2 && '南'}
-              {bakaze === 3 && '西'}
-              {bakaze === 4 && '北'}
+              {gameMap.bakaze === 1 && '東'}
+              {gameMap.bakaze === 2 && '南'}
+              {gameMap.bakaze === 3 && '西'}
+              {gameMap.bakaze === 4 && '北'}
               {kyoku === 1 && '一'}
               {kyoku === 2 && '二'}
               {kyoku === 3 && '三'}
@@ -631,10 +659,13 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
         </tbody>
       </table>
       {agariDisplay &&
-        <AgariWindow boardStatus={boardStatus} allPai={allPai} bakaze={bakaze} yama={yama} kyoku={kyoku} hon={hon} reach={reach} gameMap={gameMap} />
+        <AgariWindow boardStatus={boardStatus} setBoardStatus={setBoardStatus} allPai={allPai} bakaze={bakaze} yama={yama} kyoku={kyoku} hon={hon} reach={reach} gameMap={gameMap} setGameMap={setGameMap} setIsInitialExec={setIsInitialExec} setGameEndDisplay={setGameEndDisplay} />
       }
       {ryukyokuDisplay &&
-        <RyukyokuWindow boardStatus={boardStatus} allPai={allPai} bakaze={bakaze} yama={yama} kyoku={kyoku} hon={hon} reach={reach} gameMap={gameMap} />
+        <RyukyokuWindow allPai={allPai} bakaze={bakaze} yama={yama} kyoku={kyoku} hon={hon} reach={reach} gameMap={gameMap} setBoardStatus={setBoardStatus} setGameMap={setGameMap} setIsInitialExec={setIsInitialExec} setGameEndDisplay={setGameEndDisplay} />
+      }
+      {gameEndDisplay &&
+        <GameEnd gameMap={gameMap} />
       }
     </div>
   </>

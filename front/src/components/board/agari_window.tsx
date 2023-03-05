@@ -10,9 +10,11 @@ import { DoraNormal } from './common/dora_normal'
 import { tensuKeisan, tensuTotal } from '../game/calc/tensu_keisan'
 import b_1_2 from './parts/b_1_2.gif'
 import b_8_2 from './parts/b_8_2.gif'
+import { getNextUser } from './common/next_user'
 
 interface AgariWindowProp {
   boardStatus: string
+  setBoardStatus: React.Dispatch<React.SetStateAction<string>>
   allPai: AllPaiProp
   bakaze: number
   yama: string[]
@@ -20,6 +22,9 @@ interface AgariWindowProp {
   hon: number
   reach: number
   gameMap: GameMapProp
+  setGameMap: React.Dispatch<React.SetStateAction<GameMapProp>>
+  setIsInitialExec: React.Dispatch<React.SetStateAction<boolean>>
+  setGameEndDisplay: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface DisplayAgariReturnProp {
@@ -247,7 +252,59 @@ const getYakuInfo = (allPai: AllPaiProp, agariUser: UserProp, yama: string[], ba
   }
 }
 
-export const AgariWindow = ({ boardStatus, allPai, bakaze, yama, kyoku, hon, reach, gameMap }: AgariWindowProp): JSX.Element => {
+const execNextGame = (agariInfo: DisplayAgariReturnProp, gameMap: GameMapProp, setGameMap: React.Dispatch<React.SetStateAction<GameMapProp>>, setBoardStatus: React.Dispatch<React.SetStateAction<string>>, setIsInitialExec: React.Dispatch<React.SetStateAction<boolean>>, setGameEndDisplay: React.Dispatch<React.SetStateAction<boolean>>): void => {
+  // 点数の調整
+  gameMap.tensu.own = gameMap.tensu.own + agariInfo.tensuMove.own
+  gameMap.tensu.player1 = gameMap.tensu.player1 + agariInfo.tensuMove.player1
+  gameMap.tensu.player2 = gameMap.tensu.player2 + agariInfo.tensuMove.player2
+  gameMap.tensu.player3 = gameMap.tensu.player3 + agariInfo.tensuMove.player3
+
+  // 本場については親が上がったときは増やす
+  if (agariInfo.user === gameMap.oya) {
+    if (gameMap.bakaze === 2 && gameMap.kyoku === 4) {
+      // 上がりやめ判定
+      if (
+        (agariInfo.user === 'own' || gameMap.tensu[agariInfo.user] > gameMap.tensu.own) &&
+        (agariInfo.user === 'player1' || gameMap.tensu[agariInfo.user] > gameMap.tensu.player1) &&
+        (agariInfo.user === 'player2' || gameMap.tensu[agariInfo.user] > gameMap.tensu.player2) &&
+        (agariInfo.user === 'player3' || gameMap.tensu[agariInfo.user] > gameMap.tensu.player3)
+      ) {
+        setGameEndDisplay(true)
+        setBoardStatus('end')
+        return
+      }
+    }
+    gameMap.hon += 1
+  } else {
+    // 子については本場をなくして次の局に
+    gameMap.hon = 0
+    if (gameMap.kyoku !== 4) {
+      gameMap.kyoku += 1
+      gameMap.oya = getNextUser(gameMap.oya)
+    } else {
+      if (gameMap.bakaze === 2) {
+        // 南場の場合は終わる
+        setGameEndDisplay(true)
+        setBoardStatus('end')
+      } else {
+        gameMap.bakaze += 1
+        gameMap.kyoku = 1
+        gameMap.oya = getNextUser(gameMap.oya)
+      }
+    }
+  }
+  console.log('BBB')
+
+  // リーチ棒はなくす
+  gameMap.reach = 0
+
+  setGameMap(gameMap)
+
+  setIsInitialExec(false)
+  setBoardStatus('initial')
+}
+
+export const AgariWindow = ({ boardStatus, setBoardStatus, allPai, bakaze, yama, kyoku, hon, reach, gameMap, setGameMap, setIsInitialExec, setGameEndDisplay }: AgariWindowProp): JSX.Element => {
   const agariInfo = getAgariInfo(boardStatus, allPai, bakaze, yama, kyoku, hon, reach, gameMap)
   if (typeof agariInfo === 'undefined') {
     return <></>
@@ -296,7 +353,8 @@ export const AgariWindow = ({ boardStatus, allPai, bakaze, yama, kyoku, hon, rea
       <div className={style.fu_han}>{agariInfo.yakuInfo.fuhan}</div>
       <div className={style.tensu}>{agariInfo.yakuInfo.tensu}点</div>
       <div className={style.tensuText}>{agariInfo.yakuInfo.tensuDetail.yakuText}</div>
-      <div className={style.next}>次の局</div>
+      {/* eslint-disable-next-line */}
+      <div className={style.next} onClick={() => execNextGame(agariInfo, gameMap, setGameMap, setBoardStatus, setIsInitialExec, setGameEndDisplay)}>次の局</div>
       {(Object.keys(allPai) as UserProp[]).map((user, userKey) =>
         // eslint-disable-next-line
         <div className={`${style.tensuBox} ${style['tensuBoxPosition' + userKey]}`} key={userKey}>
