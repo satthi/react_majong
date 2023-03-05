@@ -123,6 +123,13 @@ export type ShantenBaseInfo = {
   machi:  MachiInfoProp[]
 }
 
+export type ShantenGroupInfoProp = {
+  remainHaiCountInfo: HaiCountInfoProp[]
+  mentsu: HaiInfoProp[][]
+  toitsu: HaiInfoProp[][]
+  tatsu: HaiInfoProp[][]
+}
+
 export type AllNakiCheckProp = {
   own: NakiCheckProp
   player1: NakiCheckProp
