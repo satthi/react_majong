@@ -43,7 +43,7 @@ export const execNaki = (allPai: AllPaiProp, setAllPai: React.Dispatch<React.Set
   }
 
   userList.forEach((checkUser: UserProp) => {
-    cpuNakiThink(allPai, setAllPai, checkUser, yama, suteruHaiKaiseki, ownAuto, bakaze)
+    cpuNakiThink(gameMap, allPai, setAllPai, checkUser, yama, suteruHaiKaiseki, ownAuto, bakaze)
   })
 
   // 優先順位で判定

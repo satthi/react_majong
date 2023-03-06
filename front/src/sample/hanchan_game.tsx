@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { GameMapProp } from '../components/board/type'
 import { Game } from '../components/game'
+import { Initial } from '../components/game/initial'
 
 export const HanchanGame = (): JSX.Element => {
   const initialGameMapInfo: GameMapProp = {
@@ -9,6 +10,12 @@ export const HanchanGame = (): JSX.Element => {
       player1: 25000,
       player2: 25000,
       player3: 25000
+    },
+    cpuType: {
+      own: 1,
+      player1: 1,
+      player2: 1,
+      player3: 1
     },
     bakaze: 1,
     kyoku: 1,
@@ -19,6 +26,8 @@ export const HanchanGame = (): JSX.Element => {
   }
 
   const [gameMap, setGameMap] = useState(initialGameMapInfo)
+  const [setting, setSetting] = useState(false)
 
-  return <Game gameMap={gameMap} setGameMap={setGameMap} />
+  // eslint-disable-next-line
+  return setting ? <Game gameMap={gameMap} setGameMap={setGameMap} /> : <Initial setting={setting} setSetting={setSetting} gameMap={gameMap} setGameMap={setGameMap} />
 }

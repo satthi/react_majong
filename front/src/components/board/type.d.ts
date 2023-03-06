@@ -182,8 +182,16 @@ type TensuMapProp = {
   player3: number
 }
 
+type CpuTypeProp = {
+  own: number
+  player1: number
+  player2: number
+  player3: number
+}
+
 export type GameMapProp = {
   tensu: TensuMapProp,
+  cpuType: CpuTypeProp,
   bakaze: number
   kyoku: number
   hon: number
