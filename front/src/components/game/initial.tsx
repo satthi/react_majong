@@ -38,9 +38,18 @@ const execStart = (gameMap: GameMapProp, setGameMap: React.Dispatch<React.SetSta
 export const Initial = ({ setting, setSetting, gameMap, setGameMap }: InitialProp): JSX.Element => {
   // @todo: どこかに外だし？
   const cpuTypeMap = [
-    1,
-    2,
-    3
+    {
+      num: 1,
+      detail: 'とりあえずシャンテン数を下げに行く。鳴かない。テンパイ即リーチ。'
+    },
+    {
+      num: 2,
+      detail: '少しいい感じにシャンテン数を下げに行く。鳴かない。テンパイ即リーチ。'
+    },
+    {
+      num: 3,
+      detail: '少しいい感じにシャンテン数を下げに行く。役牌は鳴く。テンパイ即リーチ。'
+    }
   ]
   // 画面を再描画させるための変数
   const [changeCount, setChangeCount] = useState(0)
@@ -60,28 +69,28 @@ export const Initial = ({ setting, setSetting, gameMap, setGameMap }: InitialPro
         <div className={`${style.buttonTitle}`}>own</div>
         {cpuTypeMap.map((cpuType) => {
           // eslint-disable-next-line
-          return <div className={ `${style.button} ${(gameMap.cpuType.own === cpuType && gameMap.ownAuto === true) ? style.buttonOn : style.buttonOff}` } onClick={() => setCpuType(gameMap, setGameMap, 'own', cpuType, changeCount, setChangeCount)}>{cpuType}</div>
+          return <div className={ `${style.button} ${(gameMap.cpuType.own === cpuType.num && gameMap.ownAuto === true) ? style.buttonOn : style.buttonOff}` } title={cpuType.detail} onClick={() => setCpuType(gameMap, setGameMap, 'own', cpuType.num, changeCount, setChangeCount)}>{cpuType.num}</div>
         })}
       </div>
       <div className={style.player1CpuType}>
         <div className={`${style.buttonTitle}`}>player1</div>
         {cpuTypeMap.map((cpuType) => {
           // eslint-disable-next-line
-          return <div className={ `${style.button} ${gameMap.cpuType.player1 === cpuType ? style.buttonOn : style.buttonOff}` } onClick={() => setCpuType(gameMap, setGameMap, 'player1', cpuType, changeCount, setChangeCount)}>{cpuType}</div>
+          return <div className={ `${style.button} ${gameMap.cpuType.player1 === cpuType.num ? style.buttonOn : style.buttonOff}` } title={cpuType.detail} onClick={() => setCpuType(gameMap, setGameMap, 'player1', cpuType.num, changeCount, setChangeCount)}>{cpuType.num}</div>
         })}
       </div>
       <div className={style.player2CpuType}>
         <div className={`${style.buttonTitle}`}>player2</div>
         {cpuTypeMap.map((cpuType) => {
           // eslint-disable-next-line
-          return <div className={ `${style.button} ${gameMap.cpuType.player2 === cpuType ? style.buttonOn : style.buttonOff}` } onClick={() => setCpuType(gameMap, setGameMap, 'player2', cpuType, changeCount, setChangeCount)}>{cpuType}</div>
+          return <div className={ `${style.button} ${gameMap.cpuType.player2 === cpuType.num ? style.buttonOn : style.buttonOff}` } title={cpuType.detail} onClick={() => setCpuType(gameMap, setGameMap, 'player2', cpuType.num, changeCount, setChangeCount)}>{cpuType.num}</div>
         })}
       </div>
       <div className={style.player3CpuType}>
         <div className={`${style.buttonTitle}`}>player3</div>
         {cpuTypeMap.map((cpuType) => {
           // eslint-disable-next-line
-          return <div className={ `${style.button} ${gameMap.cpuType.player3 === cpuType ? style.buttonOn : style.buttonOff}` } onClick={() => setCpuType(gameMap, setGameMap, 'player3', cpuType, changeCount, setChangeCount)}>{cpuType}</div>
+          return <div className={ `${style.button} ${gameMap.cpuType.player3 === cpuType.num ? style.buttonOn : style.buttonOff}` } title={cpuType.detail} onClick={() => setCpuType(gameMap, setGameMap, 'player3', cpuType.num, changeCount, setChangeCount)}>{cpuType.num}</div>
         })}
       </div>
     </div>
