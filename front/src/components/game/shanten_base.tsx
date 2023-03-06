@@ -257,7 +257,7 @@ export const shantenMentsu = (allPaiInfo: AllPaiProp, paiInfo: PaiProp, yama: st
 
   const shantenBaseInfo: ShantenBaseInfo = {
     remainHaiCountInfo: haiCountInfo,
-    haiCountInfo,
+    haiCountInfo: JSON.parse(JSON.stringify(haiCountInfo)),
     kokushi: [],
     mentsu: [],
     toitsu: [],
