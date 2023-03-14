@@ -572,7 +572,7 @@ export const Board = ({ allPai, setAllPai, boardStatus, setBoardStatus, yama, se
                 : <td className={style.controlGreen} onClick={() => execOwnReachMode(reachMode, setReachMode)}>リーチ</td>}
             </tr>
           }
-          {isTsumoable(ownPai, boardStatus) &&
+          {isTsumoable(allPai, ownPai, boardStatus, yama, bakaze) &&
             <tr>
               {/* eslint-disable-next-line */}
               <td className={style.controlGreen} onClick={() => execOwnTsumo(allPai, setBoardStatus)}>ツモ</td>
