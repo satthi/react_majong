@@ -12,7 +12,8 @@ export const isRonable = (hai: PaiProp, sutehai: string): boolean => {
   let machiExists = false
   let furitenCheck = false
   hai.shantenInfo.machi.forEach((m) => {
-    if (m.haiInfo.hai === sutehai) {
+    if (m.haiInfo.hai === sutehai && (m.tensu.ron.han !== 0 || m.tensu.ron.yakuman !== 0)) {
+      // 役があることも大事
       machiExists = true
       hai.sutehai.forEach((s) => {
         if (s.hai === m.haiInfo.hai) {
@@ -24,8 +25,6 @@ export const isRonable = (hai: PaiProp, sutehai: string): boolean => {
   if (!machiExists || furitenCheck) {
     return false
   }
-
-  // @todo: 役が存在すること
 
   return true
 }
