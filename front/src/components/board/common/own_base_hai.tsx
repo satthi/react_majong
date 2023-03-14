@@ -62,8 +62,7 @@ export const OwnBaseHai = ({ allPai, setAllPai, base, boardStatus, setBoardStatu
   return <>
     {base.map((basePai, haiKey) => {
       return <div key={haiKey} className={style.basePai}>
-        {/* eslint-disable-next-line */}
-        <img src={getHaiSrc(basePai, 0)} onClick={() => execOwnSuteru(allPai, setAllPai, boardStatus, setBoardStatus, haiKey, yama, setYama, reachMode, setReachMode, bakaze, setExecUser, gameMap, setGameMap)}/>
+        <img src={getHaiSrc(basePai, 0)} onClick={() => { execOwnSuteru(allPai, setAllPai, boardStatus, setBoardStatus, haiKey, yama, setYama, reachMode, setReachMode, bakaze, setExecUser, gameMap, setGameMap) }}/>
       </div>
     })}
     <div className={style.shanten}>

@@ -127,8 +127,7 @@ export const RyukyokuWindow = ({ allPai, bakaze, yama, kyoku, hon, reach, gameMa
       <div className={style.doraField}>
         <DoraNormal yama={yama} allPai={allPai} />
       </div>
-      {/* eslint-disable-next-line */}
-      <div className={style.next} onClick={() => execNextGame(allPai, tensuMoveInfo, gameMap, setGameMap, setBoardStatus, setIsInitialExec, setGameEndDisplay)}>次の局</div>
+      <div className={style.next} onClick={() => { execNextGame(allPai, tensuMoveInfo, gameMap, setGameMap, setBoardStatus, setIsInitialExec, setGameEndDisplay) }}>次の局</div>
       {(Object.keys(allPai) as UserProp[]).map((user, userKey) =>
         // eslint-disable-next-line
         <div className={`${style.tensuBox} ${style['tensuBoxPosition' + userKey]}`} key={userKey}>

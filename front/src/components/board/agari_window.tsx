@@ -355,8 +355,7 @@ export const AgariWindow = ({ boardStatus, setBoardStatus, allPai, bakaze, yama,
       <div className={style.fu_han}>{agariInfo.yakuInfo.fuhan}</div>
       <div className={style.tensu}>{agariInfo.yakuInfo.tensu}点</div>
       <div className={style.tensuText}>{agariInfo.yakuInfo.tensuDetail.yakuText}</div>
-      {/* eslint-disable-next-line */}
-      <div className={style.next} onClick={() => execNextGame(agariInfo, gameMap, setGameMap, setBoardStatus, setIsInitialExec, setGameEndDisplay)}>次の局</div>
+      <div className={style.next} onClick={() => { execNextGame(agariInfo, gameMap, setGameMap, setBoardStatus, setIsInitialExec, setGameEndDisplay) }}>次の局</div>
       {(Object.keys(allPai) as UserProp[]).map((user, userKey) =>
         // eslint-disable-next-line
         <div className={`${style.tensuBox} ${style['tensuBoxPosition' + userKey]}`} key={userKey}>
